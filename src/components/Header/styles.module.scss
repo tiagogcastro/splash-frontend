@@ -1,0 +1,27 @@
+.container {
+    width: 100%;
+    height: 90px;
+    padding: 0 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    border-bottom: 1px solid grey;
+    padding-bottom: 0.8rem;
+    .innerContainer {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        position: relative;
+        a {
+            position: absolute;
+            left: 0;
+            content: url('https://api.iconify.design/ion:arrow-back.svg?height=16');
+            vertical-align: -0.125em;
+            height: 100%;
+        }
+        h2 {
+            margin: 0;
+            font-size: 22px;
+        }
+    }
+}
