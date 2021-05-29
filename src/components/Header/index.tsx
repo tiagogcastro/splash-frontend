@@ -9,10 +9,10 @@ type Props = {
 const Header: React.FC<Props> = ({ text, returnPage }) => {
   return (
     <div className={styles.container}>
-        <div className={styles.innerContainer}>
-            <a href={ returnPage }></a>
-            <h2>{ text }</h2>
-        </div>
+      <div className={styles.innerContainer}>
+        <a href={ returnPage }></a>
+        <h2>{ text }</h2>
+      </div>
     </div>
   );
 };

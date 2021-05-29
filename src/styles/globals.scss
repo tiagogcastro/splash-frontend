@@ -3,7 +3,7 @@ body {
   padding: 0;
   margin: 0;
   font-family: Inter;
-  font-weight: 300;
+  font-weight: 400;
 }
 
 a {
@@ -21,4 +21,7 @@ a {
     --secondary-light: #A4BFB4;
     --secondary: #40524A;
     --secondary-dark: #1F2422;
+
+    --text: #000000;
+    --text-light: #3C3C43;
 }
