@@ -8,9 +8,9 @@ import { useRouter } from 'next/router';
 export default function Perfil({ params }) {
 
   const router = useRouter();
-  const { id } = router.query;
+  const query = router.query;
 
-  console.log(id);
+  const id = query.id as string;
 
   return (
     <>
