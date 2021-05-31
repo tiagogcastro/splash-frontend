@@ -1,12 +1,15 @@
 .container {
     width: 100%;
+    max-width: 400px;
     height: 90px;
     padding: 0 1rem;
     display: flex;
     justify-content: center;
     align-items: flex-end;
-    border-bottom: 1px solid rgb(187, 187, 187);
+    border-bottom: 1px solid var(--border);
     padding-bottom: 0.8rem;
+    position: fixed;
+    top: 0;
     .innerContainer {
         display: flex;
         justify-content: center;

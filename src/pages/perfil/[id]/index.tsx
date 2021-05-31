@@ -1,19 +1,27 @@
-import Header from '../../components/Header';
-import Button from '../../components/Button';
+import Header from '../../../components/Header';
+import Button from '../../../components/Button';
+import Menu from '../../../components/Menu';
 
-import styles from '../../styles/pages/profile.module.scss';
+import styles from '../../../styles/pages/profile.module.scss';
+import { useRouter } from 'next/router';
 
-export default function Perfil() {
+export default function Perfil({ params }) {
+
+  const router = useRouter();
+  const { id } = router.query;
+
+  console.log(id);
+
   return (
     <>
       <div className={styles.container}>
-        <Header text="mcdonalds" returnPage="/home" />
+        <Header text={id} returnPage="/home" />
         <div className={styles.content}>
           <div className={styles.img}></div>
 
           <div className={styles.text}>
-            <h1>McDonald's enterprise</h1>
-            <span>@mcdonalds</span>
+            <h1>{id}</h1>
+            <span>@{id}</span>
             <p>Iaculis lobortis nibh purus viverra. Non curabitur phasellus faucibus risus massa adipiscing feugiat.</p>
           </div>
 
@@ -30,6 +38,7 @@ export default function Perfil() {
 
           <Button>Sponsoring</Button>
         </div>
+        <Menu page="profile" />
       </div>
     </>
   )
