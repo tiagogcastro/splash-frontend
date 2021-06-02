@@ -1,6 +1,5 @@
 .container {
     width: 100%;
-    max-width: 400px;
     height: 90px;
     padding: 0 1rem;
     display: flex;
@@ -10,6 +9,7 @@
     padding-bottom: 0.8rem;
     position: fixed;
     top: 0;
+    max-width: 400px;
     .innerContainer {
         display: flex;
         justify-content: center;

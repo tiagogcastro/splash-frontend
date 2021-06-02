@@ -14,16 +14,16 @@ const Menu: React.FC<MenuProps> = ({ page }) => {
     <div className={styles.menu}>
       <a href="#">
         <button>
-          <img src="/icons/sponsorship.png" alt="Ícone de Patrocínios" />
-          <span className={currentPage === 'patreon' ? styles.selected : null} >Patrocínios</span>
+          <img src={currentPage === 'sponsor' ? "/icons/sponsorship_black.png" : "/icons/sponsorship_gray.png"} alt="Patrocínio" />
+          <span className={currentPage === 'sponsor' ? styles.selected : null}>Perfil</span>
         </button>
       </a>
       <a href="#">
-        <button><img src="/icons/plus.png" alt="Ícone de Adicionar" /></button>
+        <button><img src="/icons/plus_gray.png" alt="Ícone de Adicionar" /></button>
       </a>
       <a href="#">
         <button>
-          <img src="/icons/profile.png" alt="Ícone de Perfil" />
+          <img src={currentPage === 'profile' ? "/icons/profile_black.png" : "/icons/profile_gray.png"} alt="Perfil" />
           <span className={currentPage === 'profile' ? styles.selected : null}>Perfil</span>
         </button>
       </a>

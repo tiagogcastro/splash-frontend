@@ -7,21 +7,16 @@ import { useRouter } from 'next/router';
 
 export default function Perfil() {
 
-  const router = useRouter();
-  const query = router.query;
-
-  const id = query.id as string;
-
   return (
     <>
       <div className={styles.container}>
-        <Header text={id} returnPage="/home" />
+        <Header text="Sua loja" returnPage="/home" />
         <div className={styles.content}>
           <div className={styles.img}></div>
 
           <div className={styles.text}>
-            <h1>{id}</h1>
-            <span>@{id}</span>
+            <h1>Lavimco</h1>
+            <span>@lavimco</span>
             <p>Iaculis lobortis nibh purus viverra. Non curabitur phasellus faucibus risus massa adipiscing feugiat.</p>
           </div>
 
@@ -36,7 +31,8 @@ export default function Perfil() {
             </div>
           </div>
 
-          <Button>Sponsoring</Button>
+          <Button>Editar</Button>
+          <Button>Compartilhar</Button>
         </div>
         <Menu page="profile" />
       </div>
