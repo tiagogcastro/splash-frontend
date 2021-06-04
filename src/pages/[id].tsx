@@ -12,6 +12,8 @@ export default function Perfil() {
 
   const id = query.id as string;
 
+  // Fazer a verificação de: perfil do usuário cadastrado, perfil de outro usuário, perfil de uma loja
+
   return (
     <>
       <div className={styles.container}>
