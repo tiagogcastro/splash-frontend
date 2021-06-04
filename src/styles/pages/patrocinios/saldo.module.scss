@@ -3,31 +3,28 @@
     max-width: 400px;
     margin-left: auto;
     margin-right: auto;
-    .head {
-        padding: 0 1.5rem;
-        padding-bottom: 0.8rem;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        height: 120px;
-        border-bottom: 1px solid var(--border);
-        h1 {
-            margin: 0;
-            color: #008000;
-            margin-bottom: 0.4rem;
-            font-size: 34px;
-        }
-        span {
-            color: var(--text-light);
-            font-size: 12px;
-        }
-    }
     .content {
-        padding-top: 0.5rem;
-        .userList {
+        margin-top: 90px;
+        padding-top: 1rem;
+        .searchBar {
+            width: 100%;
+            padding: 0 1.5rem;
+            input {
+                width: 100%;
+                border: none;
+                background-color: #00000021;
+                color: var(--text-light);
+                padding: 0.5rem;
+                padding-left: 1.7rem;
+                border-radius: 6px;
+                font-size: 17px;
+            }
+        }
+        .storeList {
             margin: 0;
             padding: 0;
-            .user {
+            margin-top: 1rem;
+            .store {
                 display: flex;
                 flex-direction: row;
                 align-items: center;
@@ -35,8 +32,7 @@
                 list-style: none;
                 margin: 0 1.5rem;
                 padding: 1rem 0;
-                border-bottom: 1px solid var(--border);
-                height: 80px;
+                height: 60px;
                 .first {
                     display: flex;
                     flex-direction: row;
@@ -66,12 +62,14 @@
                 }
                 .second {
                     a {
-                        span {
-                            font-size: 15px;
-                            &:first-child {
-                                margin-right: 0.2rem;
-                                color: var(--text-light);
-                            }
+                        button {
+                            border-radius: 6px;
+                            border: 1px solid var(--text);
+                            background: none;
+                            padding: 0.5rem;
+                            color: var(--text);
+                            font-weight: 700;
+                            font-size: 12px;
                         }
                     }
                 }

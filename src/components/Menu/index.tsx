@@ -15,7 +15,7 @@ const Menu: React.FC<MenuProps> = ({ page }) => {
       <a href="#">
         <button>
           <img src={currentPage === 'sponsor' ? "/icons/sponsorship_black.png" : "/icons/sponsorship_gray.png"} alt="Patrocínio" />
-          <span className={currentPage === 'sponsor' ? styles.selected : null}>Perfil</span>
+          <span className={currentPage === 'sponsor' ? styles.selected : null}>Patrocínios</span>
         </button>
       </a>
       <a href="#">

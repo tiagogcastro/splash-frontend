@@ -1,0 +1,49 @@
+.container {
+    margin: 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    .content {
+        margin-top: 90px;
+        padding-top: 0.5rem;
+        .sponsorList {
+            margin: 0;
+            padding: 0;
+            .store {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                list-style: none;
+                margin: 0 1.5rem;
+                padding: 1rem 0;
+                border-bottom: 1px solid var(--border);
+                height: 80px;
+                display: flex;
+                .img {
+                    height: 48px;
+                    width: 48px;
+                    border-radius: 100%;
+                    background-color: var(--border);
+                    margin-right: 1rem;
+                }
+                .text {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    height: 100%;
+                    h2 {
+                        margin: 0;
+                        font-size: 12px;
+                        color: var(--text-light);
+                        font-weight: 400;
+                        margin-bottom: 0.3rem;
+                    }
+                    span {
+                        font-size: 12px;
+                        color: var(--text-light);
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,87 @@
+.container {
+    margin: 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    .content {
+        height: calc(100vh - 90px);
+        margin-top: 90px;
+        padding: 1rem 1.5rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+
+        > div {
+            width: 100%;
+            .searchBar {
+                width: 100%;
+                input {
+                    width: 100%;
+                    border: none;
+                    background-color: #00000021;
+                    color: var(--text-light);
+                    padding: 0.5rem;
+                    padding-left: 1.7rem;
+                    border-radius: 6px;
+                    font-size: 17px;
+                }
+            }
+            .storeList {
+                margin: 0;
+                padding: 0;
+                margin-top: 1rem;
+                .store {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    list-style: none;
+                    padding: 1rem 0;
+                    height: 60px;
+                    .first {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        .img {
+                            height: 48px;
+                            width: 48px;
+                            border-radius: 100%;
+                            background-color: var(--border);
+                            margin-right: 1rem;
+                        }
+                        .text {
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: center;
+                            height: 100%;
+                            h2 {
+                                margin: 0;
+                                font-size: 15px;
+                                color: var(--text);
+                            }
+                            span {
+                                font-size: 13px;
+                                color: var(--text-light);
+                            }
+                        }
+                    }
+                    .second {
+                        a {
+                            button {
+                                border-radius: 6px;
+                                border: 1px solid var(--text);
+                                background: none;
+                                padding: 0.5rem;
+                                color: var(--text);
+                                font-weight: 700;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+    }
+}

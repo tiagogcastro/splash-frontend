@@ -6,9 +6,12 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
 const Button: React.FC<ButtonProps> = ({ children, ...rest }) => {
   return (
-    <button className={styles.button} type="button" {...rest}>
-      {children}
-    </button>
+    <a href="" className={styles.container}>
+      <button className={styles.button} type="button">
+          {children}
+      </button>
+    </a>
+    
   );
 };
 
