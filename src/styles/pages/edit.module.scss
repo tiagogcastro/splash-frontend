@@ -1,0 +1,69 @@
+.container {
+  height: 100%;
+  margin: 90px auto 0;
+  max-width: 400px;
+
+  .content {
+    height: calc(100vh - 90px);
+    padding: 3rem 2rem 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+    .useredit {
+      width: 100%;
+    }
+
+    .fields {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      width: 100%;
+
+      .field {
+        width: 100%;
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        label {
+          margin-bottom: 10px;
+          font-size: 17px;
+        }
+
+        input {
+          width: 100%;
+          height: 45px;
+          border: none;
+          border-bottom: 1px solid #ccc;
+          outline: none;
+          font-size: 16px;
+
+          &:focus {
+            border-bottom: 1px solid #000;
+          }
+        }
+
+        &:last-child {
+          margin-bottom: 40px;
+        }
+      }
+    }
+
+    .buttonConfirmation {
+      width: 100%;
+      margin-bottom: 40px;
+    }
+
+    .notRegister {
+      margin-bottom: 40px;
+
+      p {
+        text-align: center;
+      }
+    }
+
+  }
+}

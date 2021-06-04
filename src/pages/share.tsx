@@ -1,7 +1,7 @@
-import Header from '../components/Header';
+import Header from '@components/Header';
 import Link from 'next/link'
 
-import styles from '../styles/pages/share.module.scss'
+import styles from '@styles/pages/share.module.scss'
 import { useRouter } from 'next/router';
 
 export default function Share() {
