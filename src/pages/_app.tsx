@@ -1,4 +1,4 @@
-import Head from 'next/Head'
+import Head from 'next/head'
 import '../styles/globals.scss'
 
 function MyApp({ Component, pageProps }) {
