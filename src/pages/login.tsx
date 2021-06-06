@@ -1,27 +1,45 @@
 import Button from '@components/Button';
 
-import styles from '@styles/pages/login.module.scss';
-import Link from 'next/link';
+import styles from '@styles/pages/loginEmail.module.scss';
+import { useRouter } from 'next/router';
+import { FormEvent, useState } from 'react';
+import api from 'src/services/api';
 
-export default function Login() {
+export default function LoginEmail() {
+  const router = useRouter()
+
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+    
+    await api.post('/sessions', {
+      email,
+      password,
+    })
+
+    router.push('/')
+  }
+  
   return (
     <>
-      <div className={styles.container}>
+      <form className={styles.container} onSubmit={(e) => handleSubmit(e)}>
           <div className={styles.avatar}></div>
 
           <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
-
-          <input type="text" placeholder="Insira seu código de patrocínio"/>
-
-          <Button link="/loginNumber">Continue com WhatsApp</Button>
-          <Button link="/loginEmail">Use e-mail ou nome de usuario</Button>
-      </div>
+          
+          <div className={styles.inputs}>
+            <input type="email" placeholder="Digite seu E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <input type="password" placeholder="Digite sua Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+          </div>
+          
+          <Button type="submit">Entrar</Button>
+      </form>
 
       <div className={styles.links}>
         <span>Ainda não tem uma conta?</span>
-        <Link href="/loginNumber">
-          <a>Cadastrar-se</a>
-        </Link>
+        <h3>Cadastrar-se</h3>
       </div>
     </>
   )

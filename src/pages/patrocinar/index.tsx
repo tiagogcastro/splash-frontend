@@ -1,4 +1,4 @@
-import styles from '@styles/pages/patrocinios/enviar.module.scss'
+import styles from '@styles/pages/patrocinar/index.module.scss'
 import Header from '@components/Header'
 import Button from '@components/Button'
 
@@ -59,7 +59,9 @@ export default function Home() {
                 </ul>
             </div>
             
-            <Button>Continuar</Button>
+            <div className={styles.buttonConfirmation}>
+              <Button url="/patrocinar/valor">Continuar</Button>
+            </div>
         </div>
     </div>
   )

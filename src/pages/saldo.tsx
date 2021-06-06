@@ -1,4 +1,4 @@
-import styles from '@styles/pages/patrocinios/saldo.module.scss'
+import styles from '@styles/pages/saldo.module.scss'
 import Header from '@components/Header'
 
 export default function Home() {

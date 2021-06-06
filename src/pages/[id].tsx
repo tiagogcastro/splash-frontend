@@ -2,7 +2,7 @@ import Header from '@components/Header';
 import Button from '@components/Button';
 import Menu from '@components/Menu';
 
-import styles from '@styles/pages/profile.module.scss';
+import styles from '@styles/pages/perfil.module.scss';
 import { useRouter } from 'next/router';
 
 export default function Perfil() {
