@@ -4,9 +4,14 @@ import styles from './styles.module.scss';
 
 type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-const Button: React.FC<ButtonProps> = ({ children, ...rest }) => {
+type Props = {
+  children: ButtonProps;
+  url: string
+}
+
+const Button: React.FC<Props> = ({ children, url}) => {
   return (
-    <a href="" className={styles.container}>
+    <a href={url} className={styles.container}>
       <button className={styles.button} type="button">
           {children}
       </button>

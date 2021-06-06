@@ -1,78 +1,25 @@
-import styles from '@styles/pages/home.module.scss'
-import Menu from '@components/Menu'
+import Button from '@components/Button';
 
-export default function Home() {
+import styles from '@styles/pages/login.module.scss';
+
+export default function Login() {
   return (
-    <div className={styles.container}>
-        <div className={styles.head}>
-            <h1>R$ 800,05</h1>
-            <span>R$ 400,00 disponível para saque</span>
-        </div>
-        <div className={styles.content}>
-            <ul className={styles.userList}>
-                <li className={styles.user}>
-                    <div className={styles.first}>
-                        <div className={styles.img}></div>
-                        <div className={styles.text}>
-                            <h2>Gustavo</h2>
-                            <span>Você enviou R$ 4,00</span>
-                        </div>
-                    </div>
-                    <div className={styles.second}>
-                        <a href="">
-                            <span>Today</span>
-                            <span>&gt;</span>
-                        </a>
-                    </div>
-                </li>
-                <li className={styles.user}>
-                    <div className={styles.first}>
-                        <div className={styles.img}></div>
-                        <div className={styles.text}>
-                            <h2>Gustavo</h2>
-                            <span>Você enviou R$ 4,00</span>
-                        </div>
-                    </div>
-                    <div className={styles.second}>
-                        <a href="">
-                            <span>Today</span>
-                            <span>&gt;</span>
-                        </a>
-                    </div>
-                </li>
-                <li className={styles.user}>
-                    <div className={styles.first}>
-                        <span className={styles.img}></span>
-                        <div className={styles.text}>
-                            <h2>Gustavo</h2>
-                            <span>Você enviou R$ 4,00</span>
-                        </div>
-                    </div>
-                    <div className={styles.second}>
-                        <a href="">
-                            <span>Today</span>
-                            <span>&gt;</span>
-                        </a>
-                    </div>
-                </li>
-                <li className={styles.user}>
-                    <div className={styles.first}>
-                        <div className={styles.img}></div>
-                        <div className={styles.text}>
-                            <h2>Gustavo</h2>
-                            <span>Você enviou R$ 4,00</span>
-                        </div>
-                    </div>
-                    <div className={styles.second}>
-                        <a href="">
-                            <span>Today</span>
-                            <span>&gt;</span>
-                        </a>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <Menu page="sponsor" />
-    </div>
+    <>
+      <div className={styles.container}>
+          <div className={styles.avatar}></div>
+
+          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+
+          <input type="text" placeholder="Insira seu código de patrocínio"/>
+
+          <Button>Continue com WhatsApp</Button>
+          <Button>Use e-mail ou nome de usuario</Button>
+      </div>
+
+      <div className={styles.links}>
+        <span>Ainda não tem uma conta?</span>
+        <h3>Cadastrar-se</h3>
+      </div>
+    </>
   )
 }
