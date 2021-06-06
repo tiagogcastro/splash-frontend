@@ -39,7 +39,7 @@ export default function LoginEmail() {
 
       <div className={styles.links}>
         <span>Ainda não tem uma conta?</span>
-        <h3>Cadastrar-se</h3>
+        <h3><a href="/login">Cadastrar-se</a></h3>
       </div>
     </>
   )
