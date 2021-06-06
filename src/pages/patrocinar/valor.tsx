@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 export default function Home() {
 
-  function setarValor (e) {
+  function setInputValue (e) {
 
     let v = parseInt(e.target.value);
 
@@ -38,7 +38,7 @@ export default function Home() {
                     <div className={styles.input}>
                       <input 
                         onChange={(e) => {
-                          setarValor(e)
+                          setInputValue(e)
                         }} 
                         value={value} 
                         type="text"

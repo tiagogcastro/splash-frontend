@@ -14,7 +14,7 @@
 
   span{
     text-align: center;
-    color: var(--secondary-light);
+    color: var(--text-light);
     font-size: 17px;
     font: Inter, sans-serif;
 
@@ -26,6 +26,8 @@
     width: 375px;
     height: 60px;
     border: none;
+    border-bottom: 0.5px solid #000;
+    outline: none;
 
     margin-top: 90px;
     margin-bottom:50px;
@@ -33,7 +35,7 @@
     font-size: 17px;
 
     &::placeholder{
-      color: var(--secondary-light);
+      color: var(--text-light);
       font-size: 17px;
     }
   }
@@ -47,11 +49,12 @@
   margin-top: 150px;
 
   span{
-    color: var(--secondary-light);
+    color: var(--text-light);
     font-size:17px;
   }
-  h3{
-    color: var(--secondary-dark);
+  a {
+    color: var(--text);
     font-size:17px;
+    margin-left: 4px;
   }
 }
