@@ -2,13 +2,15 @@ import React, { ButtonHTMLAttributes } from 'react'
 
 import styles from './styles.module.scss';
 
-type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  link?: string;
+}
 
-const Button: React.FC<ButtonProps> = ({ children, ...rest }) => {
+const Button: React.FC<ButtonProps> = ({ children, link = '', ...rest }) => {
   return (
-    <a href="" className={styles.container}>
-      <button className={styles.button} type="button">
-          {children}
+    <a href={link} className={styles.container}>
+      <button {...rest} className={styles.button}>
+        {children}
       </button>
     </a>
     
