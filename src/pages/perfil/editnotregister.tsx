@@ -1,7 +1,7 @@
 import Header from '@components/Header';
 import Button from '@components/Button';
 
-import styles from '@styles/pages/edit.module.scss';
+import styles from '@styles/pages/perfil/editar.module.scss';
 
 export default function EditNotRegister() {
 
