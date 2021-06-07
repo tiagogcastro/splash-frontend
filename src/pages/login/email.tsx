@@ -19,7 +19,7 @@ export default function LoginEmail() {
       password,
     })
 
-    router.push('/')
+    router.push('/dashboard')
   }
   
   return (
@@ -39,7 +39,7 @@ export default function LoginEmail() {
 
       <div className={styles.links}>
         <span>Ainda não tem uma conta?</span>
-        <h3><a href="/login">Cadastrar-se</a></h3>
+        <a>Cadastrar-se</a>
       </div>
     </>
   )

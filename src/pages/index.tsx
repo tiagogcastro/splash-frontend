@@ -12,8 +12,8 @@ export default function Login() {
 
           <input type="text" placeholder="Insira seu código de patrocínio"/>
 
-          <Button>Continue com WhatsApp</Button>
-          <Button>Use e-mail ou nome de usuario</Button>
+          <Button url="/login/phone">Continue com WhatsApp</Button>
+          <Button url="/login/email">Use e-mail ou nome de usuario</Button>
       </div>
 
       <div className={styles.links}>
