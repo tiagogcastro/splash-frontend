@@ -14,7 +14,7 @@ export default function LoginNumber() {
             <input type="text" placeholder="DIgite seu codigo de patrocinio"/>
           </div>
 
-          <Button link="/signUpTelefone">Continue com WhatsApp</Button>
+          <Button url="/signUpTelefone">Continue com WhatsApp</Button>
       </div>
 
       <div className={styles.terms}>

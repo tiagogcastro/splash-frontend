@@ -17,7 +17,7 @@ export default function signUpTelefone() {
             <input type="text" placeholder="| Numero do telefone"/>
           </div>
 
-          <Button link="/signUpVerification">Enviar Código</Button>
+          <Button url="/signUpVerification">Enviar Código</Button>
       </div>
     </>
   )
