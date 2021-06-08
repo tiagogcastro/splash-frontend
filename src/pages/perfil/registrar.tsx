@@ -8,7 +8,7 @@ export default function Edit() {
   return (
     <>
       <div className={styles.container}>
-        <Header text="Registro de e-mail e senha" returnPage="/me" />
+        <Header text="Registro de e-mail e senha" />
         <div className={styles.content}>
           <div className={styles.fields}>
             <div className={styles.field}>

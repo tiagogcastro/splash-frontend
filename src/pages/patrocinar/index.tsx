@@ -5,7 +5,7 @@ import Button from '@components/Button'
 export default function Home() {
   return (
     <div className={styles.container}>
-        <Header text="Patrocinar" returnPage="/"/>
+        <Header text="Patrocinar"/>
         <div className={styles.content}>
             <div className={styles.innerContent}>
                 <div className={styles.searchBar}>

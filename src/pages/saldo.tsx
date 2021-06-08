@@ -4,7 +4,7 @@ import Header from '@components/Header'
 export default function Home() {
   return (
     <div className={styles.container}>
-        <Header text="Saldo" returnPage="/"/>
+        <Header text="Saldo"/>
         <div className={styles.content}>
             <div className={styles.searchBar}>
                 <input type="text" placeholder="Pesquisar" />

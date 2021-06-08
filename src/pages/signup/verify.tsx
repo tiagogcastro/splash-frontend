@@ -20,7 +20,7 @@ export default function signUpVerification() {
   return (
     <>
       <form onSubmit={(e) => handleSendVerificationCode(e)} className={styles.container}>
-        <Header text="Verificação" returnPage="/loginNumber"></Header>
+        <Header text="Verificação"></Header>
 
           <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
 

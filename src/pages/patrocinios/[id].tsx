@@ -11,7 +11,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-        <Header text={id} returnPage ="/" />
+        <Header text={id} />
         <div className={styles.content}>
             <ul className={styles.sponsorList}>
                 <li className={styles.store}>

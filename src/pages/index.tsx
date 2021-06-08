@@ -1,6 +1,7 @@
 import Button from '@components/Button';
 
 import styles from '@styles/pages/login.module.scss';
+import Link from 'next/link';
 
 export default function Login() {
   return (
@@ -18,7 +19,9 @@ export default function Login() {
 
       <div className={styles.links}>
         <span>Ainda não tem uma conta?</span>
-        <h3>Cadastrar-se</h3>
+        <Link href="/signup">
+          <a>Cadastrar-se</a>
+        </Link>
       </div>
     </>
   )

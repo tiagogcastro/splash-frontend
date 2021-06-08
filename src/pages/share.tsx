@@ -14,7 +14,7 @@ export default function Share() {
   return (
     <>
       <div className={styles.container}>
-        <Header text={"Nome da loja"} returnPage="/home" />
+        <Header text={"Nome da loja"} />
         <div className={styles.content}>
           <div className={styles.img}>
             <img src="/qrcode.png" alt="" />

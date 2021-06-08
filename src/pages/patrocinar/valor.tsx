@@ -30,7 +30,7 @@ export default function Home() {
 
   return (
     <div className={styles.container}>
-        <Header text="Enviar patrocínio" returnPage="/"/>
+        <Header text="Enviar patrocínio"/>
         <div className={styles.content}>
             <div className={styles.innerContent}>
                 <div className={styles.value}>
@@ -53,7 +53,7 @@ export default function Home() {
             </div>
             
             <div className={styles.buttonConfirmation}>
-              <Button url="/">Continuar</Button>
+              <Button url="/dashboard">Enviar</Button>
             </div>
         </div>
     </div>

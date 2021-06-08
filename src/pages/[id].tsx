@@ -17,7 +17,7 @@ export default function Perfil() {
   return (
     <>
       <div className={styles.container}>
-        <Header text={id} returnPage="/home" />
+        <Header text={id} />
         <div className={styles.content}>
           <div className={styles.img}></div>
 

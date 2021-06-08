@@ -22,7 +22,7 @@ export default function signUpTelefone() {
   return (
     <>
       <form onSubmit={(e) => handleSubmit(e)} className={styles.container}>
-        <Header text="Login" returnPage="/" />
+        <Header text="Login" />
 
           <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
 
