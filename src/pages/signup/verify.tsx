@@ -24,9 +24,7 @@ export default function signUpVerification() {
 
           <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
 
-          <div className={styles.inputs}>
-            <input type="text" placeholder="Código"/>
-          </div>
+          <input type="text" placeholder="Código"/>
 
           <Button type="submit" className={styles.confirm}>Confirmar</Button>
       </form>

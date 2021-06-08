@@ -1,6 +1,7 @@
 import Button from '@components/Button';
 
-import styles from '@styles/pages/loginNumber.module.scss';
+import styles from '@styles/pages/signup.module.scss';
+import Link from 'next/link';
 
 export default function LoginNumber() {
   return (
@@ -10,24 +11,21 @@ export default function LoginNumber() {
 
           <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
 
-          <div className={styles.inputs}>
-            <input type="text" placeholder="DIgite seu codigo de patrocinio"/>
-          </div>
+          <input type="text" placeholder="DIgite seu codigo de patrocinio"/>
 
           <Button url="/signup/phone">Continue com WhatsApp</Button>
       </div>
 
       <div className={styles.terms}>
         <input type="checkbox"/>
-        <span>Eu concordo com os</span>
-        <h3>Termos</h3>
-        <span>e</span>
-        <h3>Conditições</h3>
+        <span>Eu concordo com os <strong>Termos e condições</strong></span>
       </div>
 
       <div className={styles.links}>
         <span>Já tem uma conta?</span>
-        <h3><a href="/">Login</a></h3>
+        <Link href="/">
+          <a>Login</a>
+        </Link>
       </div>
     </>
   )
