@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import { AuthProvider } from 'src/hooks/useAuth'
 import '../styles/globals.scss'
 
 function MyApp({ Component, pageProps }) {
@@ -8,7 +9,9 @@ function MyApp({ Component, pageProps }) {
         <title>Lavimco</title>
       </Head>
 
-      <Component {...pageProps} />
+      <AuthProvider>
+        <Component {...pageProps} />
+      </AuthProvider>
     </>
   )
 }

@@ -3,16 +3,20 @@ import Header from '@components/Header';
 
 import styles from '@styles/pages/signUpVerification.module.scss';
 import { useRouter } from 'next/router';
-import { FormEvent } from 'react';
+import { FormEvent, useState } from 'react';
 import api from 'src/services/api';
 
 export default function signUpVerification() {
   const router = useRouter()
   
+  const [code, setCode] = useState('')
+
   async function handleSendVerificationCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    // await api.post('/users/sms/sendcode')
+    await api.post(`/users/sms?userPhone=${router.query.phoneNumber}`, {
+      code
+    })
 
     router.push('/dashboard')
   }
@@ -25,7 +29,7 @@ export default function signUpVerification() {
           <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
 
           <div className={styles.inputs}>
-            <input type="text" placeholder="Código"/>
+            <input type="text" placeholder="Código" value={code} onChange={(e) => setCode(e.target.value)} />
           </div>
 
           <Button type="submit" className={styles.confirm}>Confirmar</Button>

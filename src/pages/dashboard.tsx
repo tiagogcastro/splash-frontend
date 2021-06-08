@@ -1,8 +1,18 @@
 import styles from '@styles/pages/home.module.scss'
 import Menu from '@components/Menu'
+import { useEffect, useState } from 'react'
+import api from 'src/services/api'
 
 export default function Home() {
-  return (
+  const [notifications, setNotifications] = useState([])
+
+  useEffect(() => {
+    api.get('/notifications/sponsorships').then(response => {
+        setNotifications(response.data)
+    })
+  }, [])
+  
+    return (
     <div className={styles.container}>
         <div className={styles.head}>
             <h1>R$ 800,05</h1>
@@ -19,7 +29,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className={styles.second}>
-                        <a href="">
+                        <a href="/patrocinios/Gustavo">
                             <span>Today</span>
                             <span>&gt;</span>
                         </a>
@@ -34,7 +44,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className={styles.second}>
-                        <a href="">
+                        <a href="/patrocinios/Gustavo">
                             <span>Today</span>
                             <span>&gt;</span>
                         </a>
@@ -49,7 +59,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className={styles.second}>
-                        <a href="">
+                        <a href="/patrocinios/Gustavo">
                             <span>Today</span>
                             <span>&gt;</span>
                         </a>
@@ -64,7 +74,7 @@ export default function Home() {
                         </div>
                     </div>
                     <div className={styles.second}>
-                        <a href="">
+                        <a href="/patrocinios/Gustavo">
                             <span>Today</span>
                             <span>&gt;</span>
                         </a>

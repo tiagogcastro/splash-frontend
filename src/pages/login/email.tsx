@@ -2,22 +2,20 @@ import Button from '@components/Button';
 
 import styles from '@styles/pages/loginEmail.module.scss';
 import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
-import api from 'src/services/api';
+import { FormEvent, useContext, useState } from 'react';
+import {useAuth} from '../../hooks/useAuth'
 
 export default function LoginEmail() {
   const router = useRouter()
+  const {signIn, user} = useAuth()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  
+
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     
-    await api.post('/sessions', {
-      email,
-      password,
-    })
+    await signIn({email, password})
 
     router.push('/dashboard')
   }

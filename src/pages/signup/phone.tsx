@@ -10,13 +10,21 @@ export default function signUpTelefone() {
   const router = useRouter()
 
   const [userPhone, setUserPhone] = useState('')
+  const [countryCode, setCountryCode] = useState('55')
   
   async function handleSendCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     
-    // await api.post(`/users/sms?userPhone=${userPhone}`)
+    await api.post(`/users/sms/send-code`, {
+      phone_number: `+${countryCode}${userPhone}`
+    })
     
-    router.push('/signup/verify')
+    router.push({
+      pathname: '/signup/verify',
+      query: {
+        phoneNumber: `${countryCode}${userPhone}`
+      }
+    })
   }
   
   return (
@@ -28,7 +36,7 @@ export default function signUpTelefone() {
 
           <div className={styles.inputs}>
             <h4>BR +</h4>
-            <input type="number" defaultValue="55"/>
+            <input type="number" value={countryCode} onChange={(e) => setCountryCode(e.target.value)} />
             <input type="tel" placeholder="| Numero do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
           </div>
 

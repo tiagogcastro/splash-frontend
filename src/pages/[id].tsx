@@ -4,27 +4,52 @@ import Menu from '@components/Menu';
 
 import styles from '@styles/pages/perfil.module.scss';
 import { useRouter } from 'next/router';
+import { useAuth } from 'src/hooks/useAuth';
+import { useEffect, useState } from 'react';
+import api from 'src/services/api';
 
 export default function Perfil() {
-
+  const {user} = useAuth()
   const router = useRouter();
   const query = router.query;
-
   const id = query.id as string;
 
-  // Fazer a verificação de: perfil do usuário cadastrado, perfil de outro usuário, perfil de uma loja
+  const [currentProfile, setCurrentProfile] = useState({})
+  const [profileType, setProfileType] = useState<"shop" | "user" | "me" | "shop-me">(() => {
+    if (user.username === id) {
+      if (user.role === "user") {
+        return "me"
+      } else {
+        return "shop-me"
+      }
+    }
+
+    return "user"
+  })
+
+  useEffect(() => {
+    console.log(id)
+    
+    if (user.username !== id) {
+      api.get(`/profile/${id}`).then(response => {
+        setCurrentProfile(response.data)
+
+        console.log(currentProfile)
+      })
+    }
+  }, [])
 
   return (
     <>
       <div className={styles.container}>
-        <Header text={id} />
+        <Header text={user.username} />
         <div className={styles.content}>
           <div className={styles.img}></div>
 
           <div className={styles.text}>
-            <h1>{id}</h1>
-            <span>@{id}</span>
-            <p>Iaculis lobortis nibh purus viverra. Non curabitur phasellus faucibus risus massa adipiscing feugiat.</p>
+            <h1>{user.name}</h1>
+            <span>@{user.username}</span>
+            <p>{user.bio || `Iaculis lobortis nibh purus viverra. Non curabitur phasellus faucibus risus massa adipiscing feugiat.`}</p>
           </div>
 
           <div className={styles.statistics}>
