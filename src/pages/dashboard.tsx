@@ -1,6 +1,6 @@
 import styles from '@styles/pages/home.module.scss'
 import Menu from '@components/Menu'
-import { IoMdArrowForward } from 'react-icons/io'
+import { FiChevronRight  } from 'react-icons/fi'
 
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
                     <div className={styles.second}>
                         <a href="">
                             <span>Today</span>
-                            <span className={styles.icon}><IoMdArrowForward size={15} color="#8a8a8e" /></span>
+                            <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
                         </a>
                     </div>
                 </li>
@@ -38,7 +38,7 @@ export default function Home() {
                     <div className={styles.second}>
                         <a href="">
                             <span>Today</span>
-                            <span className={styles.icon}><IoMdArrowForward size={15} color="#8a8a8e" /></span>
+                            <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
                         </a>
                     </div>
                 </li>
@@ -53,7 +53,7 @@ export default function Home() {
                     <div className={styles.second}>
                         <a href="">
                             <span>Today</span>
-                            <span className={styles.icon}><IoMdArrowForward size={15} color="#8a8a8e" /></span>
+                            <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
                         </a>
                     </div>
                 </li>
@@ -68,7 +68,7 @@ export default function Home() {
                     <div className={styles.second}>
                         <a href="">
                             <span>Today</span>
-                            <span className={styles.icon}><IoMdArrowForward size={15} color="#8a8a8e" /></span>
+                            <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
                         </a>
                     </div>
                 </li>
