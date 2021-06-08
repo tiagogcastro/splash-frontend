@@ -71,7 +71,19 @@
                             &:first-child {
                                 margin-right: 0.2rem;
                                 color: var(--text-light);
+                                margin-right: 20px;
                             }
+
+                            &.icon {
+                                position: relative;
+                                 
+                                svg {
+                                    position: absolute;
+                                    top: 3px;
+                                    right: 3px;
+                                }
+                            }
+
                         }
                     }
                 }
