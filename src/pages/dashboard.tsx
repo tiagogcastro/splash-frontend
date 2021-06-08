@@ -2,6 +2,8 @@ import styles from '@styles/pages/home.module.scss'
 import Menu from '@components/Menu'
 import { useEffect, useState } from 'react'
 import api from 'src/services/api'
+import { FiChevronRight  } from 'react-icons/fi'
+
 
 export default function Home() {
   const [notifications, setNotifications] = useState([])
@@ -31,7 +33,7 @@ export default function Home() {
                     <div className={styles.second}>
                         <a href="/patrocinios/Gustavo">
                             <span>Today</span>
-                            <span>&gt;</span>
+                            <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
                         </a>
                     </div>
                 </li>
@@ -46,7 +48,7 @@ export default function Home() {
                     <div className={styles.second}>
                         <a href="/patrocinios/Gustavo">
                             <span>Today</span>
-                            <span>&gt;</span>
+                            <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
                         </a>
                     </div>
                 </li>
@@ -61,7 +63,7 @@ export default function Home() {
                     <div className={styles.second}>
                         <a href="/patrocinios/Gustavo">
                             <span>Today</span>
-                            <span>&gt;</span>
+                            <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
                         </a>
                     </div>
                 </li>
@@ -76,7 +78,7 @@ export default function Home() {
                     <div className={styles.second}>
                         <a href="/patrocinios/Gustavo">
                             <span>Today</span>
-                            <span>&gt;</span>
+                            <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
                         </a>
                     </div>
                 </li>
