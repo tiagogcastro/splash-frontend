@@ -1,16 +1,21 @@
+import { useRouter } from 'next/router';
 import React from 'react';
 import styles from './styles.module.scss';
+import {IoMdArrowBack} from 'react-icons/io'
 
 type Props = {
     text: string;
-    returnPage: string;
 }
 
-const Header: React.FC<Props> = ({ text, returnPage }) => {
+const Header: React.FC<Props> = ({ text }) => {
+  const router = useRouter()
+  
   return (
     <div className={styles.container}>
       <div className={styles.innerContainer}>
-        <a href={ returnPage }></a>
+        <button type="button" onClick={() => router.back()}>
+          <IoMdArrowBack size={20} />
+        </button>
         <h2>{ text }</h2>
       </div>
     </div>

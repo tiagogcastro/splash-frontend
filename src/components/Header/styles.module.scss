@@ -16,12 +16,13 @@
     justify-content: center;
     width: 100%;
     position: relative;
-    a {
+    button {
       position: absolute;
       left: 0;
-      content: url("https://api.iconify.design/ion:arrow-back.svg?height=16");
+      background-color: transparent;
       vertical-align: -0.125em;
       height: 100%;
+      border: none;
     }
     h2 {
       margin: 0;
