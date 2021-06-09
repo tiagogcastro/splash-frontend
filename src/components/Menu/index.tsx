@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAuth } from 'src/hooks/useAuth';
 
 import styles from './styles.module.scss';
@@ -9,12 +9,13 @@ type MenuProps = {
 }
 
 const Menu: React.FC<MenuProps> = ({ page }) => {
-  const {user} = useAuth();
+  const {user} = useAuth()
 
   const [currentPage, setCurrentPage] = useState(page);
 
   return (
-    <div className={styles.menu}>
+    user ? (
+      <div className={styles.menu}>
       <Link href="/dashboard">
         <a>
           <button>
@@ -28,7 +29,7 @@ const Menu: React.FC<MenuProps> = ({ page }) => {
           <button><img src="/icons/plus_gray.png" alt="Ícone de Adicionar" /></button>
         </a>
       </Link>
-      <Link href={user.username}>
+      <Link href={`/${user.username}`}>
         <a>
           <button>
             <img src={currentPage === 'profile' ? "/icons/profile_black.png" : "/icons/profile_gray.png"} alt="Perfil" />
@@ -37,6 +38,7 @@ const Menu: React.FC<MenuProps> = ({ page }) => {
         </a>
       </Link>
     </div>
+    ) : <p>Carregando...</p>
   );
 };
 
