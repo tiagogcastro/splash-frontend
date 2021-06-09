@@ -7,38 +7,11 @@ import { useRouter } from 'next/router';
 import { useAuth } from 'src/hooks/useAuth';
 import { useEffect, useState } from 'react';
 import api from 'src/services/api';
+import { GetServerSideProps } from 'next';
+import Cookies from 'js-cookie';
+import {parseCookies} from 'nookies'
 
-export default function Perfil() {
-  const {user} = useAuth()
-  const router = useRouter();
-  const query = router.query;
-  const id = query.id as string;
-
-  const [currentProfile, setCurrentProfile] = useState({})
-  const [profileType, setProfileType] = useState<"shop" | "user" | "me" | "shop-me">(() => {
-    if (user.username === id) {
-      if (user.role === "user") {
-        return "me"
-      } else {
-        return "shop-me"
-      }
-    }
-
-    return "user"
-  })
-
-  useEffect(() => {
-    console.log(id)
-    
-    if (user.username !== id) {
-      api.get(`/profile/${id}`).then(response => {
-        setCurrentProfile(response.data)
-
-        console.log(currentProfile)
-      })
-    }
-  }, [])
-
+export default function Perfil({ user, userType }) {
   return (
     <>
       <div className={styles.container}>
@@ -49,7 +22,7 @@ export default function Perfil() {
           <div className={styles.text}>
             <h1>{user.name}</h1>
             <span>@{user.username}</span>
-            <p>{user.bio || `Iaculis lobortis nibh purus viverra. Non curabitur phasellus faucibus risus massa adipiscing feugiat.`}</p>
+            <p>{user.bio || 'Sem descrição.'}</p>
           </div>
 
           <div className={styles.statistics}>
@@ -69,4 +42,40 @@ export default function Perfil() {
       </div>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
+  const token = parseCookies(context)["%40Lavimco%3Atoken"]
+
+  const { username } = context.query
+
+  const {data} = await api.get(`/profile/${username}`, {
+    headers: {
+      'Authorization': `Bearer ${token}`
+    }
+  })
+
+  let userType = ""
+
+  if (user.username === username) {
+    if (user.roles === "shop") {
+      userType = "shop-me"
+    } else {
+      userType = "me"
+    }
+  } else {
+    if (data.roles === "shop") {
+      userType = "shop"
+    } else {
+      userType = "user"
+    }
+  }
+
+  return {
+    props: {
+      user: data,
+      userType
+    }
+  }
 }
