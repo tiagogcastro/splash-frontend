@@ -1,17 +1,25 @@
 import Header from '@components/Header';
 import Button from '@components/Button';
 import Menu from '@components/Menu';
+import Error from '@components/Error';
 
 import styles from '@styles/pages/perfil.module.scss';
-import { useRouter } from 'next/router';
-import { useAuth } from 'src/hooks/useAuth';
-import { useEffect, useState } from 'react';
 import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import Cookies from 'js-cookie';
 import {parseCookies} from 'nookies'
 
+function getInitialProps() {
+
+}
+
 export default function Perfil({ user, userType }) {
+  if (!user) {
+    return (
+      <Error />
+    )
+  }
+
   return (
     <>
       <div className={styles.container}>
@@ -36,7 +44,21 @@ export default function Perfil({ user, userType }) {
             </div>
           </div>
 
-          <Button>Sponsoring</Button>
+          { userType === "shop-me" ? ( 
+            <>
+              <Button url="/perfil/editar">Editar</Button>
+              <Button>Compartilhar</Button>
+            </>
+          ) : userType === "me" ? (
+            <Button>Editar</Button> 
+          ) : userType === "shop" ? ( 
+            <Button>Copatrocinando</Button> 
+          ) : userType === "user" ? (
+            <Button>Patrocinar</Button> 
+          ) : 
+            <></>
+          }
+
         </div>
         <Menu page="profile" />
       </div>
@@ -50,11 +72,22 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   const { username } = context.query
 
-  const {data} = await api.get(`/profile/${username}`, {
-    headers: {
-      'Authorization': `Bearer ${token}`
+  let data;
+
+  try {
+    data = await api.get(`/profile/${username}`, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+  } catch (err) {
+    return {
+      props: {
+        user: null,
+        userType: null,
+      }
     }
-  })
+  }
 
   let userType = ""
 
@@ -65,7 +98,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       userType = "me"
     }
   } else {
-    if (data.roles === "shop") {
+    if (data.data.roles === "shop") {
       userType = "shop"
     } else {
       userType = "user"
@@ -74,8 +107,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
   return {
     props: {
-      user: data,
-      userType
+      user: data.data,
+      userType,
     }
   }
 }
