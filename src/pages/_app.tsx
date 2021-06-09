@@ -4,15 +4,13 @@ import '../styles/globals.scss'
 
 function MyApp({ Component, pageProps }) {
   return (
-    <>
+    <AuthProvider>
       <Head>
         <title>Lavimco</title>
       </Head>
-
-      <AuthProvider>
-        <Component {...pageProps} />
-      </AuthProvider>
-    </>
+        
+      <Component {...pageProps} />
+    </AuthProvider>
   )
 }
 
