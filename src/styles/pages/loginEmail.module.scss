@@ -22,33 +22,45 @@
   }
 
   .inputs{
-    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 100px;
 
-    input{
-      max-width: 343px;
-      width: 100%;
-      height: 45px;
-      border: none;
-      border-bottom: 0.5px solid #000;
-  
-      font-size: 17px;
-
+    .field {
       margin-bottom: 30px;
-      outline: none;
-  
-      &::placeholder{
-        color: var(--text-light);
+      input {
+        width: 343px;
+        height: 45px;
+        border: none;
+        border-bottom: 0.5px solid #000;
+        margin-bottom: 5px;
         font-size: 17px;
+        outline: none;
+    
+        &::placeholder{
+          color: var(--text-light);
+          font-size: 17px;
+        }
+  
+        &:last-child {
+          margin-bottom: 45px;
+        }
       }
-
-      &:last-child {
-        margin-bottom: 45px;
+      .alert {
+        display: none;
+        color: red;
+        font-style: italic;
+        font-size: .85rem;
+        &.visible {
+          display: block;
+        }
       }
     }
+
+    
   }
 }
 

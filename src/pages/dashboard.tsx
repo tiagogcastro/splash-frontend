@@ -33,7 +33,7 @@ export default function Home() {
 
     api.get('/users/balance-amount').then(response => {
         setTotalBalance(formatPrice(response.data.total_balance))
-        setWithdrawBalance(formatPrice(response.data.balance_amount))
+        setWithdrawBalance(formatPrice(response.data.available_for_withdraw))
     })
   }, [])
   
