@@ -1,9 +1,9 @@
-import styles from '@styles/pages/home.module.scss'
+import styles from '@styles/pages/Home.module.scss'
 import Menu from '@components/Menu'
 import { useEffect, useState } from 'react'
 import api from 'src/services/api'
 import { FiChevronRight  } from 'react-icons/fi'
-import { format } from 'date-fns'
+import { format, formatDistance } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { useAuth } from 'src/hooks/useAuth'
 import { formatPrice } from 'src/utils/formatPrice'
@@ -23,7 +23,7 @@ export default function Home() {
             const {content} = notification
             const newContent = JSON.parse(content.replace("/", ""))
 
-            const parsedDate = format(new Date(notification.created_at), "dd MMM", { locale: ptBR })
+            const parsedDate = formatDistance(new Date(notification.created_at), new Date(), { locale: ptBR })
 
             return {...notification, content: newContent, created_at: parsedDate}
         })
@@ -46,7 +46,7 @@ export default function Home() {
         <div className={styles.content}>
             <ul className={styles.userList}>
                 { notifications.map(notification => (
-                    <li className={styles.user}>
+                    <li key={notification.id} className={styles.user}>
                         <div className={styles.first}>
                             <div className={styles.img}></div>
                             <div className={styles.text}>
@@ -55,9 +55,9 @@ export default function Home() {
                             </div>
                         </div>
                         <div className={styles.second}>
-                            <a href="/patrocinios/Gustavo">
+                            <a href={`/patrocinios/${notification.content.name}?sender_id=${notification.sender_id}`}>
                                 <span>{notification.created_at}</span>
-                                <span className={styles.icon}><FiChevronRight size={15} color="#8a8a8e" /></span>
+                                <FiChevronRight size={15} color="#8a8a8e" />
                             </a>
                         </div>
                     </li>
