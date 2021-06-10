@@ -4,21 +4,25 @@ import Header from '@components/Header';
 import styles from '@styles/pages/signUpVerification.module.scss';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
+import { useAuth } from 'src/hooks/useAuth';
 import api from 'src/services/api';
 
 export default function signUpVerification() {
   const router = useRouter()
+  const {saveOnCookies} = useAuth()
   
   const [code, setCode] = useState('')
 
+  console.log(router.query.phoneNumber)
   async function handleSendVerificationCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-    await api.post(`/users/sms?userPhone=${router.query.phoneNumber}`, {
+
+    const response = await api.post(`/users/sms?userPhone=%2B${router.query.phoneNumber}`, {
       code
     })
 
-    router.push('/dashboard')
+    saveOnCookies(response.data)
   }
   
   return (
