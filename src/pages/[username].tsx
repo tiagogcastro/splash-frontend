@@ -19,7 +19,9 @@ export default function Perfil({ user, userType }) {
     <div className={styles.container}>
       <Header text={user.username} />
       <div className={styles.content}>
-        <div className={styles.img}> </div>
+        <div className={styles.img}>
+          <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif" />
+        </div>
 
         <div className={styles.text}>
           <h1>{user.name}</h1>
