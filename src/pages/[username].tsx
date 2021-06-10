@@ -19,7 +19,7 @@ export default function Perfil({ user, userType, me }) {
     <div className={styles.container}>
       <Header text={user.username} />
       <div className={styles.content}>
-        <div className={styles.img}></div>
+        <div className={styles.img}> </div>
 
         <div className={styles.text}>
           <h1>{user.name}</h1>
@@ -45,7 +45,7 @@ export default function Perfil({ user, userType, me }) {
         ) : userType === "shop" ? ( 
           <Button>Copatrocinar</Button> 
         ) : userType === "user" && (
-          <Button>Patrocinar</Button> 
+          <Button url="/patrocinar/valor">Patrocinar</Button> 
         ) }
 
       </div>
