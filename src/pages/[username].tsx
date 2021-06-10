@@ -39,14 +39,11 @@ export default function Perfil({ user, userType }) {
         </div>
 
         { userType === "shop-me" ? ( 
-          <>
-            <Button url="/perfil/editar">Editar</Button>
-            <Button>Compartilhar</Button>
-          </>
+          <Button url="/perfil/editar">Editar</Button>
         ) : userType === "me" ? (
           <Button>Editar</Button> 
         ) : userType === "shop" ? ( 
-          <Button>Copatrocinando</Button> 
+          <Button>Copatrocinar</Button> 
         ) : userType === "user" && (
           <Button>Patrocinar</Button> 
         ) }
