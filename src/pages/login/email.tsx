@@ -17,7 +17,7 @@ export default function LoginEmail() {
   const router = useRouter()
   const {signIn, user} = useAuth()
 
-  const [errors, setErrors] = useState<FormErrors>()
+  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -51,8 +51,6 @@ export default function LoginEmail() {
 
           setErrors(errs)
 
-          console.log(errors)
-
           return;
         }
       }
@@ -70,12 +68,10 @@ export default function LoginEmail() {
           <div className={styles.inputs}>
             <div className={styles.field}>
               <input type="email" required placeholder="Digite seu E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
-              <div className={[styles.alert, styles.visible].join(" ")}>{}</div>
             </div>
             <div className={styles.field}>
               <input type="password" required placeholder="Digite sua Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-              <div className={[styles.alert, styles.visible].join(" ")}>Mínimo de 8 caracteres</div>
-
+              { errors.password && <div className={[styles.alert, styles.visible].join(" ")}>Mínimo de 8 caracteres</div> }
             </div>
           </div>
           
