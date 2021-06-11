@@ -24,7 +24,7 @@ export default function signUpTelefone() {
       <form onSubmit={(e) => handleSubmit(e)} className={styles.container}>
         <Header text="Login" />
 
-          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+        <span>Informe seu número de telefone</span>
 
           <div className={styles.inputs}>
             <h4>BR +55</h4>

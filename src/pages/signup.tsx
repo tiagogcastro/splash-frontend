@@ -11,9 +11,9 @@ export default function LoginNumber() {
             <img src="/logo.png" alt="Logo" />
           </div>
 
-          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+          <span><strong>Lavimco</strong><br/>Faça login ou crie uma conta para inicar </span>
 
-          <input type="text" placeholder="DIgite seu codigo de patrocinio"/>
+          <input type="text" placeholder="Digite seu codigo de patrocinio"/>
 
           <Button url="/signup/phone">Continue com WhatsApp</Button>
       </div>

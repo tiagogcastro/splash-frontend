@@ -65,7 +65,7 @@ export default function LoginEmail() {
             <img src="/logo.png" alt="Logo" />
           </div>
 
-          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+          <span>Informe seu email e senha</span>
           
           <div className={styles.inputs}>
             <div className={styles.field}>

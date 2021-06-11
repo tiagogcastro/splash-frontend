@@ -30,7 +30,7 @@ export default function signUpVerification() {
       <form onSubmit={(e) => handleSendVerificationCode(e)} className={styles.container}>
         <Header text="Verificação"></Header>
 
-          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+          <span>Para finalizar, insira o código de verificação</span>
 
           <input type="text" placeholder="Código" value={code} onChange={(e) => setCode(e.target.value)}/>
 

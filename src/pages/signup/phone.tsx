@@ -32,12 +32,12 @@ export default function signUpTelefone() {
       <form onSubmit={(e) => handleSendCode(e)} className={styles.container}>
         <Header text="Cadastro" />
 
-          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+          <span>Informe seu número de telefone</span>
 
           <div className={styles.inputs}>
           <h4>BR +55</h4>
           <hr />
-          <input type="tel" placeholder="Numero do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
+          <input type="tel" placeholder="Número do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
           </div>
 
           <Button type="submit">Enviar Código</Button>
