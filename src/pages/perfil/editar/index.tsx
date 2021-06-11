@@ -4,6 +4,8 @@ import Button from '@components/Button';
 import styles from '@styles/pages/perfil/editar.module.scss';
 import { useAuth } from 'src/hooks/useAuth';
 import { useState } from 'react';
+import { FiChevronRight  } from 'react-icons/fi'
+import { AiOutlineCamera  } from 'react-icons/ai'
 import api from 'src/services/api';
 
 export default function Edit() {
@@ -31,33 +33,46 @@ export default function Edit() {
         <Header text="Editar perfil" />
         <div className={styles.content}>
           <div className={styles.fields}>
-            <div className={styles.field}>
-              <label htmlFor="name">Nome</label>
-              <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" placeholder="Insira seu nome..."/>
+            <div className={styles.avatar}>
+              <AiOutlineCamera className={styles.icon} size={30} color="#ffffff" />
+              <img src="/logo.png" alt="Avatar" />
             </div>
             <div className={styles.field}>
-              <label htmlFor="username">Username</label>
-              <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" name="username" placeholder="Insira seu username..."/>
+              <p>Nome</p>
+              <a href="/perfil/editar/nome">
+                {user.name}
+                <FiChevronRight size={15} color="#8a8a8e" />
+              </a>
             </div>
             <div className={styles.field}>
-              <label htmlFor="email">E-mail</label>
-              <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" name="email" placeholder="Insira seu email..."/>
+              <p>Nome de usuário</p>
+              <a href="/perfil/editar/username">
+                {user.username}
+                <FiChevronRight size={15} color="#8a8a8e" />
+              </a>
             </div>
             <div className={styles.field}>
-              <label htmlFor="oldpassword">Senha antiga</label>
-              <input value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} type="password" name="oldpassword" placeholder="Insira sua senha antiga..."/>
+              <p>Email</p>
+              <a href="/perfil/editar/email">
+                {user.email}
+                <FiChevronRight size={15} color="#8a8a8e" />
+              </a>
             </div>
             <div className={styles.field}>
-              <label htmlFor="newpassword">Nova senha</label>
-              <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" name="newpassword" placeholder="Insira sua nova senha..."/>
+              <p>Senha</p>
+              <a href="/perfil/editar/senha">
+                ********
+                <FiChevronRight size={15} color="#8a8a8e" />
+              </a>
             </div>
-
             <div className={styles.field}>
-              <label htmlFor="passwordconfirmation">Confirmação de senha</label>
-              <input value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} type="password" name="passwordconfirmation" placeholder="Confirme sua senha..."/>
+              <p>Biografia</p>
+              <a href="/perfil/editar/biografia">
+                Editar biografia
+                <FiChevronRight size={15} color="#8a8a8e" />
+              </a>
             </div>
           </div>
-
           <div className={styles.buttonConfirmation}>
             <Button onClick={handleEditProfile}>Confirmar</Button>
           </div>
