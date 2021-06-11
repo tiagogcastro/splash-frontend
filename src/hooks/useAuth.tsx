@@ -10,7 +10,7 @@ interface AuthState {
 interface SignInCredentials {
   email?: string;
   password?: string;
-  phone_number: string;
+  phone_number?: string;
 }
 
 interface AuthContextData {

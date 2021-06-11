@@ -20,7 +20,7 @@ export default function Perfil({ user, userType, me }) {
       <Header text={user.username} />
       <div className={styles.content}>
         <div className={styles.img}>
-          <input type="file" id="avatar" name="avatar" accept="image/png, image/jpeg, image/gif" />
+          
         </div>
 
         <div className={styles.text}>
@@ -41,9 +41,9 @@ export default function Perfil({ user, userType, me }) {
         </div>
 
         { userType === "shop-me" ? ( 
-          <Button url={me.email ? "/perfil/editar" : "/perfil/editnotregister"}>Editar</Button>
+          <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button>
         ) : userType === "me" ? (
-          <Button url={me.email ? "/perfil/editar" : "/perfil/editnotregister"}>Editar</Button> 
+          <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button> 
         ) : userType === "shop" ? ( 
           <Button>Copatrocinar</Button> 
         ) : userType === "user" && (

@@ -17,7 +17,7 @@ export default function LoginEmail() {
   const router = useRouter()
   const {signIn, user} = useAuth()
 
-  const [errors, setErrors] = useState()
+  const [errors, setErrors] = useState<FormErrors>()
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -40,9 +40,9 @@ export default function LoginEmail() {
           abortEarly: false,
         });
 
-        // await signIn({email, password})
+        await signIn({email, password})
     
-        // router.push('/dashboard')
+        router.push('/dashboard')
 
 
       } catch (err) {
