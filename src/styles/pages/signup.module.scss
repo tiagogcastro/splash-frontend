@@ -1,8 +1,12 @@
 .avatar{
-  width: 50px;
-  height: 50px;
-  border-radius: 50px;
-  background-color: var(--secondary-dark);
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+
+  img { 
+    width: 100%;
+    border-radius: 50%;
+  }
 }
 
 
@@ -10,7 +14,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 80px;
 
   span{
     text-align: center;
@@ -31,7 +35,7 @@
     outline: none;
 
     margin-top: 90px;
-    margin-bottom:50px;
+    margin-bottom: 50px;
 
     font-size: 17px;
 

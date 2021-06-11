@@ -61,7 +61,9 @@ export default function LoginEmail() {
   return (
     <>
       <form className={styles.container} onSubmit={(e) => handleSubmit(e)}>
-          <div className={styles.avatar}></div>
+          <div className={styles.avatar}>
+            <img src="/logo.png" alt="Logo" />
+          </div>
 
           <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
           
