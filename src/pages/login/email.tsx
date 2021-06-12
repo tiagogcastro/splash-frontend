@@ -9,8 +9,9 @@ import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
 
 type FormErrors = {
-  email?: string,
+  email?: string
   password?: string 
+  invalid?: string
 }
 
 export default function LoginEmail() {
@@ -43,8 +44,6 @@ export default function LoginEmail() {
         await signIn({email, password})
     
         router.push('/dashboard')
-
-
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errs = getValidationErrors(err)
@@ -53,6 +52,7 @@ export default function LoginEmail() {
 
           return;
         }
+        setErrors({invalid: 'E-mail ou senha não estão corretos'})
       }
   }
   
@@ -72,6 +72,7 @@ export default function LoginEmail() {
             <div className={styles.field}>
               <input type="password" required placeholder="Digite sua Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
               { errors.password && <div className={[styles.alert, styles.visible].join(" ")}>Mínimo de 8 caracteres</div> }
+              { errors.invalid && <div className={[styles.alert, styles.visible].join(" ")}>E-mail ou senha não estão corretos</div> }
             </div>
           </div>
           
