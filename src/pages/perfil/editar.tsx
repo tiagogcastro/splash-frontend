@@ -5,9 +5,11 @@ import styles from '@styles/pages/perfil/editar.module.scss';
 import { useAuth } from 'src/hooks/useAuth';
 import { useState } from 'react';
 import api from 'src/services/api';
+import { useRouter } from 'next/router';
 
 export default function Edit() {
-  const {user} = useAuth();
+  const {user, saveOnCookies} = useAuth();
+  const router = useRouter()
 
   const [name, setName] = useState(user.name)
   const [username, setUsername] = useState(user.username)
@@ -17,12 +19,27 @@ export default function Edit() {
   const [confirmPassword, setConfirmPassword] = useState('')
 
   async function handleEditProfile() {
-    await api.put('/profile', {
-      user_id: user.id,
-      username,
-      name,
-      email
-    })
+    let response;
+    if (password) {
+      response = await api.put('/profile', {
+        username,
+        name,
+        email,
+        old_password: oldPassword,
+        password: password,
+        password_confirmation: confirmPassword
+      })
+    } else {
+      response = await api.put('/profile', {
+        username,
+        name,
+        email,
+      })
+    }
+
+    saveOnCookies({ user: response.data })
+
+    router.push(`/${username}`)
   }
 
   return (
