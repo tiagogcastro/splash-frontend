@@ -1,7 +1,7 @@
 import styles from '@styles/pages/saldo.module.scss'
 import Header from '@components/Header'
 
-export default function Home() {
+export default function Saldo() {
   return (
     <div className={styles.container}>
         <Header text="Saldo"/>

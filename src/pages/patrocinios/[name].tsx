@@ -8,7 +8,7 @@ import { format, formatDistance } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import {FaArrowAltCircleDown, FaArrowAltCircleUp} from 'react-icons/fa'
 
-export default function Home({ sender_id }) {
+export default function Patrocinios({ sender_id }) {
   const router = useRouter();
   const query = router.query;
   const name = query.name as string;

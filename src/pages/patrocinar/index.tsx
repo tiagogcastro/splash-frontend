@@ -2,7 +2,7 @@ import styles from '@styles/pages/patrocinar/index.module.scss'
 import Header from '@components/Header'
 import Button from '@components/Button'
 
-export default function Home() {
+export default function Patrocinar() {
   return (
     <div className={styles.container}>
         <Header text="Patrocinar"/>

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import api from 'src/services/api';
 
-export default function signUpTelefone() {
+export default function LoginPhone() {
   const router = useRouter()
 
   const [userPhone, setUserPhone] = useState('')
