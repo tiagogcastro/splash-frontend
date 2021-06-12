@@ -9,17 +9,23 @@ import api from 'src/services/api';
 
 export default function signUpVerification() {
   const router = useRouter()
+  const {sponsorship_code, phoneNumber} = router.query
   const {saveOnCookies} = useAuth()
   
   const [code, setCode] = useState('')
 
-  console.log(router.query.phoneNumber)
+  console.log(sponsorship_code)
   async function handleSendVerificationCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
-
-    const response = await api.post(`/users/sms?userPhone=%2B${router.query.phoneNumber}`, {
-      code
+    const response = await api.post(`/users/sms`, {
+      verification_code: code,
+      terms: true,
+      sponsorship_code
+    }, {
+      params: {
+        userPhone: `%2B${phoneNumber}`
+      }
     })
 
     saveOnCookies(response.data)
