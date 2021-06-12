@@ -3,7 +3,7 @@ import Button from '@components/Button';
 
 import styles from '@styles/pages/perfil/each.module.scss';
 
-export default function Edit() {
+export default function Password() {
 
   return (
     <>

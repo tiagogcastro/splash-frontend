@@ -7,7 +7,7 @@ import { GetServerSideProps } from 'next';
 import { format, formatDistance } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 
-export default function Home({ sender_id }) {
+export default function Patrocinios({ sender_id }) {
   const router = useRouter();
   const query = router.query;
   const name = query.name as string;

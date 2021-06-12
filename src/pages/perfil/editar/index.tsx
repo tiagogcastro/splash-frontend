@@ -8,7 +8,7 @@ import { FiChevronRight  } from 'react-icons/fi'
 import { AiOutlineCamera  } from 'react-icons/ai'
 import api from 'src/services/api';
 
-export default function Edit() {
+export default function Editar() {
   const {user} = useAuth();
 
   const [name, setName] = useState(user.name)

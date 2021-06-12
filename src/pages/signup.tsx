@@ -3,7 +3,7 @@ import Button from '@components/Button';
 import styles from '@styles/pages/signup.module.scss';
 import Link from 'next/link';
 
-export default function LoginNumber() {
+export default function SignUp() {
   return (
     <>
       <div className={styles.container}>
