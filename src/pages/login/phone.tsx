@@ -14,7 +14,9 @@ export default function signUpTelefone() {
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     
-    await api.post(`/sessions/sms?userPhone=${userPhone}`)
+    await api.post(`/sessions/sms`, {
+      phone_number: userPhone,
+    })
     
     router.push('/dashboard')
   }
