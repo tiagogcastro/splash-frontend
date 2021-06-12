@@ -3,7 +3,7 @@ import api from "src/services/api";
 import Cookies from 'js-cookie'
 
 interface AuthState {
-  token: string;
+  token?: string;
   user: any;
 }
 
@@ -17,7 +17,7 @@ interface AuthContextData {
   user: any;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
-  saveOnCookies(credentials: AuthState): Promise<void>
+  saveOnCookies(credentials: AuthState): void
 }
 
 const AuthContext = createContext({} as AuthContextData)
@@ -36,7 +36,16 @@ export const AuthProvider: React.FC = ({ children }) => {
     return {} as AuthState
   })
 
-  const saveOnCookies = useCallback(async ({ token, user }: AuthState) => {
+  const saveOnCookies = useCallback(({ token, user }: AuthState) => {
+    if (!token) {
+      Cookies.set('@Lavimco:user', JSON.stringify(user))
+      setData({
+        token: data.token,
+        user,
+      })
+      return
+    }
+    
     Cookies.set('@Lavimco:token', token)    
     Cookies.set('@Lavimco:user', JSON.stringify(user))
 
