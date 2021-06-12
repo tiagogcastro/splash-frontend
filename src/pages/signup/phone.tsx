@@ -8,6 +8,7 @@ import api from 'src/services/api';
 
 export default function signUpTelefone() {
   const router = useRouter()
+  const {sponsorship_code} = router.query
 
   const [userPhone, setUserPhone] = useState('')
   const [countryCode, setCountryCode] = useState('55')
@@ -20,9 +21,10 @@ export default function signUpTelefone() {
     })
     
     router.push({
-      pathname: '/signup/verify',
+      pathname: `/signup/verify`,
       query: {
-        phoneNumber: `${countryCode}${userPhone}`
+        phoneNumber: `${countryCode}${userPhone}`,
+        sponsorship_code
       }
     })
   }
