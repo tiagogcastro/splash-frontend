@@ -1,49 +1,13 @@
 import Header from '@components/Header';
-import Button from '@components/Button';
 
 import styles from '@styles/pages/perfil/editar.module.scss';
 import { useAuth } from 'src/hooks/useAuth';
-import { useState } from 'react';
 import { FiChevronRight  } from 'react-icons/fi'
 import { AiOutlineCamera  } from 'react-icons/ai'
-import api from 'src/services/api';
-import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
 
-export default function Edit() {
-  const {user, saveOnCookies} = useAuth();
-  const router = useRouter()
-
-  const [name, setName] = useState(user.name)
-  const [username, setUsername] = useState(user.username)
-  const [email, setEmail] = useState(user.email)
-  const [oldPassword, setOldPassword] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
-
-  async function handleEditProfile() {
-    let response;
-    if (password) {
-      response = await api.put('/profile', {
-        username,
-        name,
-        email,
-        old_password: oldPassword,
-        password: password,
-        password_confirmation: confirmPassword
-      })
-    } else {
-      response = await api.put('/profile', {
-        username,
-        name,
-        email,
-      })
-    }
-
-    saveOnCookies({ user: response.data })
-
-    router.push(`/${username}`)
-  }
-
+export default function Edit({ user }) {
   return (
     <>
       <div className={styles.container}>
@@ -56,21 +20,21 @@ export default function Edit() {
             </div>
             <div className={styles.field}>
               <p>Nome</p>
-              <a href="/perfil/editar/nome">
+              <a href={`/perfil/editar/nome?name=${user.name}`}>
                 {user.name}
                 <FiChevronRight size={15} color="#8a8a8e" />
               </a>
             </div>
             <div className={styles.field}>
               <p>Nome de usuário</p>
-              <a href="/perfil/editar/username">
+              <a href={`/perfil/editar/username?username=${user.username}`}>
                 {user.username}
                 <FiChevronRight size={15} color="#8a8a8e" />
               </a>
             </div>
             <div className={styles.field}>
               <p>Email</p>
-              <a href="/perfil/editar/email">
+              <a href={`/perfil/editar/email?email=${user.email}`}>
                 {user.email}
                 <FiChevronRight size={15} color="#8a8a8e" />
               </a>
@@ -84,17 +48,24 @@ export default function Edit() {
             </div>
             <div className={styles.field}>
               <p>Biografia</p>
-              <a href="/perfil/editar/biografia">
+              <a href={`/perfil/editar/biografia?bio=${user.bio}`}>
                 Editar biografia
                 <FiChevronRight size={15} color="#8a8a8e" />
               </a>
             </div>
           </div>
-          <div className={styles.buttonConfirmation}>
-            <Button onClick={handleEditProfile}>Confirmar</Button>
-          </div>
         </div>
       </div>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
+
+  return {
+    props: {
+      user,
+    }
+  }
 }
