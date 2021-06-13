@@ -36,7 +36,7 @@ export default function LoginPhone() {
             <input type="tel" placeholder="Numero do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
           </div>
           <div className={styles.passwordInput}>
-            <input type="tel" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
 
           <Button type="submit">Entrar</Button>
