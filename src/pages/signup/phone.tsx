@@ -12,6 +12,7 @@ export default function signUpTelefone() {
 
   const [userPhone, setUserPhone] = useState('')
   const [countryCode, setCountryCode] = useState('55')
+  const [password, setPassword] = useState('')
   
   async function handleSendCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -37,9 +38,12 @@ export default function signUpTelefone() {
           <span>Informe seu número de telefone</span>
 
           <div className={styles.inputs}>
-          <h4>BR +55</h4>
-          <hr />
-          <input type="tel" placeholder="Número do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
+            <div>
+              <h4>BR +55</h4>
+              <hr />
+              <input type="tel" placeholder="Número do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
+            </div>
+            <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
 
           <Button type="submit">Enviar Código</Button>
