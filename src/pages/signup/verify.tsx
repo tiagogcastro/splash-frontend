@@ -24,7 +24,7 @@ export default function signUpVerification() {
       sponsorship_code
     }, {
       params: {
-        userPhone: `%2B${phoneNumber}`
+        userPhone: `${phoneNumber}`
       }
     })
 
