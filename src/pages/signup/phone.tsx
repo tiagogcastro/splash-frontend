@@ -17,7 +17,7 @@ export default function signUpTelefone() {
     e.preventDefault()
     
     await api.post(`/users/sms/send-code`, {
-      phone_number: `+${countryCode}${userPhone}`
+      phone_number: `${countryCode}${userPhone}`
     })
     
     router.push({
