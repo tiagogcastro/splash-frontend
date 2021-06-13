@@ -1,13 +1,16 @@
 import Header from '@components/Header';
 
 import styles from '@styles/pages/perfil/editar.module.scss';
-import { useAuth } from 'src/hooks/useAuth';
 import { FiChevronRight  } from 'react-icons/fi'
 import { AiOutlineCamera  } from 'react-icons/ai'
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
 export default function Edit({ user }) {
+  const {query} = useRouter()
+  const token = query.token
+  
   return (
     <>
       <div className={styles.container}>
@@ -34,7 +37,7 @@ export default function Edit({ user }) {
             </div>
             <div className={styles.field}>
               <p>Email</p>
-              <a href={`/perfil/editar/email?email=${user.email}`}>
+              <a href={`/perfil/editar/email?email=${user.email}&token=${token}`}>
                 {user.email}
                 <FiChevronRight size={15} color="#8a8a8e" />
               </a>
