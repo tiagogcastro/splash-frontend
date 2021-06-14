@@ -9,7 +9,7 @@ import api from 'src/services/api';
 
 export default function signUpVerification() {
   const router = useRouter()
-  const {sponsorship_code, phoneNumber} = router.query
+  const {sponsorship_code, phoneNumber, password} = router.query
   const {saveOnCookies} = useAuth()
   
   const [code, setCode] = useState('')
@@ -21,7 +21,8 @@ export default function signUpVerification() {
     const response = await api.post(`/users/sms`, {
       verification_code: code,
       terms: true,
-      sponsorship_code
+      sponsorship_code,
+      password
     }, {
       params: {
         userPhone: `${phoneNumber}`
