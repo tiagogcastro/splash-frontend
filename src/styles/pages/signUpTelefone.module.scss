@@ -24,9 +24,14 @@
     width: 100%;
     max-width: 343px;
     display: flex;
+    flex-direction: column;
     margin-top: 90px;
     margin-bottom: 50px;
     border-bottom: 1px solid #CCC;
+
+    div {
+      display: flex;
+    }
     
     h4 {
       font-size: 17px;
@@ -53,4 +58,26 @@
     }
 
   }
+
+  .passwordInput {
+    width: 100%;
+    max-width: 343px;
+    display: flex;
+    // margin-top: 90px;
+    margin-bottom: 50px;
+    border-bottom: 1px solid #CCC;
+
+    input {
+      height: 45px;
+      border: none;
+      outline: none;
+      font-size: 17px;
+      margin: auto 0;
+
+      &::placeholder {
+        color: var(--text-light);
+        font-size: 17px;
+      }
+  }
+}
 }

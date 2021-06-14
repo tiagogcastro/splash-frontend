@@ -6,8 +6,9 @@ import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import { format, formatDistance } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
+import {FaArrowAltCircleDown, FaArrowAltCircleUp} from 'react-icons/fa'
 
-export default function Home({ sender_id }) {
+export default function Patrocinios({ sender_id }) {
   const router = useRouter();
   const query = router.query;
   const name = query.name as string;
@@ -37,8 +38,8 @@ export default function Home({ sender_id }) {
         <div className={styles.content}>
             <ul className={styles.sponsorList}>
                 { notifications.map(notification => (
-                    <li className={styles.store}>
-                        <div className={styles.img}></div>
+                    <li key={notification.id} className={styles.store}>
+                        { notification.content.subject.includes('pagou') ? <FaArrowAltCircleUp size={40} color="#cc0000" /> :                         <FaArrowAltCircleDown size={40} color="#008000" /> }
                         <div className={styles.text}>
                             <h2>{notification.content.subject}</h2>
                             <span>{notification.created_at}</span>

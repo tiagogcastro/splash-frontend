@@ -3,19 +3,21 @@ import api from "src/services/api";
 import Cookies from 'js-cookie'
 
 interface AuthState {
-  token: string;
+  token?: string;
   user: any;
 }
 
 interface SignInCredentials {
-  email: string;
-  password: string;
+  email?: string;
+  password?: string;
+  phone_number?: string;
 }
 
 interface AuthContextData {
   user: any;
   signIn(credentials: SignInCredentials): Promise<void>;
   signOut(): void;
+  saveOnCookies(credentials: AuthState): void
 }
 
 const AuthContext = createContext({} as AuthContextData)
@@ -33,8 +35,26 @@ export const AuthProvider: React.FC = ({ children }) => {
 
     return {} as AuthState
   })
+
+  const saveOnCookies = useCallback(({ token, user }: AuthState) => {
+    if (!token) {
+      Cookies.set('@Lavimco:user', JSON.stringify(user))
+      setData({
+        token: data.token,
+        user,
+      })
+      return
+    }
+    
+    Cookies.set('@Lavimco:token', token)    
+    Cookies.set('@Lavimco:user', JSON.stringify(user))
+
+    api.defaults.headers.authorization = `Bearer ${token}`
+
+    setData({ token, user })
+  }, [])
   
-  const signIn = useCallback(async ({ email, password }) => {
+  const signIn = useCallback(async ({ email, password, phone_number }: SignInCredentials) => {
     const response = await api.post('/sessions', {
       email,
       password,
@@ -58,7 +78,7 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, [])
   
   return (
-    <AuthContext.Provider value={{ user: data.user, signIn, signOut }}>
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut, saveOnCookies }}>
       {children}
     </AuthContext.Provider>
   )

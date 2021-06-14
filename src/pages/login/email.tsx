@@ -5,31 +5,75 @@ import { useRouter } from 'next/router';
 import { FormEvent, useContext, useState } from 'react';
 import {useAuth} from '../../hooks/useAuth'
 
+import * as yup from 'yup';
+import getValidationErrors from 'src/utils/getValidationErrors';
+
+type FormErrors = {
+  email?: string
+  password?: string 
+  invalid?: string
+}
+
 export default function LoginEmail() {
   const router = useRouter()
   const {signIn, user} = useAuth()
+
+  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    
-    await signIn({email, password})
 
-    router.push('/dashboard')
+      try {
+        const schema = yup.object().shape({
+          email: yup.string().email("Digite um email válido").required("Email Obrigatório"),
+          password: yup.string().min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres").required("Senha obrigatória")
+        });
+      
+        const data = {
+          email,
+          password
+        }
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        await signIn({email, password})
+    
+        router.push('/dashboard')
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const errs = getValidationErrors(err)
+
+          setErrors(errs)
+
+          return;
+        }
+        setErrors({invalid: 'E-mail ou senha não estão corretos'})
+      }
   }
   
   return (
     <>
       <form className={styles.container} onSubmit={(e) => handleSubmit(e)}>
-          <div className={styles.avatar}></div>
+          <div className={styles.avatar}>
+            <img src="/logo.png" alt="Logo" />
+          </div>
 
-          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+          <span>Informe seu email e senha</span>
           
           <div className={styles.inputs}>
-            <input type="email" placeholder="Digite seu E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
-            <input type="password" placeholder="Digite sua Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <div className={styles.field}>
+              <input type="email" required placeholder="Digite seu E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className={styles.field}>
+              <input type="password" required placeholder="Digite sua Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+              { errors.password && <div className={[styles.alert, styles.visible].join(" ")}>Mínimo de 8 caracteres</div> }
+              { errors.invalid && <div className={[styles.alert, styles.visible].join(" ")}>E-mail ou senha não estão corretos</div> }
+            </div>
           </div>
           
           <Button type="submit">Entrar</Button>

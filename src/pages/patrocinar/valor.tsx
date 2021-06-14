@@ -3,7 +3,7 @@ import Header from '@components/Header'
 import Button from '@components/Button'
 import { useState, useEffect } from 'react';
 
-export default function Home() {
+export default function PatrocinarValor() {
 
   function setInputValue (e) {
 

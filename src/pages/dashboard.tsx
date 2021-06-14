@@ -33,7 +33,7 @@ export default function Home() {
 
     api.get('/users/balance-amount').then(response => {
         setTotalBalance(formatPrice(response.data.total_balance))
-        setWithdrawBalance(formatPrice(response.data.balance_amount))
+        setWithdrawBalance(formatPrice(response.data.available_for_withdraw))
     })
   }, [])
   
@@ -50,12 +50,12 @@ export default function Home() {
                         <div className={styles.first}>
                             <div className={styles.img}></div>
                             <div className={styles.text}>
-                                <h2>{notification.content.name}</h2>
+                                <h2>{notification.sender.username === user.username ? 'Eu' : notification.sender.username}</h2>
                                 <span>{notification.content.subject}</span>
                             </div>
                         </div>
                         <div className={styles.second}>
-                            <a href={`/patrocinios/${notification.content.name}?sender_id=${notification.sender_id}`}>
+                            <a href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
                                 <span>{notification.created_at}</span>
                                 <FiChevronRight size={15} color="#8a8a8e" />
                             </a>

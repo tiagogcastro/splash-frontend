@@ -8,7 +8,7 @@ import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import {parseCookies} from 'nookies'
 
-export default function Perfil({ user, userType }) {
+export default function Perfil({ user, userType, me }) {
   if (!user) {
     return (
       <Error />
@@ -19,7 +19,7 @@ export default function Perfil({ user, userType }) {
     <div className={styles.container}>
       <Header text={user.username} />
       <div className={styles.content}>
-        <div className={styles.img}></div>
+        <img className={styles.img} src={user.avatar ? `http://68.183.97.199/files/${user.avatar}` : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
 
         <div className={styles.text}>
           <h1>{user.name}</h1>
@@ -39,13 +39,13 @@ export default function Perfil({ user, userType }) {
         </div>
 
         { userType === "shop-me" ? ( 
-          <Button url="/perfil/editar">Editar</Button>
+          <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button>
         ) : userType === "me" ? (
-          <Button>Editar</Button> 
+          <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button> 
         ) : userType === "shop" ? ( 
           <Button>Copatrocinar</Button> 
         ) : userType === "user" && (
-          <Button>Patrocinar</Button> 
+          <Button url="/patrocinar/valor">Patrocinar</Button> 
         ) }
 
       </div>
@@ -55,7 +55,7 @@ export default function Perfil({ user, userType }) {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
-  const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
+  const me = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
   const token = parseCookies(context)["%40Lavimco%3Atoken"]
 
   const { username } = context.query
@@ -69,8 +69,8 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 
     let userType = ""
 
-    if (user.username === username) {
-      if (user.roles === "shop") {
+    if (me.username === username) {
+      if (me.roles === "shop") {
         userType = "shop-me"
       } else {
         userType = "me"
@@ -87,6 +87,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         user: data,
         userType,
+        me,
       }
     }
   } catch (err) {
@@ -94,6 +95,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       props: {
         user: null,
         userType: null,
+        me,
       }
     }
   }

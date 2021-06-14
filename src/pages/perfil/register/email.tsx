@@ -3,33 +3,21 @@ import Button from '@components/Button';
 
 import styles from '@styles/pages/perfil/editar.module.scss';
 
-export default function Edit() {
+export default function RegisterEmail() {
 
   return (
     <>
       <div className={styles.container}>
-        <Header text="Editar perfil" />
+        <Header text="Registro de e-mail e senha" />
         <div className={styles.content}>
           <div className={styles.fields}>
-            <div className={styles.field}>
-              <label htmlFor="name">Nome</label>
-              <input type="text" name="name" placeholder="Insira seu nome..."/>
-            </div>
-            <div className={styles.field}>
-              <label htmlFor="username">Username</label>
-              <input type="text" name="username" placeholder="Insira seu username..."/>
-            </div>
             <div className={styles.field}>
               <label htmlFor="email">E-mail</label>
               <input type="email" name="email" placeholder="Insira seu email..."/>
             </div>
             <div className={styles.field}>
-              <label htmlFor="oldpassword">Senha antiga</label>
-              <input type="password" name="oldpassword" placeholder="Insira sua senha antiga..."/>
-            </div>
-            <div className={styles.field}>
-              <label htmlFor="newpassword">Nova senha</label>
-              <input type="password" name="newpassword" placeholder="Insira sua nova senha..."/>
+              <label htmlFor="password">Nova senha</label>
+              <input type="password" name="password" placeholder="Insira sua senha..."/>
             </div>
 
             <div className={styles.field}>
@@ -39,7 +27,7 @@ export default function Edit() {
           </div>
 
           <div className={styles.buttonConfirmation}>
-            <Button>Confirmar</Button>
+            <Button>Adicionar</Button>
           </div>
         </div>
       </div>

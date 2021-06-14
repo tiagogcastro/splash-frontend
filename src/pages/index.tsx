@@ -7,9 +7,11 @@ export default function Login() {
   return (
     <>
       <div className={styles.container}>
-          <div className={styles.avatar}></div>
+          <div className={styles.avatar}>
+            <img src="/logo.png" alt="Logo" />
+          </div>
 
-          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+          <span><strong>Lavimco</strong><br/>Faça login ou crie uma conta para inicar </span>
 
           <input type="text" placeholder="Insira seu código de patrocínio"/>
 

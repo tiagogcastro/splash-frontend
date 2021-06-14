@@ -8,36 +8,43 @@ import api from 'src/services/api';
 
 export default function signUpTelefone() {
   const router = useRouter()
+  const {sponsorship_code} = router.query
 
   const [userPhone, setUserPhone] = useState('')
   const [countryCode, setCountryCode] = useState('55')
+  const [password, setPassword] = useState('')
   
   async function handleSendCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
     
     await api.post(`/users/sms/send-code`, {
-      phone_number: `+${countryCode}${userPhone}`
+      phone_number: `${countryCode}${userPhone}`
     })
     
     router.push({
-      pathname: '/signup/verify',
+      pathname: `/signup/verify`,
       query: {
-        phoneNumber: `${countryCode}${userPhone}`
+        phoneNumber: `${countryCode}${userPhone}`,
+        sponsorship_code,
+        password
       }
     })
   }
-  
+
   return (
     <>
       <form onSubmit={(e) => handleSendCode(e)} className={styles.container}>
         <Header text="Cadastro" />
 
-          <span>Lorem ipsum dolor sit amet, consectetur <br/> adipiscing elit ut aliquam</span>
+          <span>Informe seu número de telefone</span>
 
           <div className={styles.inputs}>
-          <h4>BR +55</h4>
-          <hr />
-          <input type="tel" placeholder="Numero do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
+            <div>
+              <h4>BR +55</h4>
+              <hr />
+              <input type="tel" placeholder="Número do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
+            </div>
+            <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
 
           <Button type="submit">Enviar Código</Button>
