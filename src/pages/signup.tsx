@@ -19,7 +19,11 @@ export default function LoginNumber() {
 
           <input value={sponsorship_code} onChange={(e) => setSponsorship_code(e.target.value)} type="text" placeholder="Digite seu codigo de patrocinio"/>
 
-          <Button url={`/signup/phone?sponsorship_code=${sponsorship_code}`}>Continue com WhatsApp</Button>
+          { accepted ? (
+            <Button url={`/signup/phone?sponsorship_code=${sponsorship_code}`}>Continue com WhatsApp</Button>
+          ) : (
+            <Button>Aceite os termos para continuar</Button>
+          ) }
       </div>
 
       <div className={styles.terms}>
