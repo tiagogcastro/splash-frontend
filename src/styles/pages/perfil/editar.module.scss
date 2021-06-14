@@ -28,6 +28,10 @@
         border-radius: 50%;
         margin: 0 auto 20px;
 
+        input.inputFile {
+          display: none;
+        }
+
         &::before {
           content: '';
           width: 70px;
