@@ -30,6 +30,8 @@ export default function signUpVerification() {
     })
 
     saveOnCookies(response.data)
+
+    router.push('/dashboard')
   }
   
   return (
