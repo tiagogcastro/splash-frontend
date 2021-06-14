@@ -25,11 +25,12 @@ export default function signUpTelefone() {
       pathname: `/signup/verify`,
       query: {
         phoneNumber: `${countryCode}${userPhone}`,
-        sponsorship_code
+        sponsorship_code,
+        password
       }
     })
   }
-  
+
   return (
     <>
       <form onSubmit={(e) => handleSendCode(e)} className={styles.container}>
