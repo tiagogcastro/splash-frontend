@@ -6,20 +6,47 @@ import { AiOutlineCamera  } from 'react-icons/ai'
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useRef } from 'react';
+import { useEffect } from 'react';
 
 export default function Edit({ user }) {
   const {query} = useRouter()
   const token = query.token
+  const cameraRef = useRef<any>()
+  const inputFileRef = useRef<any>()
+
+  const [camera, setCamera] = useState(false)
+
   
+  const handleClick = (e) => {
+    if (cameraRef.current.contains(e.target)) {
+      if (camera) {
+        inputFileRef.current.click()
+      } else {
+        setCamera(true)
+      }
+    } else {
+      setCamera(false)
+    }
+  }
+
   return (
     <>
-      <div className={styles.container}>
+      <div className={styles.container} onClick={handleClick}>
         <Header text="Editar perfil" />
         <div className={styles.content}>
           <div className={styles.fields}>
-            <div className={styles.avatar}>
-              <AiOutlineCamera className={styles.icon} size={30} color="#ffffff" />
-              <img src="/logo.png" alt="Avatar" />
+            <div className={styles.avatar} ref={cameraRef}>
+              { camera && (
+                <>
+                  <input type="file" name="file" className={styles.inputFile} ref={inputFileRef} />
+                  <label htmlFor="file" className={styles.inputFile}>
+                    <AiOutlineCamera className={styles.icon} size={30} color="#ffffff" />
+                  </label>
+                </>
+              ) }
+              <img className={styles.img} src={user.avatar ? user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} alt={user.username} />
             </div>
             <div className={styles.field}>
               <p>Nome</p>
