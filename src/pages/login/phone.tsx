@@ -31,9 +31,11 @@ export default function LoginPhone() {
         <span>Informe seu número de telefone</span>
 
           <div className={styles.inputs}>
-            <h4>BR +55</h4>
-            <hr />
-            <input type="tel" placeholder="Numero do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
+            <div>
+              <h4>BR +55</h4>
+              <hr />
+              <input type="tel" placeholder="Numero do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
+            </div>
           </div>
           <div className={styles.passwordInput}>
             <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
