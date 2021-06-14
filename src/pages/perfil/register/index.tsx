@@ -5,21 +5,26 @@ import styles from '@styles/pages/perfil/editar.module.scss';
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
 import { useState } from 'react';
+import { GetServerSideProps } from 'next';
+import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
 
-export default function EditNotRegister() {
-  const {user} = useAuth()
+export default function EditNotRegister({ user }) {
+  const router = useRouter()
+  const {saveOnCookies} = useAuth()
   
-  const [name, setName] = useState(user.name)
+  const [name, setName] = useState(user.name ? user.name : '')
   const [username, setUsername] = useState(user.username)
 
   async function handleEditProfile() {
     const response = await api.put('/profile', {
-      user_id: user.id,
       username,
       name
     })
 
-    console.log(response.data)
+    saveOnCookies({ user: response.data })
+
+    router.push(`/${username}`)
   }
 
   return (
@@ -43,10 +48,20 @@ export default function EditNotRegister() {
 
           <div className={styles.notRegister}>
             <p>Me parece que você não tem uma senha e e-mail registrado, deseja adicionar?</p>
-            <Button url="/perfil/registrar">Adicionar e-mail e senha</Button>
+            <Button url="/perfil/register/email">Adicionar e-mail e senha</Button>
           </div>
         </div>
       </div>
     </>
   )
+}
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+  const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
+
+  return {
+    props: {
+      user,
+    }
+  }
 }
