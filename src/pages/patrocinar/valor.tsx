@@ -5,14 +5,12 @@ import Button from '@components/Button'
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import api from 'src/services/api';
-import * as yup from 'yup';
 import { useAuth } from 'src/hooks/useAuth';
 import { GetServerSideProps } from 'next';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
-import { FormEvent } from 'react';
 
 type FormErrors = {
   valueOutOfRange?: string
@@ -49,6 +47,7 @@ export default function PatrocinarValor() {
       const data = {
         value,
         user_recipient_id: ''
+      }
         
        if (value < 1 || value > 500) {
         let valueOutOfRange = "O valor precisa estar entre R$ 1 e R$ 500";

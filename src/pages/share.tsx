@@ -3,21 +3,18 @@ import Link from 'next/link'
 
 import styles from '@styles/pages/share.module.scss'
 import { useRouter } from 'next/router';
-<<<<<<< HEAD
 import { useEffect, useState } from 'react';
 import api from 'src/services/api';
 import Menu from '@components/Menu';
 import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { GetServerSideProps } from 'next';
 
 interface Sponsorship {
   amount: number;
   allow_withdrawal: boolean;
   sponsorship_code: string;
 }
-=======
-import { withSSRAuth } from 'src/utils/withSSRAuth';
-import { GetServerSideProps } from 'next';
->>>>>>> 4c6da2a242aabed37b36f03e7f483236d178c429
 
 export default function Share() {
   const { user } = useAuth();

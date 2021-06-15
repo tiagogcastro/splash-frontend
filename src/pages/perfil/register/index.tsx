@@ -13,7 +13,6 @@ import { withSSRAuth } from 'src/utils/withSSRAuth';
 export default function EditNotRegister({ user }) {
   const router = useRouter()
   const {saveOnCookies} = useAuth()
-  const {user} = useAuth()
 
   
   const [name, setName] = useState(user.name ? user.name : '')
