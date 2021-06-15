@@ -11,9 +11,10 @@ export default function Login() {
             <img src="/logo.png" alt="Logo" />
           </div>
 
-          <span><strong>Lavimco</strong><br/>Faça login ou crie uma conta para inicar </span>
-
-          <input type="text" placeholder="Insira seu código de patrocínio"/>
+          <strong>Lavimco</strong>
+          <span>
+            Faça login ou crie uma conta para iniciar 
+          </span>
 
           <Button url="/login/phone">Continue com WhatsApp</Button>
           <Button url="/login/email">Use e-mail ou nome de usuario</Button>

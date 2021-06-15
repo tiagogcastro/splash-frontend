@@ -45,6 +45,7 @@ export default function Home() {
         <div className={styles.content}>
             <ul className={styles.userList}>
                 { notifications.map(notification => (
+                <a href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
                     <li key={notification.id} className={styles.user}>
                         <div className={styles.first}>
                             <div className={styles.img}></div>
@@ -54,12 +55,11 @@ export default function Home() {
                             </div>
                         </div>
                         <div className={styles.second}>
-                            <a href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
-                                <span>{notification.created_at}</span>
-                                <FiChevronRight size={15} color="#8a8a8e" />
-                            </a>
+                            <span>{notification.created_at}</span>
+                            <FiChevronRight size={15} color="#8a8a8e" />
                         </div>
                     </li>
+                </a>
                 )) }
             </ul>
         </div>
