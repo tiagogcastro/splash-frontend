@@ -22,12 +22,9 @@ export default function Home() {
         let responseNotifications = response.data
         
         responseNotifications = responseNotifications.map(notification => {
-            const {content} = notification
-            const newContent = JSON.parse(content.replace("/", ""))
-
             const parsedDate = formatDistance(new Date(notification.created_at), new Date(), { locale: ptBR })
 
-            return {...notification, content: newContent, created_at: parsedDate}
+            return {...notification, created_at: parsedDate}
         })
 
         setNotifications(responseNotifications)
@@ -53,7 +50,7 @@ export default function Home() {
                             <div className={styles.img}></div>
                             <div className={styles.text}>
                                 <h2>{notification.sender.username === user.username ? 'Eu' : notification.sender.username}</h2>
-                                <span>{notification.content.subject}</span>
+                                <span>{notification.content}</span>
                             </div>
                         </div>
                         <div className={styles.second}>
