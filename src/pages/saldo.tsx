@@ -5,12 +5,27 @@ import api from 'src/services/api'
 import { useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
+import { formatPrice } from 'src/utils/formatPrice'
 
 export default function Saldo({ user }) {
     const [sponsors, setSponsors] = useState([])
+    const [searchQuery, setSearchQuery] = useState('')
+    
+    const filterSponsors = (sponsors, query) => {
+        if (!query) {
+            return sponsors;
+        }
+
+        return sponsors.filter((sponsor) => {
+            const sponsorName = sponsor.sponsor.name.toLowerCase();
+            return sponsorName.includes(query);
+        });
+    };
+    
+    const filteredSponsors = filterSponsors(sponsors, searchQuery);
 
     useEffect(() => {
-        api.get(`/sponsors/sponsored/${user.id}`).then(response => {
+        api.get(`/sponsorships/sponsored`).then(response => {
             setSponsors(response.data)
         })
     }, [])
@@ -20,20 +35,20 @@ export default function Saldo({ user }) {
         <Header text="Saldo"/>
         <div className={styles.content}>
             <div className={styles.searchBar}>
-                <input type="text" placeholder="Pesquisar" />
+                <input type="text" placeholder="Pesquisar" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
             </div>
             <ul className={styles.storeList}>
-                { sponsors.map(sponsor => (
-                    <li className={styles.store}>
+                { filteredSponsors.map(sponsor => (
+                    <li className={styles.store} key={sponsor.id}>
                         <div className={styles.first}>
-                            <img src={sponsor.sponsored.avatar_url ? sponsor.sponsored.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} className={styles.img}></img>
+                            <img src={sponsor.sponsor.avatar_url ? sponsor.sponsor.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} className={styles.img}></img>
                             <div className={styles.text}>
-                                <h2>{ sponsor.sponsored.name }</h2>
-                                <span>R$ 2000,00 disponível</span>
+                                <h2>{ sponsor.sponsor.name }</h2>
+                                <span>{formatPrice(sponsor.balance_amount)} disponível</span>
                             </div>
                         </div>
                         <div className={styles.second}>
-                            <a href="">
+                            <a href={`/patrocinar/valor?user_id=${sponsor.sponsor.id}`}>
                                 <button>Pagar</button>
                             </a>
                         </div>
