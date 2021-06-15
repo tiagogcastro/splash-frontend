@@ -28,7 +28,7 @@ export default function LoginNumber() {
 
       <div className={styles.terms}>
         <input checked={accepted} type="checkbox" onChange={(e) => setAccepted(!accepted)} />
-        <span>Eu concordo com os <strong>Termos e condições</strong></span>
+        <span>Eu concordo com os <Link href="/termos"><a><strong>Termos e condições</strong></a></Link></span>
       </div>
 
       <div className={styles.links}>
