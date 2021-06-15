@@ -6,6 +6,8 @@ import { useState } from 'react';
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { GetServerSideProps } from 'next';
 
 export default function RegisterEmail() {
   const {saveOnCookies} = useAuth()
@@ -36,9 +38,27 @@ export default function RegisterEmail() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label htmlFor="email">E-mail</label>
-              <input type="email" name="email" placeholder="Insira seu email..." value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-              <input type="password" placeholder="Confirmar senha" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+              <input 
+                type="email" 
+                name="email"
+                placeholder="Insira seu email..."
+                value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className={styles.field} >
+              <label htmlFor="password-new">Senha</label>
+              <input
+                type="password" 
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <div className={styles.field} > 
+              <label htmlFor="password-confirmation" >Comfirmar senha</label>
+              <input
+                type="password" 
+                placeholder="Confirmar senha"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
           </div>
 
@@ -50,3 +70,9 @@ export default function RegisterEmail() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

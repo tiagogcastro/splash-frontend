@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function EditNotRegister({ user }) {
   const router = useRouter()
@@ -36,11 +37,21 @@ export default function EditNotRegister({ user }) {
             <div className={styles.fields}>
               <div className={styles.field}>
                 <label htmlFor="name">Nome</label>
-                <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" placeholder="Insira seu nome..."/>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  type="text"
+                  name="name"
+                  placeholder="Insira seu nome..." />
               </div>
               <div className={styles.field}>
                 <label htmlFor="username">Username</label>
-                <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" name="username" placeholder="Insira seu username..."/>
+                <input
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  type="text"
+                  name="username"
+                  placeholder="Insira seu username..." />
               </div>
             </div>
             <Button onClick={handleEditProfile}>Confirmar</Button>
@@ -56,7 +67,7 @@ export default function EditNotRegister({ user }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
   const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
 
   return {
@@ -64,4 +75,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       user,
     }
   }
-}
+})

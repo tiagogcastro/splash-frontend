@@ -8,6 +8,7 @@ import api from 'src/services/api';
 
 import { GetServerSideProps } from 'next';
 import {parseCookies} from 'nookies'
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Patrocinadores({ user }) {
 
@@ -61,7 +62,7 @@ export default function Patrocinadores({ user }) {
   
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
   const token = parseCookies(context)["%40Lavimco%3Atoken"]
 
   const { username } = context.query
@@ -85,4 +86,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
   }
-}
+})

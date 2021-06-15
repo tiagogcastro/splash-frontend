@@ -4,6 +4,8 @@ import Button from '@components/Button'
 import { useEffect, useState } from 'react'
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { GetServerSideProps } from 'next';
 
 interface User {
 	sponsored: {
@@ -61,3 +63,9 @@ export default function Patrocinar() {
 		</div>
 	)
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

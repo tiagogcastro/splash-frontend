@@ -30,7 +30,13 @@
 
             a {
                 display: flex;
+                flex-direction: row;
                 align-items: center;
+                justify-content: space-between;
+                list-style: none;
+                margin: 0 1.5rem;
+                border-bottom: 1px solid var(--border);
+                height: 80px;
             }
             
             .user {
@@ -78,10 +84,12 @@
                     }
                 }
                 .second {
-                
+                    margin-left: 20px;
+                    display: flex;
+                    align-items: center;
                     span {
+                        width: 70px;
                         font-size: 12px;
-                        text-align: end;
                         &:first-child {
                             color: var(--text-light);
                             margin-right: 1px;

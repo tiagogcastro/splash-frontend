@@ -2,9 +2,11 @@ import Button from '@components/Button';
 import Header from '@components/Header';
 
 import styles from '@styles/pages/signUpTelefone.module.scss';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import api from 'src/services/api';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 export default function signUpTelefone() {
   const router = useRouter()
@@ -12,7 +14,6 @@ export default function signUpTelefone() {
 
   const [userPhone, setUserPhone] = useState('')
   const [countryCode, setCountryCode] = useState('55')
-  const [password, setPassword] = useState('')
   
   async function handleSendCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -26,7 +27,6 @@ export default function signUpTelefone() {
       query: {
         phoneNumber: `${countryCode}${userPhone}`,
         sponsorship_code,
-        password
       }
     })
   }
@@ -44,7 +44,6 @@ export default function signUpTelefone() {
               <hr />
               <input type="tel" placeholder="Número do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
             </div>
-            <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
           </div>
 
           <Button type="submit">Enviar Código</Button>
@@ -52,3 +51,9 @@ export default function signUpTelefone() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

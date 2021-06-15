@@ -6,6 +6,8 @@ import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import api from 'src/services/api';
+import { GetServerSideProps } from 'next';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Password() {
   const {saveOnCookies} = useAuth()
@@ -35,15 +37,30 @@ export default function Password() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label htmlFor="password">Senha antiga</label>
-              <input type="password" name="password" placeholder="Sua antiga senha..." value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
+              <input 
+                type="password" 
+                name="password" 
+                placeholder="Sua antiga senha..." 
+                value={oldPassword} 
+                onChange={(e) => setOldPassword(e.target.value)} />
             </div>
             <div className={styles.field}>
               <label htmlFor="password-new">Nova senha</label>
-              <input type="password" name="password-new" placeholder="Sua nova senha..." value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input 
+                type="password" 
+                name="password-new" 
+                placeholder="Sua nova senha..." 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className={styles.field}>
               <label htmlFor="password-confirmation">Confirmar senha</label>
-              <input type="password" name="password-confirmation" placeholder="Confirmação da senha..." value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+              <input 
+                type="password" 
+                name="password-confirmation" 
+                placeholder="Confirmação da senha..." 
+                value={confirmPassword} 
+                onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
           </div>
           <div className={styles.buttonConfirmation}>
@@ -54,3 +71,9 @@ export default function Password() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { GetServerSideProps } from 'next'
 import { parseCookies } from 'nookies'
 import { formatPrice } from 'src/utils/formatPrice'
+import { withSSRAuth } from 'src/utils/withSSRAuth'
 
 export default function Saldo({ user }) {
     const [sponsors, setSponsors] = useState([])
@@ -60,7 +61,7 @@ export default function Saldo({ user }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
     const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
 
     return {
@@ -68,4 +69,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
         user,
       }
     }
-  }
+})
