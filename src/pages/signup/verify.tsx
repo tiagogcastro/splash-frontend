@@ -14,7 +14,6 @@ export default function signUpVerification() {
   
   const [code, setCode] = useState('')
 
-  console.log(sponsorship_code)
   async function handleSendVerificationCode(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
@@ -30,6 +29,8 @@ export default function signUpVerification() {
     })
 
     saveOnCookies(response.data)
+
+    router.push('/dashboard')
   }
   
   return (
