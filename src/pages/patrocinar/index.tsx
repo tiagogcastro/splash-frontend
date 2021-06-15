@@ -21,7 +21,6 @@ export default function Patrocinar() {
 	useEffect(() => {
 		api.get(`/sponsors/sponsored/${user.id}`).then(response => {
 			setUsers(response.data);
-			console.log(response.data);
 		});
 	}, [user]);
 
