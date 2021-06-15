@@ -4,20 +4,21 @@ import Header from '@components/Header';
 import styles from '@styles/pages/signUpTelefone.module.scss';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
+import { useAuth } from 'src/hooks/useAuth';
 import api from 'src/services/api';
 
 export default function LoginPhone() {
   const router = useRouter()
+  const {signIn} = useAuth()
 
   const [userPhone, setUserPhone] = useState('')
   const [password, setPassword] = useState('')
   
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    
-    await api.post(`/sessions/sms`, {
-      phone_number: userPhone,
-      password: password
+    await signIn({
+      phone_number: `55${userPhone}`,
+      password
     })
     
     router.push('/dashboard')

@@ -7,8 +7,22 @@ import styles from '@styles/pages/perfil.module.scss';
 import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import {parseCookies} from 'nookies'
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Perfil({ user, userType, me }) {
+  const [isSponsoring, setIsSponsoring] = useState(false)
+  
+  useEffect(() => {
+    api.get(`/sponsors/sponsored/${me.id}`).then(response => {
+      response.data.forEach(sponsor => {
+        if (user.id === sponsor.sponsored.id) {
+          setIsSponsoring(true)
+        }
+      })
+    })
+  }, [])
+  
   if (!user) {
     return (
       <Error />
@@ -42,10 +56,14 @@ export default function Perfil({ user, userType, me }) {
           <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button>
         ) : userType === "me" ? (
           <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button> 
-        ) : userType === "shop" ? ( 
-          <Button>Copatrocinar</Button> 
-        ) : userType === "user" && (
-          <Button url={`/patrocinar/valor?user_id=${user.id}`}>Patrocinar</Button> 
+        ) : userType === "shop" && isSponsoring ? ( 
+          <Button>Copatrocinando</Button>
+        ) : userType === "shop" && !isSponsoring ? (
+          <Button>Copatrocinar</Button>
+        ) : userType === "user" && isSponsoring ? (
+          <Button url="/patrocinar/valor">Patrocinando</Button> 
+        ) : userType === "user" && !isSponsoring && (
+          <Button url="/patrocinar/valor">Patrocinar</Button> 
         ) }
 
       </div>
