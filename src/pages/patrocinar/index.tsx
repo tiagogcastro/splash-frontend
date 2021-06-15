@@ -4,7 +4,6 @@ import Button from '@components/Button'
 import { useEffect, useState } from 'react'
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
-import Link from 'next/link';
 
 interface User {
 	sponsored: {
@@ -48,9 +47,7 @@ export default function Patrocinar() {
 									</div>
 								</div>
 								<div className={styles.second}>
-									<Link href={`/patrocinar/valor?user_id=${user.sponsored.id}`}>
-										<Button>Enviar patrocínio</Button>
-									</Link>
+									<Button url={`/patrocinar/valor?user_id=${user.sponsored.id}`}>Enviar patrocínio</Button>
 								</div>
 							</li>
 						))}

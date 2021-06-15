@@ -4,9 +4,11 @@ import Button from '@components/Button'
 import { useState, useEffect, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import api from 'src/services/api';
-import yup from 'yup';
+import * as yup from 'yup';
+import { useAuth } from 'src/hooks/useAuth';
 
 export default function PatrocinarValor() {
+  const {user} = useAuth()
   const route = useRouter();
   const [value, setValue] = useState(1);
 
@@ -23,31 +25,32 @@ export default function PatrocinarValor() {
       setValue(0)
     }
   }
-  // Falta fazer funcionar o value pra enviar o valor vindo do input
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    
+
     try {
       const schema = yup.object().shape({
-        amount: yup.number().required("Valor obrigatório")
+        value: yup.number().required("Valor obrigatório")
+      });
+
+      const data = {
+        value
+      }
+
+      await schema.validate(data, {
+        abortEarly: false,
       });
 
       api.post('/sponsorships', {
         user_recipient_id: route.query.user_id || null,
-        allow_withdrawal_balance: true,
+        allow_withdrawal_balance: user.role === 'shop',
         amount: value
-      });
-
-      const data = {
-        amount: value
-      }
-      
-      await schema.validate(data, {
-        abortEarly: false,
       });
       
       route.push('/dashboard')
-    } catch(e) {}
+    } catch(e) {
+      // fazer a validaçao do input
+    }
   }
 
   return (

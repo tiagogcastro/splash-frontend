@@ -7,8 +7,22 @@ import styles from '@styles/pages/perfil.module.scss';
 import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import {parseCookies} from 'nookies'
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 export default function Perfil({ user, userType, me }) {
+  const [isSponsoring, setIsSponsoring] = useState(false)
+  
+  useEffect(() => {
+    api.get(`/sponsors/sponsored/${me.id}`).then(response => {
+      response.data.forEach(sponsor => {
+        if (user.id === sponsor.sponsored.id) {
+          setIsSponsoring(true)
+        }
+      })
+    })
+  }, [])
+  
   if (!user) {
     return (
       <Error />
@@ -29,11 +43,11 @@ export default function Perfil({ user, userType, me }) {
 
         <div className={styles.statistics}>
           <div className={styles.stat}>
-            <span className={styles.number}>200</span>
+            <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsor_count}</span>
             <span className={styles.text}>patrocinadores</span>
           </div>
           <div className={styles.stat}>
-            <span className={styles.number}>15</span>
+            <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsored_count}</span>
             <span className={styles.text}>patrocinando</span>
           </div>
         </div>
@@ -42,9 +56,13 @@ export default function Perfil({ user, userType, me }) {
           <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button>
         ) : userType === "me" ? (
           <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button> 
-        ) : userType === "shop" ? ( 
-          <Button>Copatrocinar</Button> 
-        ) : userType === "user" && (
+        ) : userType === "shop" && isSponsoring ? ( 
+          <Button>Copatrocinando</Button>
+        ) : userType === "shop" && !isSponsoring ? (
+          <Button>Copatrocinar</Button>
+        ) : userType === "user" && isSponsoring ? (
+          <Button url="/patrocinar/valor">Patrocinando</Button> 
+        ) : userType === "user" && !isSponsoring && (
           <Button url="/patrocinar/valor">Patrocinar</Button> 
         ) }
 

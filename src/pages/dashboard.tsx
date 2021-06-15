@@ -20,14 +20,11 @@ export default function Home() {
   useEffect(() => {
     api.get('/notifications/sponsorships').then(response => {
         let responseNotifications = response.data
-        
-        responseNotifications = responseNotifications.map(notification => {
-            const {content} = notification
-            const newContent = JSON.parse(content.replace("/", ""))
 
+        responseNotifications = responseNotifications.map(notification => {
             const parsedDate = formatDistance(new Date(notification.created_at), new Date(), { locale: ptBR })
 
-            return {...notification, content: newContent, created_at: parsedDate}
+            return {...notification, created_at: parsedDate}
         })
 
         setNotifications(responseNotifications)
@@ -48,21 +45,21 @@ export default function Home() {
         <div className={styles.content}>
             <ul className={styles.userList}>
                 { notifications.map(notification => (
+                <a href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
                     <li key={notification.id} className={styles.user}>
                         <div className={styles.first}>
-                            <div className={styles.img}></div>
+                            <img src={notification.sender.avatar_url ? notification.sender.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} className={styles.img}></img>
                             <div className={styles.text}>
                                 <h2>{notification.sender.username === user.username ? 'Eu' : notification.sender.username}</h2>
-                                <span>{notification.content.subject}</span>
+                                <span>{notification.content}</span>
                             </div>
                         </div>
                         <div className={styles.second}>
-                            <a href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
-                                <span>{notification.created_at}</span>
-                                <FiChevronRight size={15} color="#8a8a8e" />
-                            </a>
+                            <span>{notification.created_at}</span>
+                            <FiChevronRight size={15} color="#8a8a8e" />
                         </div>
                     </li>
+                </a>
                 )) }
             </ul>
         </div>
