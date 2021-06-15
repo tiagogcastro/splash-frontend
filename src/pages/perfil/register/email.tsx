@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 export default function RegisterEmail() {
   const {saveOnCookies} = useAuth()
   const router = useRouter()
+  const {user} = useAuth()
   
   const [email, setEmail] = useState('')
 
@@ -19,8 +20,8 @@ export default function RegisterEmail() {
     })
 
     saveOnCookies(response.data)
-
-    router.push('/perfil/editar')
+    
+    router.push(`/${user.username}`)
   }
 
   return (
