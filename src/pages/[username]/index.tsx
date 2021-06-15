@@ -7,8 +7,23 @@ import styles from '@styles/pages/perfil.module.scss';
 import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import {parseCookies} from 'nookies'
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Perfil({ user, userType, me }) {
+  const [isSponsoring, setIsSponsoring] = useState(false)
+  
+  useEffect(() => {
+    api.get(`/sponsors/sponsored/${me.id}`).then(response => {
+      response.data.forEach(sponsor => {
+        if (user.id === sponsor.sponsored.id) {
+          setIsSponsoring(true)
+        }
+      })
+    })
+  }, [])
+  
   if (!user) {
     return (
       <Error />
@@ -19,7 +34,7 @@ export default function Perfil({ user, userType, me }) {
     <div className={styles.container}>
       <Header text={user.username} />
       <div className={styles.content}>
-        <img className={styles.img} src={user.avatar ? `http://68.183.97.199/files/${user.avatar}` : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
+        <img alt={user.username} className={styles.img} src={user.avatar ? user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
 
         <div className={styles.text}>
           <h1>{user.name}</h1>
@@ -29,11 +44,11 @@ export default function Perfil({ user, userType, me }) {
 
         <div className={styles.statistics}>
           <div className={styles.stat}>
-            <span className={styles.number}>200</span>
+            <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsor_count}</span>
             <span className={styles.text}>patrocinadores</span>
           </div>
           <div className={styles.stat}>
-            <span className={styles.number}>15</span>
+            <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsored_count}</span>
             <span className={styles.text}>patrocinando</span>
           </div>
         </div>
@@ -42,9 +57,13 @@ export default function Perfil({ user, userType, me }) {
           <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button>
         ) : userType === "me" ? (
           <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button> 
-        ) : userType === "shop" ? ( 
-          <Button>Copatrocinar</Button> 
-        ) : userType === "user" && (
+        ) : userType === "shop" && isSponsoring ? ( 
+          <Button>Copatrocinando</Button>
+        ) : userType === "shop" && !isSponsoring ? (
+          <Button>Copatrocinar</Button>
+        ) : userType === "user" && isSponsoring ? (
+          <Button url="/patrocinar/valor">Patrocinando</Button> 
+        ) : userType === "user" && !isSponsoring && (
           <Button url="/patrocinar/valor">Patrocinar</Button> 
         ) }
 
@@ -54,7 +73,7 @@ export default function Perfil({ user, userType, me }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
   const me = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
   const token = parseCookies(context)["%40Lavimco%3Atoken"]
 
@@ -99,4 +118,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
   }
-}
+})

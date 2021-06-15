@@ -7,6 +7,7 @@ import { GetServerSideProps } from 'next';
 import { format, formatDistance } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import {FaArrowAltCircleDown, FaArrowAltCircleUp} from 'react-icons/fa'
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Patrocinios({ sender_id }) {
   const router = useRouter();
@@ -20,12 +21,9 @@ export default function Patrocinios({ sender_id }) {
         let responseNotifications = response.data
         
         responseNotifications = responseNotifications.map(notification => {
-            const {content} = notification
-            const newContent = JSON.parse(content.replace("/", ""))
-
             const parsedDate = formatDistance(new Date(notification.created_at), new Date(), { locale: ptBR })
 
-            return {...notification, content: newContent, created_at: parsedDate}
+            return {...notification, created_at: parsedDate}
         })
 
         setNotifications(responseNotifications)
@@ -39,9 +37,9 @@ export default function Patrocinios({ sender_id }) {
             <ul className={styles.sponsorList}>
                 { notifications.map(notification => (
                     <li key={notification.id} className={styles.store}>
-                        { notification.content.subject.includes('pagou') ? <FaArrowAltCircleUp size={40} color="#cc0000" /> :                         <FaArrowAltCircleDown size={40} color="#008000" /> }
+                        { notification.content.includes('pagou') ? <FaArrowAltCircleUp size={40} color="#cc0000" /> :                         <FaArrowAltCircleDown size={40} color="#008000" /> }
                         <div className={styles.text}>
-                            <h2>{notification.content.subject}</h2>
+                            <h2>{notification.content}</h2>
                             <span>{notification.created_at}</span>
                         </div>
                     </li>
@@ -52,7 +50,7 @@ export default function Patrocinios({ sender_id }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
     const { sender_id } = query
 
     return {
@@ -60,4 +58,4 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
             sender_id
         }
     }
-}
+})

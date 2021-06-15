@@ -8,6 +8,7 @@ import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import api from 'src/services/api';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
@@ -74,6 +75,11 @@ export default function Email({ email, token }) {
             <label htmlFor="email">E-mail</label>
             <input type="email" name="email" placeholder="Insira seu e-mail..." value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
             { errors.newEmail && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.newEmail}</div> }
+            <input
+              type="email"
+              name="email"
+              placeholder="Insira seu e-mail..."
+              value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
             { messageVisible && <p>Um E-mail foi enviado para {newEmail}, confirme ele em até 12 horas.</p> }
           </div>
 
@@ -87,7 +93,7 @@ export default function Email({ email, token }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
   const email = query.email
   const token = query.token
 
@@ -97,4 +103,4 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       token
     }
   }
-}
+})

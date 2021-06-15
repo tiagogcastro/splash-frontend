@@ -1,8 +1,10 @@
 import Button from '@components/Button';
 
 import styles from '@styles/pages/signup.module.scss';
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useState } from 'react';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 export default function LoginNumber() {
   const [accepted, setAccepted] = useState(false)
@@ -28,7 +30,7 @@ export default function LoginNumber() {
 
       <div className={styles.terms}>
         <input checked={accepted} type="checkbox" onChange={(e) => setAccepted(!accepted)} />
-        <span>Eu concordo com os <strong>Termos e condições</strong></span>
+        <span>Eu concordo com os <Link href="/termos"><a><strong>Termos e condições</strong></a></Link></span>
       </div>
 
       <div className={styles.links}>
@@ -40,3 +42,9 @@ export default function LoginNumber() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

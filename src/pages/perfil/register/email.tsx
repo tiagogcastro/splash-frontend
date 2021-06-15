@@ -3,6 +3,12 @@ import Button from '@components/Button';
 import utilStyles from '@styles/utilStyles.module.scss';
 
 import styles from '@styles/pages/perfil/editar.module.scss';
+import { useState } from 'react';
+import api from 'src/services/api';
+import { useAuth } from 'src/hooks/useAuth';
+import { useRouter } from 'next/router';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { GetServerSideProps } from 'next';
 import { FormEvent, useState } from 'react';
 
 import * as yup from 'yup';
@@ -16,6 +22,13 @@ type FormErrors = {
 }
 
 export default function RegisterEmail() {
+  const {saveOnCookies} = useAuth()
+  const router = useRouter()
+  const {user} = useAuth()
+  
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -45,8 +58,16 @@ export default function RegisterEmail() {
         await schema.validate(data, {
           abortEarly: false,
         });
-  
-        // Ações
+        
+            const response = await api.put('/profile/add-email', {
+      email,
+      password,
+      password_confirmation: confirmPassword
+    })
+
+    saveOnCookies(response.data)
+    
+    router.push(`/${user.username}`)
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errs = getValidationErrors(err)
@@ -72,18 +93,18 @@ export default function RegisterEmail() {
           <div className={styles.fields}>
             <div className={utilStyles.field}>
               <label htmlFor="email">E-mail</label>
-              <input type="email" required name="email" placeholder="Insira seu email..." onChange={(e) => setEmail(e.target.value)}/>
+              <input type="email" required name="email" placeholder="Insira seu email..." value={email} onChange={(e) => setEmail(e.target.value)}/>
               { errors.email && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.email}</div> }
             </div>
             <div className={utilStyles.field}>
-              <label htmlFor="password">Nova senha</label>
-              <input type="password" required name="password" placeholder="Insira sua senha..." onChange={(e) => setPassword(e.target.value)}/>
+              <label htmlFor="password">Senha</label>
+              <input type="password" required name="password" placeholder="Insira sua senha..." value={password} onChange={(e) => setPassword(e.target.value)}/>
               { errors.password && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.password}</div> }
             </div>
 
             <div className={utilStyles.field}>
-              <label htmlFor="passwordconfirmation">Confirmação de senha</label>
-              <input type="password" required name="passwordconfirmation" placeholder="Confirme sua senha..." onChange={(e) => setConfirmPassword(e.target.value)}/>
+              <label htmlFor="passwordconfirmation">Confirmar senha</label>
+              <input type="password" required name="passwordconfirmation" placeholder="Confirme sua senha..." value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
               { errors.invalid && <div className={[styles.alert, styles.visible].join(" ")}>{errors.invalid}</div> }
               { errors.notMatch && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.notMatch}</div> }
             </div>
@@ -91,9 +112,14 @@ export default function RegisterEmail() {
 
           <div className={styles.buttonConfirmation}>
             <Button type="submit">Adicionar</Button>
-          </div>
         </form>
       </div>
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

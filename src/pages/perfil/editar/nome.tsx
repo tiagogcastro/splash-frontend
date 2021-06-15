@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
@@ -78,7 +79,7 @@ export default function Name({ name }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
   const name = query.name
 
   return {
@@ -86,4 +87,4 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       name
     }
   }
-}
+})

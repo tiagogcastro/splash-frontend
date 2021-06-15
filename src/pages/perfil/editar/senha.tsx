@@ -7,6 +7,8 @@ import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import api from 'src/services/api';
+import { GetServerSideProps } from 'next';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
@@ -93,7 +95,6 @@ export default function Password() {
               <label htmlFor="password-new">Nova senha</label>
               <input type="password" name="password-new" placeholder="Sua nova senha..." value={password} onChange={(e) => setPassword(e.target.value)} />
               { errors.password && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.password}</div> }
-
             </div>
             <div className={utilStyles.field}>
               <label htmlFor="password-confirmation">Confirmar senha</label>
@@ -109,3 +110,9 @@ export default function Password() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

@@ -16,6 +16,10 @@ a {
   box-sizing: border-box;
 }
 
+button {
+  cursor: pointer;
+}
+
 :root {
     --primary: #0CB368;
     --primary-light: #7CF2BF;

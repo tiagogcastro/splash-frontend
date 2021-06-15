@@ -3,9 +3,12 @@ import Header from '@components/Header';
 
 import styles from '@styles/pages/signUpTelefone.module.scss';
 import utilStyles from '@styles/utilStyles.module.scss'
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
+import { useAuth } from 'src/hooks/useAuth';
 import api from 'src/services/api';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
@@ -18,6 +21,7 @@ type FormErrors = {
 
 export default function LoginPhone() {
   const router = useRouter()
+  const {signIn} = useAuth()
 
   const [userPhone, setUserPhone] = useState('')
   const [password, setPassword] = useState('')
@@ -45,9 +49,9 @@ export default function LoginPhone() {
         abortEarly: false,
       });
 
-      await api.post(`/sessions/sms`, {
-        phone_number: userPhone,
-        password: password
+      await signIn({
+        phone_number: `55${userPhone}`,
+        password
       })
   
       router.push('/dashboard')
@@ -63,8 +67,6 @@ export default function LoginPhone() {
       }
       setErrors({invalid: 'Telefone ou senha não estão corretos'})
     }
-    
-    router.push('/dashboard')
   }
   
   return (
@@ -92,3 +94,9 @@ export default function LoginPhone() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

@@ -1,7 +1,9 @@
 import Button from '@components/Button';
 
 import styles from '@styles/pages/login.module.scss';
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 export default function Login() {
   return (
@@ -11,9 +13,10 @@ export default function Login() {
             <img src="/logo.png" alt="Logo" />
           </div>
 
-          <span><strong>Lavimco</strong><br/>Faça login ou crie uma conta para iniciar </span>
-
-          <input type="text" placeholder="Insira seu código de patrocínio"/>
+          <strong>Lavimco</strong>
+          <span>
+            Faça login ou crie uma conta para iniciar 
+          </span>
 
           <Button url="/login/phone">Continue com WhatsApp</Button>
           <Button url="/login/email">Use e-mail ou nome de usuario</Button>
@@ -28,3 +31,9 @@ export default function Login() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

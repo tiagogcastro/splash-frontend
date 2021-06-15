@@ -9,7 +9,7 @@ interface AuthState {
 
 interface SignInCredentials {
   email?: string;
-  password?: string;
+  password: string;
   phone_number?: string;
 }
 
@@ -55,10 +55,18 @@ export const AuthProvider: React.FC = ({ children }) => {
   }, [])
   
   const signIn = useCallback(async ({ email, password, phone_number }: SignInCredentials) => {
-    const response = await api.post('/sessions', {
-      email,
-      password,
-    })
+    let response;
+    if (email) {
+      response = await api.post('/sessions', {
+        email,
+        password,
+      })
+    } else {
+      response = await api.post(`/sessions/sms`, {
+        phone_number,
+        password
+      })
+    }
 
     const { token, user } = response.data
 
@@ -73,8 +81,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   const signOut = useCallback(() => {
     Cookies.remove('@Lavimco:token')    
     Cookies.remove('@Lavimco:user')
-
-    setData({} as AuthState)
   }, [])
   
   return (

@@ -6,20 +6,63 @@ import { AiOutlineCamera  } from 'react-icons/ai'
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import { useRef } from 'react';
+import api from 'src/services/api';
+import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Edit({ user }) {
   const {query} = useRouter()
+  const {saveOnCookies} = useAuth()
   const token = query.token
+  const cameraRef = useRef<any>()
+  const inputFileRef = useRef<any>()
+
+  const [camera, setCamera] = useState(false)
+  const [newAvatar, setNewAvatar] = useState<string | null>(user.avatar_url)
   
+  const handleUpdateAvatar = async (e) => {
+    const formData = new FormData()
+    formData.append('avatar', e.target.files[0])
+    
+    const response = await api.patch('/profile/avatar', formData)
+
+    setNewAvatar(response.data.avatar_url)
+
+    saveOnCookies({user: response.data})
+  }
+
+  const handleClick = (e) => {
+    if (cameraRef.current.contains(e.target)) {
+      if (camera) {
+        inputFileRef.current.click()
+      } else {
+        setCamera(true)
+      }
+    } else {
+      setCamera(false)
+    }
+  }
+
   return (
     <>
-      <div className={styles.container}>
-        <Header text="Editar perfil" />
+      <div className={styles.container} onClick={handleClick}>
+        <Header backURL={`/${user.username}`} text="Editar perfil" />
         <div className={styles.content}>
           <div className={styles.fields}>
-            <div className={styles.avatar}>
-              <AiOutlineCamera className={styles.icon} size={30} color="#ffffff" />
-              <img src="/logo.png" alt="Avatar" />
+            <div className={styles.avatar} ref={cameraRef}>
+              { camera && (
+                <>
+                  <input type="file" name="file" className={styles.inputFile} ref={inputFileRef} accept="image/*" onChange={handleUpdateAvatar} />
+                  <label htmlFor="file" className={styles.inputFile}>
+                    <div className={styles.opacity}>
+                      <AiOutlineCamera className={styles.icon} size={30} color="#ffffff" />
+                    </div>
+                  </label>
+                </>
+              ) }
+              <img className={styles.img} src={newAvatar ? newAvatar : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} alt={user.username} />
             </div>
             <div className={styles.field}>
               <p>Nome</p>
@@ -63,7 +106,7 @@ export default function Edit({ user }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
   const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
 
   return {
@@ -71,4 +114,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       user,
     }
   }
-}
+})
