@@ -20,7 +20,7 @@ export default function Home() {
   useEffect(() => {
     api.get('/notifications/sponsorships').then(response => {
         let responseNotifications = response.data
-        
+
         responseNotifications = responseNotifications.map(notification => {
             const parsedDate = formatDistance(new Date(notification.created_at), new Date(), { locale: ptBR })
 
@@ -47,7 +47,7 @@ export default function Home() {
                 { notifications.map(notification => (
                     <li key={notification.id} className={styles.user}>
                         <div className={styles.first}>
-                            <div className={styles.img}></div>
+                            <img src={notification.sender.avatar_url ? notification.sender.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} className={styles.img}></img>
                             <div className={styles.text}>
                                 <h2>{notification.sender.username === user.username ? 'Eu' : notification.sender.username}</h2>
                                 <span>{notification.content}</span>
