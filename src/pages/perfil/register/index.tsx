@@ -4,22 +4,20 @@ import Button from '@components/Button';
 import styles from '@styles/pages/perfil/editar.module.scss';
 import utilStyles from '@styles/utilStyles.module.scss';
 import api from 'src/services/api';
-import { useAuth } from 'src/hooks/useAuth';
 import { useState } from 'react';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
+import { GetServerSideProps } from 'next';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { parseCookies } from 'nookies';
 
 type FormErrors = {
   name?: string
   username?: string
 }
 
-export default function EditNotRegister() {
-  const {user} = useAuth()
-
-  console.log(user)
-  
+export default function EditNotRegister({ user }) {
   const [name, setName] = useState(user.name)
   const [username, setUsername] = useState(user.username)
 
@@ -95,3 +93,13 @@ export default function EditNotRegister() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  const user = JSON.parse(parseCookies(ctx)["%40Lavimco%3Auser"])
+  
+  return {
+    props: {
+      user
+    }
+  }
+})
