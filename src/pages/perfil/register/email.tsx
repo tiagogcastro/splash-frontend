@@ -13,10 +13,14 @@ export default function RegisterEmail() {
   const {user} = useAuth()
   
   const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   async function handleEditProfile() {
     const response = await api.put('/profile/add-email', {
-      email
+      email,
+      password,
+      confirm_password: confirmPassword
     })
 
     saveOnCookies(response.data)
@@ -33,11 +37,13 @@ export default function RegisterEmail() {
             <div className={styles.field}>
               <label htmlFor="email">E-mail</label>
               <input type="email" name="email" placeholder="Insira seu email..." value={email} onChange={(e) => setEmail(e.target.value)} />
+              <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input type="password" placeholder="Confirmar senha" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
           </div>
 
           <div className={styles.buttonConfirmation}>
-            <Button onClick={handleEditProfile} >Adicionar</Button>
+            <Button onClick={handleEditProfile}>Adicionar</Button>
           </div>
         </div>
       </div>
