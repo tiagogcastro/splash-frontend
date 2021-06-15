@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Biografia({ bio }) {
   const {saveOnCookies} = useAuth()
@@ -42,7 +43,7 @@ export default function Biografia({ bio }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
   let bio = query.bio
 
   if (bio === 'null') {
@@ -54,4 +55,4 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       bio
     }
   }
-}
+})

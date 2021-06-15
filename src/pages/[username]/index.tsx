@@ -9,6 +9,7 @@ import { GetServerSideProps } from 'next';
 import {parseCookies} from 'nookies'
 import { useEffect } from 'react';
 import { useState } from 'react';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Perfil({ user, userType, me }) {
   const [isSponsoring, setIsSponsoring] = useState(false)
@@ -72,7 +73,7 @@ export default function Perfil({ user, userType, me }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
   const me = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
   const token = parseCookies(context)["%40Lavimco%3Atoken"]
 
@@ -117,4 +118,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       }
     }
   }
-}
+})

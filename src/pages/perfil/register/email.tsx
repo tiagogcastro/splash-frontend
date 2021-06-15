@@ -6,6 +6,8 @@ import { useState } from 'react';
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { GetServerSideProps } from 'next';
 
 export default function RegisterEmail() {
   const {saveOnCookies} = useAuth()
@@ -50,3 +52,9 @@ export default function RegisterEmail() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

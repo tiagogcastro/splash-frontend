@@ -7,6 +7,7 @@ import { useState } from 'react';
 import api from 'src/services/api';
 import { useRouter } from 'next/router';
 import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Username({ username }) {
   const router = useRouter()
@@ -42,7 +43,7 @@ export default function Username({ username }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
   const username = query.username
 
   return {
@@ -50,4 +51,4 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       username
     }
   }
-}
+})

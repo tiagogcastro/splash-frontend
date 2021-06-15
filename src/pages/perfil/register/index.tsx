@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function EditNotRegister({ user }) {
   const router = useRouter()
@@ -56,7 +57,7 @@ export default function EditNotRegister({ user }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
   const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
 
   return {
@@ -64,4 +65,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       user,
     }
   }
-}
+})

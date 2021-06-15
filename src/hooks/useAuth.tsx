@@ -81,8 +81,6 @@ export const AuthProvider: React.FC = ({ children }) => {
   const signOut = useCallback(() => {
     Cookies.remove('@Lavimco:token')    
     Cookies.remove('@Lavimco:user')
-
-    setData({} as AuthState)
   }, [])
   
   return (

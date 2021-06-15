@@ -3,6 +3,8 @@ import Link from 'next/link'
 
 import styles from '@styles/pages/share.module.scss'
 import { useRouter } from 'next/router';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { GetServerSideProps } from 'next';
 
 export default function Share() {
 
@@ -31,3 +33,9 @@ export default function Share() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

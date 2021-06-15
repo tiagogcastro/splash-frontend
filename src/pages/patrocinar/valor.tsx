@@ -6,6 +6,8 @@ import { useRouter } from 'next/router';
 import api from 'src/services/api';
 import * as yup from 'yup';
 import { useAuth } from 'src/hooks/useAuth';
+import { GetServerSideProps } from 'next';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function PatrocinarValor() {
   const {user} = useAuth()
@@ -84,3 +86,9 @@ export default function PatrocinarValor() {
     </div>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

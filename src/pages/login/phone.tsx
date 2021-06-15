@@ -2,10 +2,12 @@ import Button from '@components/Button';
 import Header from '@components/Header';
 
 import styles from '@styles/pages/signUpTelefone.module.scss';
+import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import { useAuth } from 'src/hooks/useAuth';
 import api from 'src/services/api';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 export default function LoginPhone() {
   const router = useRouter()
@@ -47,3 +49,9 @@ export default function LoginPhone() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

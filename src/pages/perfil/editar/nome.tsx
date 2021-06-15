@@ -7,6 +7,7 @@ import { useState } from 'react';
 import { GetServerSideProps } from 'next';
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Name({ name }) {
   const {saveOnCookies} = useAuth()
@@ -40,7 +41,7 @@ export default function Name({ name }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
   const name = query.name
 
   return {
@@ -48,4 +49,4 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       name
     }
   }
-}
+})
