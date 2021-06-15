@@ -57,15 +57,30 @@
       }
 
       .field {
+        width: 100%;
         display: flex;
-        align-items: center;
+        flex-direction: column;
         justify-content: space-between;
         font-size: 15px;
+        margin-bottom: 20px;
+
+        label {
+          font-weight: 600;
+        }
+
+        input {
+          height: 50px;
+          border: none;
+          border-bottom: 1px solid var(--secondary-light);
+          padding: 5px 0;
+          color: var(--text-light);
+          font-size: 16px;
+        }
 
         p {
           margin-right: 10px;
         }
-          
+
         a {
           display: flex;
           align-items: center;
@@ -74,7 +89,7 @@
           border: none;
           width: 100%;
           color: var(--text-light);
-            text-overflow: ellipsis;
+          text-overflow: ellipsis;
         }
       }
     }
@@ -91,6 +106,5 @@
         text-align: center;
       }
     }
-
   }
 }

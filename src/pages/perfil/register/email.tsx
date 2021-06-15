@@ -36,9 +36,27 @@ export default function RegisterEmail() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label htmlFor="email">E-mail</label>
-              <input type="email" name="email" placeholder="Insira seu email..." value={email} onChange={(e) => setEmail(e.target.value)} />
-              <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-              <input type="password" placeholder="Confirmar senha" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+              <input 
+                type="email" 
+                name="email"
+                placeholder="Insira seu email..."
+                value={email} onChange={(e) => setEmail(e.target.value)} />
+            </div>
+            <div className={styles.field} >
+              <label htmlFor="password-new">Senha</label>
+              <input
+                type="password" 
+                placeholder="Senha"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <div className={styles.field} > 
+              <label htmlFor="password-confirmation" >Comfirmar senha</label>
+              <input
+                type="password" 
+                placeholder="Confirmar senha"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
           </div>
 

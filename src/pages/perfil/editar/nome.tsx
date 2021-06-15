@@ -30,7 +30,12 @@ export default function Name({ name }) {
       <div className={styles.content}>
         <div className={styles.field}>
           <label htmlFor="name">Nome</label>
-          <input type="text" name="name" placeholder="Insira seu nome..." value={newName} onChange={(e) => setNewName(e.target.value)} />
+          <input
+            type="text"
+            name="name"
+            placeholder="Insira seu nome..."
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)} />
         </div>
         <div className={styles.buttonConfirmation}>
           <Button onClick={handleEditProfile} >Confirmar</Button>
