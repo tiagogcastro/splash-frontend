@@ -29,11 +29,11 @@ export default function Perfil({ user, userType, me }) {
 
         <div className={styles.statistics}>
           <div className={styles.stat}>
-            <span className={styles.number}>200</span>
+            <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsor_count}</span>
             <span className={styles.text}>patrocinadores</span>
           </div>
           <div className={styles.stat}>
-            <span className={styles.number}>15</span>
+            <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsored_count}</span>
             <span className={styles.text}>patrocinando</span>
           </div>
         </div>
@@ -45,7 +45,7 @@ export default function Perfil({ user, userType, me }) {
         ) : userType === "shop" ? ( 
           <Button>Copatrocinar</Button> 
         ) : userType === "user" && (
-          <Button url="/patrocinar/valor">Patrocinar</Button> 
+          <Button url={`/patrocinar/valor?user_id=${user.id}`}>Patrocinar</Button> 
         ) }
 
       </div>
