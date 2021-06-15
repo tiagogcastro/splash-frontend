@@ -9,16 +9,30 @@ import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
+import api from 'src/services/api';
+import { useAuth } from 'src/hooks/useAuth';
 
 export default function Edit({ user }) {
   const {query} = useRouter()
+  const {saveOnCookies} = useAuth()
   const token = query.token
   const cameraRef = useRef<any>()
   const inputFileRef = useRef<any>()
 
   const [camera, setCamera] = useState(false)
-
+  const [newAvatar, setNewAvatar] = useState<string | null>(user.avatar_url)
   
+  const handleUpdateAvatar = async (e) => {
+    const formData = new FormData()
+    formData.append('avatar', e.target.files[0])
+    
+    const response = await api.patch('/profile/avatar', formData)
+
+    setNewAvatar(response.data.avatar_url)
+
+    saveOnCookies({user: response.data})
+  }
+
   const handleClick = (e) => {
     if (cameraRef.current.contains(e.target)) {
       if (camera) {
@@ -40,13 +54,15 @@ export default function Edit({ user }) {
             <div className={styles.avatar} ref={cameraRef}>
               { camera && (
                 <>
-                  <input type="file" name="file" className={styles.inputFile} ref={inputFileRef} />
+                  <input type="file" name="file" className={styles.inputFile} ref={inputFileRef} accept="image/*" onChange={handleUpdateAvatar} />
                   <label htmlFor="file" className={styles.inputFile}>
-                    <AiOutlineCamera className={styles.icon} size={30} color="#ffffff" />
+                    <div className={styles.opacity}>
+                      <AiOutlineCamera className={styles.icon} size={30} color="#ffffff" />
+                    </div>
                   </label>
                 </>
               ) }
-              <img className={styles.img} src={user.avatar ? user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} alt={user.username} />
+              <img className={styles.img} src={newAvatar ? newAvatar : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} alt={user.username} />
             </div>
             <div className={styles.field}>
               <p>Nome</p>
