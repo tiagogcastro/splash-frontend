@@ -21,7 +21,6 @@ export default function EditNotRegister() {
       name
     })
 
-    console.log(response.data)
   }
 
   return (
