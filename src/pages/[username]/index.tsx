@@ -19,7 +19,7 @@ export default function Perfil({ user, userType, me }) {
     <div className={styles.container}>
       <Header text={user.username} />
       <div className={styles.content}>
-        <img className={styles.img} src={user.avatar ? `http://68.183.97.199/files/${user.avatar}` : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
+        <img alt={user.username} className={styles.img} src={user.avatar ? user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
 
         <div className={styles.text}>
           <h1>{user.name}</h1>
