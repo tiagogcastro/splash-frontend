@@ -37,15 +37,30 @@ export default function Password() {
           <div className={styles.fields}>
             <div className={styles.field}>
               <label htmlFor="password">Senha antiga</label>
-              <input type="password" name="password" placeholder="Sua antiga senha..." value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
+              <input 
+                type="password" 
+                name="password" 
+                placeholder="Sua antiga senha..." 
+                value={oldPassword} 
+                onChange={(e) => setOldPassword(e.target.value)} />
             </div>
             <div className={styles.field}>
               <label htmlFor="password-new">Nova senha</label>
-              <input type="password" name="password-new" placeholder="Sua nova senha..." value={password} onChange={(e) => setPassword(e.target.value)} />
+              <input 
+                type="password" 
+                name="password-new" 
+                placeholder="Sua nova senha..." 
+                value={password} 
+                onChange={(e) => setPassword(e.target.value)} />
             </div>
             <div className={styles.field}>
               <label htmlFor="password-confirmation">Confirmar senha</label>
-              <input type="password" name="password-confirmation" placeholder="Confirmação da senha..." value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+              <input 
+                type="password" 
+                name="password-confirmation" 
+                placeholder="Confirmação da senha..." 
+                value={confirmPassword} 
+                onChange={(e) => setConfirmPassword(e.target.value)} />
             </div>
           </div>
           <div className={styles.buttonConfirmation}>

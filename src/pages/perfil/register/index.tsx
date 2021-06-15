@@ -37,11 +37,21 @@ export default function EditNotRegister({ user }) {
             <div className={styles.fields}>
               <div className={styles.field}>
                 <label htmlFor="name">Nome</label>
-                <input value={name} onChange={(e) => setName(e.target.value)} type="text" name="name" placeholder="Insira seu nome..."/>
+                <input
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  type="text"
+                  name="name"
+                  placeholder="Insira seu nome..." />
               </div>
               <div className={styles.field}>
                 <label htmlFor="username">Username</label>
-                <input value={username} onChange={(e) => setUsername(e.target.value)} type="text" name="username" placeholder="Insira seu username..."/>
+                <input
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  type="text"
+                  name="username"
+                  placeholder="Insira seu username..." />
               </div>
             </div>
             <Button onClick={handleEditProfile}>Confirmar</Button>
