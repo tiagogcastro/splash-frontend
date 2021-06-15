@@ -7,9 +7,11 @@ import { format, formatDistance } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { useAuth } from 'src/hooks/useAuth'
 import { formatPrice } from 'src/utils/formatPrice'
+import { useRouter } from 'next/router'
 
 export default function Home() {
   const {user} = useAuth()
+  const router = useRouter()
 
   const [notifications, setNotifications] = useState([])
   const [totalBalance, setTotalBalance] = useState('')
@@ -39,7 +41,7 @@ export default function Home() {
   
     return (
     <div className={styles.container}>
-        <div className={styles.head}>
+        <div className={styles.head} onClick={() => router.push('/saldo')} >
             <h1>{totalBalance}</h1>
             <span>{withdrawBalance} disponível para saque</span>
         </div>
