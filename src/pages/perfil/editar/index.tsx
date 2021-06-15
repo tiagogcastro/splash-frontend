@@ -38,7 +38,7 @@ export default function Edit({ user }) {
             <div className={styles.field}>
               <p>Email</p>
               <a href={`/perfil/editar/email?email=${user.email}&token=${token}`}>
-                {user.email}
+                {user.email}  
                 <FiChevronRight size={15} color="#8a8a8e" />
               </a>
             </div>

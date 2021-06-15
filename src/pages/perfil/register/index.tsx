@@ -8,6 +8,8 @@ import { useState } from 'react';
 
 export default function EditNotRegister() {
   const {user} = useAuth()
+
+  console.log(user)
   
   const [name, setName] = useState(user.name)
   const [username, setUsername] = useState(user.username)

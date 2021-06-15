@@ -28,6 +28,7 @@
     margin-top: 90px;
     margin-bottom: 50px;
     border-bottom: 1px solid #CCC;
+    position: relative;
 
     div {
       display: flex;
@@ -54,6 +55,19 @@
       &::placeholder {
         color: var(--text-light);
         font-size: 17px;
+      }
+      
+    }
+
+    .alert {
+      display: none;
+      position: absolute;
+      bottom: -23px;
+      color: red;
+      font-style: italic;
+      font-size: .85rem;
+      &.visible {
+        display: block;
       }
     }
 

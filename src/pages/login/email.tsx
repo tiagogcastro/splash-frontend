@@ -3,7 +3,7 @@ import Button from '@components/Button';
 import styles from '@styles/pages/loginEmail.module.scss';
 import { useRouter } from 'next/router';
 import { FormEvent, useContext, useState } from 'react';
-import {useAuth} from '../../hooks/useAuth'
+import { useAuth } from '../../hooks/useAuth'
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
@@ -71,8 +71,8 @@ export default function LoginEmail() {
             </div>
             <div className={styles.field}>
               <input type="password" required placeholder="Digite sua Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-              { errors.password && <div className={[styles.alert, styles.visible].join(" ")}>Mínimo de 8 caracteres</div> }
-              { errors.invalid && <div className={[styles.alert, styles.visible].join(" ")}>E-mail ou senha não estão corretos</div> }
+              { errors.password && <div className={[styles.alert, styles.visible].join(" ")}>{errors.password}</div> }
+              { errors.invalid && <div className={[styles.alert, styles.visible].join(" ")}>{errors.invalid}</div> }
             </div>
           </div>
           
