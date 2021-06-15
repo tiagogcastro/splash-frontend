@@ -20,7 +20,7 @@ export default function RegisterEmail() {
     const response = await api.put('/profile/add-email', {
       email,
       password,
-      confirm_password: confirmPassword
+      password_confirmation: confirmPassword
     })
 
     saveOnCookies(response.data)
