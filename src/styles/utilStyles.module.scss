@@ -1,0 +1,34 @@
+.field {
+  margin-bottom: 45px;
+  position: relative;
+  input, textarea {
+    margin-top: 16px;
+    width: 343px;
+    height: 45px;
+    border: none;
+    border-bottom: 0.5px solid #CCC;
+    margin-bottom: 5px;
+    font-size: 17px;
+    outline: none;
+
+    &::placeholder{
+      color: var(--text-light);
+      font-size: 17px;
+    }
+  }
+
+  textarea {
+    min-height: 150px;
+  }
+  .alert {
+    display: none;
+    position: absolute;
+    bottom: -16px;
+    color: red;
+    font-style: italic;
+    font-size: .85rem;
+    &.visible {
+      display: block;
+    }
+  }
+}

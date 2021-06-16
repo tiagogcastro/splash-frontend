@@ -6,18 +6,18 @@ import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import api from 'src/services/api';
 import Menu from '@components/Menu';
-import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { GetServerSideProps } from 'next';
+import { formatPrice } from 'src/utils/formatPrice';
+import { parseCookies } from 'nookies';
 
 interface Sponsorship {
   amount: number;
   allow_withdrawal: boolean;
   sponsorship_code: string;
 }
-import { withSSRAuth } from 'src/utils/withSSRAuth';
-import { GetServerSideProps } from 'next';
 
-export default function Share() {
-  const { user } = useAuth();
+export default function Share({ user }) {
   const [sponsorship, setSponsorship] = useState<Sponsorship>();
 
   const router = useRouter()
@@ -50,7 +50,7 @@ export default function Share() {
               ? 'Valor permitido para saque' 
               : 'Valor não permitido para saque'}
             </span>
-            <span>Patrocínio de {sponsorship.amount}</span>
+            <span>Patrocínio de {formatPrice(sponsorship.amount)}</span>
             <Link href="/">
               <a>lavimco.com</a>
             </Link>
@@ -65,7 +65,11 @@ export default function Share() {
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  const user = JSON.parse(parseCookies(ctx)["%40Lavimco%3Auser"])
+  
   return {
-    props: {}
+    props: {
+      user
+    }
   }
 })
