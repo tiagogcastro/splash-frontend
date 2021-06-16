@@ -1,8 +1,16 @@
 .container {
+  position: relative;
   margin: 0;
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
+  .button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    margin-top: 10px;
+    border: 0;
+  }
   .head {
     padding: 0 1.5rem;
     padding-bottom: 0.8rem;
