@@ -11,6 +11,8 @@ import getValidationErrors from 'src/utils/getValidationErrors';
 import { GetServerSideProps } from 'next';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 import { parseCookies } from 'nookies';
+import { useRouter } from 'next/router';
+import { useAuth } from 'src/hooks/useAuth';
 
 type FormErrors = {
   name?: string
@@ -19,11 +21,7 @@ type FormErrors = {
 
 export default function EditNotRegister({ user }) {
   const [name, setName] = useState(user.name)
-  const router = useRouter()
-  const {saveOnCookies} = useAuth()
-
   
-  const [name, setName] = useState(user.name ? user.name : '')
   const [username, setUsername] = useState(user.username)
 
   const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
