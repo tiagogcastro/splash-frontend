@@ -27,7 +27,8 @@
 
                 .input {
                     display: flex;
-                    flex-direction: column;       
+                    flex-direction: column;     
+                    position: relative;
                     input {
                         border: none;
                         outline: none;
@@ -39,11 +40,15 @@
                         
                     }
                     .alert {
-                        font-size: .8rem;
-                        margin-top: .5rem;
-                        color: #fb2020;
-                        margin-right: 10px;
-                        font-style: italic;
+                      display: none;
+                      position: absolute;
+                      bottom: -23px;
+                      color: red;
+                      font-style: italic;
+                      font-size: .85rem;
+                      &.visible {
+                        display: block;
+                      }
                     }
                 }
 

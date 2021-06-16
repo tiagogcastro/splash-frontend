@@ -1,18 +1,27 @@
 import styles from '@styles/pages/patrocinar/valor.module.scss'
+import utilStyles from '@styles/utilStyles.module.scss'
 import Header from '@components/Header'
 import Button from '@components/Button'
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import api from 'src/services/api';
-import * as yup from 'yup';
 import { useAuth } from 'src/hooks/useAuth';
 import { GetServerSideProps } from 'next';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
+
+import * as yup from 'yup';
+import getValidationErrors from 'src/utils/getValidationErrors';
+
+type FormErrors = {
+  valueOutOfRange?: string
+}
 
 export default function PatrocinarValor() {
   const {user} = useAuth()
   const route = useRouter();
   const [value, setValue] = useState(1);
+
+  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
 
   function setInputValue(e) {
     let v = parseInt(e.target.value);
@@ -22,14 +31,13 @@ export default function PatrocinarValor() {
       } else {
         setValue(v)
       }
-      
     } else {
       setValue(0)
     }
   }
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-
+  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault()
+      
     try {
       const schema = yup.object().shape({
         value: yup.number().required("Valor obrigatório"),
@@ -40,6 +48,12 @@ export default function PatrocinarValor() {
         value,
         user_recipient_id: route.query.user_id
       }
+        
+       if (value < 1 || value > 500) {
+        let valueOutOfRange = "O valor precisa estar entre R$ 1 e R$ 500";
+
+        throw Error(valueOutOfRange);
+       }
 
       await schema.validate(data, {
         abortEarly: false,
@@ -57,8 +71,17 @@ export default function PatrocinarValor() {
       });
 
       route.push('/dashboard');
-    } catch(e) {
-      // fazer a validaçao do input
+    } catch (err) {
+      if (err instanceof yup.ValidationError) {
+        const errs = getValidationErrors(err)
+
+        setErrors(errs)
+
+        console.log(errors)
+
+        return;
+      }
+      setErrors({valueOutOfRange: err.message})
     }
   }
 
@@ -78,9 +101,7 @@ export default function PatrocinarValor() {
                 type="number"
                 pattern="[0-9]"
               />
-              <div className={styles.alert}>
-                * valor máximo de R$ 500
-              </div>
+              { errors.valueOutOfRange && <div className={[styles.alert, styles.visible].join(" ")}>{ errors.valueOutOfRange }</div> }
             </div>
 
           </div>

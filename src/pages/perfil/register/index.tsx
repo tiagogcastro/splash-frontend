@@ -19,6 +19,11 @@ type FormErrors = {
 
 export default function EditNotRegister({ user }) {
   const [name, setName] = useState(user.name)
+  const router = useRouter()
+  const {saveOnCookies} = useAuth()
+
+  
+  const [name, setName] = useState(user.name ? user.name : '')
   const [username, setUsername] = useState(user.username)
 
   const [errors, setErrors] = useState<FormErrors>({} as FormErrors)

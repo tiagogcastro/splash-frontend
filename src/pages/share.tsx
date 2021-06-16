@@ -10,6 +10,9 @@ import { withSSRAuth } from 'src/utils/withSSRAuth';
 import { GetServerSideProps } from 'next';
 import { formatPrice } from 'src/utils/formatPrice';
 import { parseCookies } from 'nookies';
+import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import { GetServerSideProps } from 'next';
 
 interface Sponsorship {
   amount: number;
