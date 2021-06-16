@@ -3,12 +3,19 @@ import Button from '@components/Button';
 import styles from '@styles/pages/signup.module.scss';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { useState } from 'react';
 import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 export default function LoginNumber() {
   const [accepted, setAccepted] = useState(false)
-  const [sponsorship_code, setSponsorship_code] = useState('')
+  const [sponsorship_code, setSponsorship_code] = useState<string>()
+
+  const router = useRouter();
+  const sponsorship_code_params = String(router.query.sponsorship_code);
+  
+  setSponsorship_code(sponsorship_code_params);
 
   return (
     <>
@@ -19,7 +26,7 @@ export default function LoginNumber() {
 
           <span><strong>Lavimco</strong><br/>Faça login ou crie uma conta para inicar </span>
 
-          <input value={sponsorship_code} onChange={(e) => setSponsorship_code(e.target.value)} type="text" placeholder="Digite seu codigo de patrocinio"/>
+          <input defaultValue={sponsorship_code_params} onChange={(e) => setSponsorship_code(e.target.value)} type="text" placeholder="Digite seu codigo de patrocinio"/>
 
           { accepted ? (
             <Button url={`/signup/phone?sponsorship_code=${sponsorship_code}`}>Continue com WhatsApp</Button>
