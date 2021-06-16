@@ -8,9 +8,11 @@ import ptBR from 'date-fns/locale/pt-BR'
 import { useAuth } from 'src/hooks/useAuth'
 import { formatPrice } from 'src/utils/formatPrice'
 import { useRouter } from 'next/router'
+import { GetServerSideProps } from 'next'
+import { withSSRAuth } from 'src/utils/withSSRAuth'
 
 export default function Home() {
-  const {user} = useAuth()
+  const {user, signOut} = useAuth()
   const router = useRouter()
 
   const [notifications, setNotifications] = useState([])
@@ -38,6 +40,12 @@ export default function Home() {
   
     return (
     <div className={styles.container}>
+        <button onClick={() => {
+            signOut()
+            router.push('/')
+        }}>
+            signOut
+        </button>
         <div className={styles.head} onClick={() => router.push('/saldo')} >
             <h1>{totalBalance}</h1>
             <span>{withdrawBalance} disponível para saque</span>
@@ -45,8 +53,8 @@ export default function Home() {
         <div className={styles.content}>
             <ul className={styles.userList}>
                 { notifications.map(notification => (
-                <a href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
-                    <li key={notification.id} className={styles.user}>
+                <a key={notification.id} href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
+                    <li className={styles.user}>
                         <div className={styles.first}>
                             <img src={notification.sender.avatar_url ? notification.sender.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
                                 className={styles.img}></img>
@@ -68,3 +76,9 @@ export default function Home() {
     </div>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+    return {
+      props: {}
+    }
+})

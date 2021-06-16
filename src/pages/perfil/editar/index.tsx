@@ -8,9 +8,9 @@ import { parseCookies } from 'nookies';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useRef } from 'react';
-import { useEffect } from 'react';
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Edit({ user }) {
   const {query} = useRouter()
@@ -48,7 +48,7 @@ export default function Edit({ user }) {
   return (
     <>
       <div className={styles.container} onClick={handleClick}>
-        <Header text="Editar perfil" />
+        <Header backURL={`/${user.username}`} text="Editar perfil" />
         <div className={styles.content}>
           <div className={styles.fields}>
             <div className={styles.avatar} ref={cameraRef}>
@@ -106,7 +106,7 @@ export default function Edit({ user }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {
   const user = JSON.parse(parseCookies(context)["%40Lavimco%3Auser"])
 
   return {
@@ -114,4 +114,4 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
       user,
     }
   }
-}
+})

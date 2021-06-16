@@ -1,7 +1,9 @@
 import Button from '@components/Button';
 
 import styles from '@styles/pages/login.module.scss';
+import { GetServerSideProps } from 'next';
 import Link from 'next/link';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 export default function Login() {
   return (
@@ -29,3 +31,9 @@ export default function Login() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

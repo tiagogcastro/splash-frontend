@@ -1,11 +1,13 @@
 import styles from '@styles/pages/patrocinar/valor.module.scss'
 import Header from '@components/Header'
 import Button from '@components/Button'
-import { useState, useEffect, FormEvent } from 'react';
+import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/router';
 import api from 'src/services/api';
 import * as yup from 'yup';
 import { useAuth } from 'src/hooks/useAuth';
+import { GetServerSideProps } from 'next';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function PatrocinarValor() {
   const {user} = useAuth()
@@ -30,24 +32,31 @@ export default function PatrocinarValor() {
 
     try {
       const schema = yup.object().shape({
-        value: yup.number().required("Valor obrigatório")
+        value: yup.number().required("Valor obrigatório"),
+        user_recipient_id: yup.string(),
       });
 
       const data = {
-        value
+        value,
+        user_recipient_id: ''
       }
 
       await schema.validate(data, {
         abortEarly: false,
       });
 
+      if(!data.user_recipient_id) {
+        route.push(`/share?value=${value}`);
+        return;
+      }
+      
       api.post('/sponsorships', {
         user_recipient_id: route.query.user_id || null,
         allow_withdrawal_balance: user.role === 'shop',
         amount: value
       });
-      
-      route.push('/dashboard')
+
+      route.push('/dashboard');
     } catch(e) {
       // fazer a validaçao do input
     }
@@ -84,3 +93,9 @@ export default function PatrocinarValor() {
     </div>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

@@ -7,6 +7,7 @@ import { GetServerSideProps } from 'next';
 import { format, formatDistance } from 'date-fns';
 import ptBR from 'date-fns/locale/pt-BR';
 import {FaArrowAltCircleDown, FaArrowAltCircleUp} from 'react-icons/fa'
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Patrocinios({ sender_id }) {
   const router = useRouter();
@@ -49,7 +50,7 @@ export default function Patrocinios({ sender_id }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
     const { sender_id } = query
 
     return {
@@ -57,4 +58,4 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
             sender_id
         }
     }
-}
+})

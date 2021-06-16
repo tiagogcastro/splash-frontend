@@ -7,6 +7,8 @@ import {useAuth} from '../../hooks/useAuth'
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
+import { GetServerSideProps } from 'next';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 type FormErrors = {
   email?: string
@@ -86,3 +88,9 @@ export default function LoginEmail() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRGuest(async (ctx) => {
+  return {
+    props: {}
+  }
+})

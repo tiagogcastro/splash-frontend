@@ -6,6 +6,8 @@ import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import api from 'src/services/api';
+import { GetServerSideProps } from 'next';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Password() {
   const {saveOnCookies} = useAuth()
@@ -69,3 +71,9 @@ export default function Password() {
     </>
   )
 }
+
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  return {
+    props: {}
+  }
+})

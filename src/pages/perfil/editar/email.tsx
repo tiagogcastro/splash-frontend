@@ -7,6 +7,7 @@ import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import api from 'src/services/api';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Email({ email, token }) {
   const {saveOnCookies} = useAuth()
@@ -55,7 +56,7 @@ export default function Email({ email, token }) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async ({ query }) => {
+export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
   const email = query.email
   const token = query.token
 
@@ -65,4 +66,4 @@ export const getServerSideProps: GetServerSideProps = async ({ query }) => {
       token
     }
   }
-}
+})
