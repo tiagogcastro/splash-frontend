@@ -36,8 +36,9 @@ export default function Share() {
   return (
     <>
       <div className={styles.container}>
+        {!sponsorship || !user.name ? (<p>Carregando...</p>) : (
+        <>
         <Header text={user.name} />
-        {!sponsorship ? (<p>Carregando...</p>) : 
         <div className={styles.content}>
           <div className={styles.img}>
             <img src="/qrcode.png" alt="" />
@@ -56,7 +57,8 @@ export default function Share() {
             </Link>
           </div>
         </div>
-        }
+        </>
+        )}
         <Menu page="newSponsor" />
       </div>
     </>
