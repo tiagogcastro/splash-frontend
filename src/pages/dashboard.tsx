@@ -48,7 +48,8 @@ export default function Home() {
                 <a href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
                     <li key={notification.id} className={styles.user}>
                         <div className={styles.first}>
-                            <img src={notification.sender.avatar_url ? notification.sender.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} className={styles.img}></img>
+                            <img src={notification.sender.avatar_url ? notification.sender.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
+                                className={styles.img}></img>
                             <div className={styles.text}>
                                 <h2>{notification.sender.username === user.username ? 'Eu' : notification.sender.username}</h2>
                                 <span>{notification.content}</span>

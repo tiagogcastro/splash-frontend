@@ -1,105 +1,102 @@
 .container {
-    margin: 0;
-    max-width: 400px;
-    margin-left: auto;
-    margin-right: auto;
-    .head {
-        padding: 0 1.5rem;
-        padding-bottom: 0.8rem;
+  margin: 0;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  .head {
+    padding: 0 1.5rem;
+    padding-bottom: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 120px;
+    border-bottom: 1px solid var(--border);
+    h1 {
+      margin: 0;
+      color: #008000;
+      margin-bottom: 0.4rem;
+      font-size: 34px;
+    }
+    span {
+      color: var(--text-light);
+      font-size: 12px;
+    }
+  }
+  .content {
+    padding-top: 0.5rem;
+    .userList {
+      margin: 0;
+      padding: 0;
+
+      a {
         display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        height: 120px;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .user {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        list-style: none;
+        //margin: 0 1.5rem;
+        padding: 1rem 0;
+        margin: 0 1rem;
         border-bottom: 1px solid var(--border);
-        h1 {
-            margin: 0;
-            color: #008000;
-            margin-bottom: 0.4rem;
-            font-size: 34px;
+        height: 80px;
+
+        .first {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          .img {
+            height: 48px;
+            width: 48px;
+            border-radius: 100%;
+            background-color: var(--border);
+            margin-right: 1rem;
+          }
+          .text {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            h2 {
+              margin: 0;
+              font-size: 15px;
+              color: var(--text);
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: 160px;
+            }
+            span {
+              font-size: 13px;
+              color: var(--text-light);
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              width: 160px;
+              height: 15px;
+            }
+          }
         }
-        span {
-            color: var(--text-light);
+        .second {
+          display: flex;
+          align-items: center;
+          span {
             font-size: 12px;
-        }
-    }
-    .content {
-        padding-top: 0.5rem;
-        .userList {
-            margin: 0;
-            padding: 0;
-
-            a {
-                display: flex;
-                align-items: center;
+            text-align: end;
+            &:first-child {
+              color: var(--text-light);
+              margin-right: 1px;
             }
-            
-            .user {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
-                list-style: none;
-                margin: 0 1.5rem;
-                padding: 1rem 0;
-                border-bottom: 1px solid var(--border);
-                height: 80px;
-                .first {
-                    display: flex;
-                    flex-direction: row;
-                    align-items: center;
-                    .img {
-                        height: 48px;
-                        width: 48px;
-                        border-radius: 100%;
-                        background-color: var(--border);
-                        margin-right: 1rem;
-                    }
-                    .text {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        h2 {
-                            margin: 0;
-                            font-size: 15px;
-                            color: var(--text);
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            width: 160px;
-                        }
-                        span {
-                            font-size: 13px;
-                            color: var(--text-light);
-                            white-space: nowrap;
-                            overflow: hidden;
-                            text-overflow: ellipsis;
-                            width: 160px;
-                            height: 15px;
-                        }
-                    }
-                }
-                .second {
-                
-                    span {
-                        font-size: 12px;
-                        text-align: end;
-                        &:first-child {
-                            color: var(--text-light);
-                            margin-right: 1px;
-                        }
 
-                        &.icon {
-                            position: relative;
-                                
-                            svg {
-                                position: absolute;
-                                top: 3px;
-                                right: 3px;
-                            }
-                        }
-
-                    }
-                }
+            &.icon {
+              position: relative;
             }
+          }
         }
+      }
     }
+  }
 }
