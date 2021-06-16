@@ -10,12 +10,16 @@ import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 export default function LoginNumber() {
   const [accepted, setAccepted] = useState(false)
-  const [sponsorship_code, setSponsorship_code] = useState<string>()
+  const [sponsorship_code, setSponsorshipCode] = useState<string>()
 
   const router = useRouter();
-  const sponsorship_code_params = String(router.query.sponsorship_code);
+  const paramsSponsorshipCode = router.query.sponsorship_code;
   
-  setSponsorship_code(sponsorship_code_params);
+  useEffect(() => {
+    if(typeof paramsSponsorshipCode === 'string') {
+      setSponsorshipCode(paramsSponsorshipCode);
+    }
+  }, [])
 
   return (
     <>
@@ -26,7 +30,7 @@ export default function LoginNumber() {
 
           <span><strong>Lavimco</strong><br/>Faça login ou crie uma conta para inicar </span>
 
-          <input defaultValue={sponsorship_code_params} onChange={(e) => setSponsorship_code(e.target.value)} type="text" placeholder="Digite seu codigo de patrocinio"/>
+          <input defaultValue={paramsSponsorshipCode} onChange={(e) => setSponsorshipCode(e.target.value)} type="text" placeholder="Digite seu codigo de patrocinio"/>
 
           { accepted ? (
             <Button url={`/signup/phone?sponsorship_code=${sponsorship_code}`}>Continue com WhatsApp</Button>
