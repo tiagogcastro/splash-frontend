@@ -2,7 +2,7 @@ import styles from '@styles/pages/Home.module.scss'
 import Menu from '@components/Menu'
 import { useEffect, useState } from 'react'
 import api from 'src/services/api'
-import { FiChevronRight  } from 'react-icons/fi'
+import { FiChevronRight, FiPower  } from 'react-icons/fi'
 import { format, formatDistance } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { useAuth } from 'src/hooks/useAuth'
@@ -40,11 +40,11 @@ export default function Home() {
   
     return (
     <div className={styles.container}>
-        <button onClick={() => {
+        <button className={styles.button} onClick={() => {
             signOut()
             router.push('/')
         }}>
-            signOut
+            <FiPower size={20} color="#4b4b5c"/>
         </button>
         <div className={styles.head} onClick={() => router.push('/saldo')} >
             <h1>{totalBalance}</h1>
@@ -56,7 +56,8 @@ export default function Home() {
                 <a key={notification.id} href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
                     <li className={styles.user}>
                         <div className={styles.first}>
-                            <img src={notification.sender.avatar_url ? notification.sender.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} className={styles.img}></img>
+                            <img src={notification.sender.avatar_url ? notification.sender.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
+                                className={styles.img}></img>
                             <div className={styles.text}>
                                 <h2>{notification.sender.username === user.username ? 'Eu' : notification.sender.username}</h2>
                                 <span>{notification.content}</span>

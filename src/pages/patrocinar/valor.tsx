@@ -46,7 +46,7 @@ export default function PatrocinarValor() {
 
       const data = {
         value,
-        user_recipient_id: ''
+        user_recipient_id: route.query.user_id
       }
         
        if (value < 1 || value > 500) {
@@ -59,13 +59,13 @@ export default function PatrocinarValor() {
         abortEarly: false,
       });
       
-        if(!data.user_recipient_id) {
+      if(!data.user_recipient_id) {
         route.push(`/share?value=${value}`);
         return;
       }
       
       api.post('/sponsorships', {
-        user_recipient_id: route.query.user_id || null,
+        user_recipient_id: route.query.user_id,
         allow_withdrawal_balance: user.role === 'shop',
         amount: value
       });

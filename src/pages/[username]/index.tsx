@@ -10,6 +10,7 @@ import {parseCookies} from 'nookies'
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
+import Link from 'next/link';
 
 export default function Perfil({ user, userType, me }) {
   const [isSponsoring, setIsSponsoring] = useState(false)
@@ -43,14 +44,18 @@ export default function Perfil({ user, userType, me }) {
         </div>
 
         <div className={styles.statistics}>
-          <div className={styles.stat}>
-            <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsor_count}</span>
-            <span className={styles.text}>patrocinadores</span>
-          </div>
-          <div className={styles.stat}>
-            <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsored_count}</span>
-            <span className={styles.text}>patrocinando</span>
-          </div>
+          <Link href={`/${user.username}/patrocinadores`}>
+            <div className={styles.stat}>
+              <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsor_count}</span>
+              <span className={styles.text}>patrocinadores</span>
+            </div>
+          </Link>
+          <Link href={`/${user.username}/patrocinados`}>
+            <div className={styles.stat}>
+              <span className={styles.number}>{user.user_sponsor_sponsored_count.sponsored_count}</span>
+              <span className={styles.text}>patrocinando</span>
+            </div>
+          </Link>
         </div>
 
         { userType === "shop-me" ? ( 
@@ -62,9 +67,9 @@ export default function Perfil({ user, userType, me }) {
         ) : userType === "shop" && !isSponsoring ? (
           <Button>Copatrocinar</Button>
         ) : userType === "user" && isSponsoring ? (
-          <Button url="/patrocinar/valor">Patrocinando</Button> 
+          <Button url={`/patrocinar/valor?user_id=${user.id}`}>Patrocinando</Button> 
         ) : userType === "user" && !isSponsoring && (
-          <Button url="/patrocinar/valor">Patrocinar</Button> 
+          <Button url={`/patrocinar/valor?user_id=${user.id}`}>Patrocinar</Button> 
         ) }
 
       </div>

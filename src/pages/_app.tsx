@@ -7,6 +7,7 @@ function MyApp({ Component, pageProps }) {
     <AuthProvider>
       <Head>
         <title>Lavimco</title>
+        
       </Head>
         
       <Component {...pageProps} />

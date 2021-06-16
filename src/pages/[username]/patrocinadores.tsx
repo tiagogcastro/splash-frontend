@@ -17,7 +17,7 @@ export default function Patrocinadores({ user }) {
   useEffect(() => {
     api.get(`/sponsors/sponsoring/${user.id}`).then(response => {
       let responseSponsorings = response.data;
-      
+
       setSponsorings(responseSponsorings)
     })
   }, [])
@@ -41,12 +41,12 @@ export default function Patrocinadores({ user }) {
                     <img alt={user.username} className={styles.img} src={user.avatar ? user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
                   </div>
                   <div className={styles.text}>
-                      <h2>{sponsoring.sponsored.name}</h2>
-                      <span>@{sponsoring.sponsored.username}</span>
+                      <h2>{sponsoring.sponsor.name}</h2>
+                      <span>@{sponsoring.sponsor.username}</span>
                   </div>
               </div>
               <div className={styles.second}>
-                <Link href={`/${sponsoring.sponsored.username}`}>
+                <Link href={`/${sponsoring.sponsor.username}`}>
                   <a>
                     <span>Perfil</span>
                     <FiChevronRight size={15} color="#8a8a8e" />

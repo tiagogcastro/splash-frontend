@@ -1,11 +1,12 @@
 import Header from '@components/Header';
 import Link from 'next/link'
-
 import styles from '@styles/pages/share.module.scss'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import api from 'src/services/api';
 import Menu from '@components/Menu';
+import { formatPrice } from 'src/utils/formatPrice';
+import { parseCookies } from 'nookies';
 import { useAuth } from 'src/hooks/useAuth';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 import { GetServerSideProps } from 'next';
@@ -16,10 +17,8 @@ interface Sponsorship {
   sponsorship_code: string;
 }
 
-export default function Share() {
-  const { user } = useAuth();
+export default function Share({ user }) {
   const [sponsorship, setSponsorship] = useState<Sponsorship>();
-  console.log(sponsorship);
 
   const router = useRouter()
   const value = router.query.value;
@@ -31,16 +30,17 @@ export default function Share() {
     }).then(response => {
       setSponsorship(response.data);
     });
-  }, [value]);
+  }, []);
 
   return (
     <>
       <div className={styles.container}>
+        {!sponsorship || !user.name ? (<p>Carregando...</p>) : (
+        <>
         <Header text={user.name} />
-        {!sponsorship ? (<p>Carregando...</p>) : 
         <div className={styles.content}>
           <div className={styles.img}>
-            <img src="/qrcode.png" alt="" />
+          <img src={`https://api.lavimco.com/users/qrcode?sponsorship_code=${sponsorship.sponsorship_code}`} alt="Imagem do QrCode" />
           </div>
 
           <div className={styles.text}>
@@ -50,13 +50,14 @@ export default function Share() {
               ? 'Valor permitido para saque' 
               : 'Valor não permitido para saque'}
             </span>
-            <span>Patrocínio de {sponsorship.amount}</span>
+            <span>Patrocínio de {formatPrice(sponsorship.amount)}</span>
             <Link href="/">
               <a>lavimco.com</a>
             </Link>
           </div>
         </div>
-        }
+        </>
+        )}
         <Menu page="newSponsor" />
       </div>
     </>
@@ -64,7 +65,11 @@ export default function Share() {
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
+  const user = JSON.parse(parseCookies(ctx)["%40Lavimco%3Auser"])
+  
   return {
-    props: {}
+    props: {
+      user
+    }
   }
 })

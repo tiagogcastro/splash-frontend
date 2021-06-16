@@ -56,27 +56,30 @@
                             justify-content: center;
                             height: 100%;
                             h2 {
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                max-width: 100px;
                                 margin: 0;
                                 font-size: 15px;
                                 color: var(--text);
                             }
                             span {
+                                text-overflow: ellipsis;
+                                overflow: hidden;
+                                max-width: 100px;
                                 font-size: 13px;
                                 color: var(--text-light);
                             }
                         }
                     }
                     .second {
-                        a {
-                            button {
-                                border-radius: 6px;
-                                border: 1px solid var(--text);
-                                background: none;
-                                padding: 0.5rem;
-                                color: var(--text);
-                                font-weight: 700;
-                                font-size: 12px;
-                            }
+                        button {
+                            border: 1px solid var(--text);
+                            background: none;
+                            padding: 0 1rem;
+                            color: var(--text);
+                            font-weight: 700;
+                            font-size: 13px;
                         }
                     }
                 }

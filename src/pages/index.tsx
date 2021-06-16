@@ -19,7 +19,7 @@ export default function Login() {
           </span>
 
           <Button url="/login/phone">Continue com WhatsApp</Button>
-          <Button url="/login/email">Use e-mail ou nome de usuario</Button>
+          <Button url="/login/email">Continue com E-mail</Button>
       </div>
 
       <div className={styles.links}>
