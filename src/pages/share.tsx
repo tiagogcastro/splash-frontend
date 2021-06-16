@@ -1,13 +1,10 @@
 import Header from '@components/Header';
 import Link from 'next/link'
-
 import styles from '@styles/pages/share.module.scss'
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import api from 'src/services/api';
 import Menu from '@components/Menu';
-import { withSSRAuth } from 'src/utils/withSSRAuth';
-import { GetServerSideProps } from 'next';
 import { formatPrice } from 'src/utils/formatPrice';
 import { parseCookies } from 'nookies';
 import { useAuth } from 'src/hooks/useAuth';
