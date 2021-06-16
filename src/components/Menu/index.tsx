@@ -33,7 +33,9 @@ const Menu: React.FC<MenuProps> = ({ page }) => {
         </Link>
         <Link href="/patrocinar">
           <a>
-            <button><img src="/icons/plus_gray.png" alt="Ícone de Adicionar" /></button>
+            <button>
+              <img src={page === 'newSponsor' ? "/icons/plus_gray.png" : "/icons/plus_gray.png"} alt="Ícone de Adicionar" />
+            </button>
           </a>
         </Link>
         <Link href={`/${me.username}`}>
