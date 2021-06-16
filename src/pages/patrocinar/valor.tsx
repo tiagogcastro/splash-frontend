@@ -38,20 +38,20 @@ export default function PatrocinarValor() {
 
       const data = {
         value,
-        user_recipient_id: ''
+        user_recipient_id: route.query.user_id
       }
 
       await schema.validate(data, {
         abortEarly: false,
       });
-
+      
       if(!data.user_recipient_id) {
         route.push(`/share?value=${value}`);
         return;
       }
       
       api.post('/sponsorships', {
-        user_recipient_id: route.query.user_id || null,
+        user_recipient_id: route.query.user_id,
         allow_withdrawal_balance: user.role === 'shop',
         amount: value
       });
