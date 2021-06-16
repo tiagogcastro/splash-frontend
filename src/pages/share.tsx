@@ -19,7 +19,6 @@ import { GetServerSideProps } from 'next';
 export default function Share() {
   const { user } = useAuth();
   const [sponsorship, setSponsorship] = useState<Sponsorship>();
-  console.log(sponsorship);
 
   const router = useRouter()
   const value = router.query.value;
@@ -31,7 +30,7 @@ export default function Share() {
     }).then(response => {
       setSponsorship(response.data);
     });
-  }, [value]);
+  }, []);
 
   return (
     <>
@@ -41,7 +40,7 @@ export default function Share() {
         <Header text={user.name} />
         <div className={styles.content}>
           <div className={styles.img}>
-            <img src="/qrcode.png" alt="" />
+          <img src={`https://api.lavimco.com/users/qrcode?sponsorship_code=${sponsorship.sponsorship_code}`} alt="Imagem do QrCode" />
           </div>
 
           <div className={styles.text}>
