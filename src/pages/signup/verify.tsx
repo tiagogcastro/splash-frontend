@@ -21,19 +21,17 @@ export default function signUpVerification() {
     e.preventDefault()
 
     const response = await api.post(`/users/sms`, {
-      verification_code: code,
-      terms: true,
-      sponsorship_code,
-      password
-    }, {
-      params: {
-        userPhone: `${phoneNumber}`
-      }
-    })
+        terms: true,
+        sponsorship_code,
+        phone_number: phoneNumber,
+        verification_code: code,
+        password,
+      })
 
     saveOnCookies(response.data)
 
     router.push('/dashboard')
+    
   }
   
   return (
@@ -41,7 +39,7 @@ export default function signUpVerification() {
       <form onSubmit={(e) => handleSendVerificationCode(e)} className={styles.container}>
         <Header text="Verificação"></Header>
 
-          <span>Para finalizar, insira o código de verificação e sua senha</span>
+          <span>Para finalizar, insira o código de verificação</span>
 
           <input type="text" placeholder="Código" value={code} onChange={(e) => setCode(e.target.value)}/>
 
