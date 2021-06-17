@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
 import { GetServerSideProps } from 'next';
 import { withSSRGuest } from 'src/utils/withSSRGuest';
+import Link from 'next/link';
 
 type FormErrors = {
   email?: string
@@ -83,7 +84,9 @@ export default function LoginEmail() {
 
       <div className={styles.links}>
         <span>Ainda não tem uma conta?</span>
-        <a>Cadastrar-se</a>
+        <Link href="/signup">
+          Cadastrar-se
+        </Link>
       </div>
     </>
   )

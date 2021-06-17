@@ -25,16 +25,14 @@ export default function Login() {
       <div className={styles.links}>
         <span>Ainda não tem uma conta?</span>
         <Link href="/signup">
-          <a>Cadastrar-se</a>
+          Cadastrar-se
         </Link>
       </div>
       <footer className={styles.footer}>
         <strong>Lavimco Tecnologia Ltda</strong> 
         <p>
-        Rua Sader Macul, nº 96, <strong>São Paulo/SP</strong> - CEP: 04543-907 | CNPJ: 35.576.012/0001-43
+          Rua Sader Macul, nº 96, <strong>São Paulo/SP</strong> - CEP: 04543-907 | CNPJ: 35.576.012/0001-43
         </p>
-      
-
       </footer>
     </>
   )

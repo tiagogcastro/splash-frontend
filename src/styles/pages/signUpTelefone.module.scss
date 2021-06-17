@@ -6,6 +6,7 @@
 }
 
 .container {
+  padding: 0 3%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -35,7 +36,8 @@
     }
     
     h4 {
-      font-size: 17px;
+      white-space: nowrap;
+      font-size: 12px;
       font-weight: bold;
     }
 
@@ -49,12 +51,12 @@
       height: 45px;
       border: none;
       outline: none;
-      font-size: 17px;
+      font-size: 12px;
       margin: auto 0;
 
       &::placeholder {
         color: var(--text-light);
-        font-size: 17px;
+        font-size: 12px;
       }
       
     }
@@ -77,7 +79,6 @@
     width: 100%;
     max-width: 343px;
     display: flex;
-    // margin-top: 90px;
     margin-bottom: 50px;
     border-bottom: 1px solid #CCC;
 
@@ -85,12 +86,12 @@
       height: 45px;
       border: none;
       outline: none;
-      font-size: 17px;
+      font-size: 12px;
       margin: auto 0;
 
       &::placeholder {
         color: var(--text-light);
-        font-size: 17px;
+        font-size: 12px;
       }
   }
 }

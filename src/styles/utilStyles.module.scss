@@ -1,9 +1,12 @@
 .field {
   margin-bottom: 45px;
+  width: 100%;
   position: relative;
+  text-align: center;
   input, textarea {
     margin-top: 16px;
-    width: 343px;
+    width: 100%;
+    max-width: 343px;
     height: 45px;
     border: none;
     border-bottom: 0.5px solid #CCC;
@@ -13,7 +16,7 @@
 
     &::placeholder{
       color: var(--text-light);
-      font-size: 17px;
+      font-size: 12px;
     }
   }
 
