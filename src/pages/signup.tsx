@@ -10,7 +10,7 @@ import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 export default function LoginNumber() {
   const [accepted, setAccepted] = useState(false)
-  const [sponsorship_code, setSponsorshipCode] = useState<string>()
+  const [sponsorshipCode, setSponsorshipCode] = useState<string>('')
 
   const router = useRouter();
   const paramsSponsorshipCode = router.query.sponsorship_code;
@@ -20,7 +20,7 @@ export default function LoginNumber() {
       setSponsorshipCode(paramsSponsorshipCode);
     }
   }, [])
-
+  
   return (
     <>
       <div className={styles.container}>
@@ -28,15 +28,26 @@ export default function LoginNumber() {
             <img src="/logo.png" alt="Logo" />
           </div>
 
-          <span><strong>Lavimco</strong><br/>Faça login ou crie uma conta para inicar </span>
+          <span>
+            <strong>Lavimco</strong>
+            <br/>
+            Faça login ou crie uma conta para iniciar 
+          </span>
 
-          <input defaultValue={paramsSponsorshipCode} onChange={(e) => setSponsorshipCode(e.target.value)} type="text" placeholder="Digite seu codigo de patrocinio"/>
+          <input 
+            defaultValue={paramsSponsorshipCode} 
+            onChange={(e) => setSponsorshipCode(e.target.value)} 
+            type="text" 
+            placeholder="Digite seu codigo de patrocinio"
+          />
 
-          { accepted ? (
-            <Button url={`/signup/phone?sponsorship_code=${sponsorship_code}`}>Continue com WhatsApp</Button>
-          ) : (
-            <Button>Aceite os termos para continuar</Button>
-          ) }
+          {sponsorshipCode.length < 6 || sponsorshipCode?.length > 6 ? <Button style={{fontSize: 13}}>Você precisa informar um código de patrocínio válido</Button>: (
+            accepted ? (
+              <Button url={`/signup/phone?sponsorship_code=${sponsorshipCode}`}>Continue com WhatsApp</Button>
+            ) : (
+              <Button>Aceite os termos para continuar</Button>
+            ) 
+          )}
       </div>
 
       <div className={styles.terms}>

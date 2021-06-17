@@ -1,12 +1,12 @@
 import Button from '@components/Button';
 import Header from '@components/Header';
-
 import styles from '@styles/pages/signUpTelefone.module.scss';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import api from 'src/services/api';
 import { withSSRGuest } from 'src/utils/withSSRGuest';
+
 
 export default function signUpTelefone() {
   const router = useRouter()
@@ -30,7 +30,9 @@ export default function signUpTelefone() {
       }
     })
   }
-
+  
+  const phoneValidation = userPhone.length < 8 || userPhone.length > 15
+  
   return (
     <>
       <form onSubmit={(e) => handleSendCode(e)} className={styles.container}>
@@ -49,8 +51,13 @@ export default function signUpTelefone() {
                 onChange={(e) => setUserPhone(e.target.value)} />
             </div>
           </div>
-
-          <Button type="submit">Enviar Código</Button>
+          {
+            phoneValidation ?
+            <Button type="button" style={{fontSize: 12}}>Você precisa informar um número de telefone válido</Button> :
+            <Button type="submit">Enviar Código</Button> 
+            
+          }
+          
       </form>
     </>
   )
