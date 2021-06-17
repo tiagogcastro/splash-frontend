@@ -21,19 +21,17 @@ export default function signUpVerification() {
     e.preventDefault()
 
     const response = await api.post(`/users/sms`, {
-      verification_code: code,
-      terms: true,
-      sponsorship_code,
-      password
-    }, {
-      params: {
-        userPhone: `${phoneNumber}`
-      }
-    })
+        terms: true,
+        sponsorship_code,
+        phone_number: phoneNumber,
+        verification_code: code,
+        password,
+      })
 
     saveOnCookies(response.data)
 
     router.push('/dashboard')
+    
   }
   
   return (
