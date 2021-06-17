@@ -7,7 +7,6 @@ import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 import { FormEvent, useState } from 'react';
 import { useAuth } from 'src/hooks/useAuth';
-import api from 'src/services/api';
 import { withSSRGuest } from 'src/utils/withSSRGuest';
 
 import * as yup from 'yup';

@@ -3,8 +3,6 @@ import Button from '@components/Button';
 import utilStyles from '@styles/utilStyles.module.scss';
 
 import styles from '@styles/pages/perfil/editar.module.scss';
-import utilStyles from '@styles/utilStyles.module.scss';
-import { useState } from 'react';
 import { FormEvent, useState } from 'react';
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
@@ -17,7 +15,6 @@ import getValidationErrors from 'src/utils/getValidationErrors';
 
 type FormErrors = {
   email?: string,
-  password?: string,
   confirmPassword?: string,
   password?: string,
   invalid?: string,
@@ -188,6 +185,7 @@ export default function RegisterEmail() {
       </div>
     </>
   )
+  }
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
