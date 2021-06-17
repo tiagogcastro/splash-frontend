@@ -13,7 +13,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 60px;
+  padding: 0 3%;
 
   span{
     text-align: center;
@@ -26,17 +27,14 @@
   }
 
   .inputs{
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     margin-top: 100px;
-
+    width: 100%;
     .field {
+      text-align: center;
       margin-bottom: 10px;
       input {
-        width: 343px;
+        width: 100%;
+        max-width: 343px;
         height: 45px;
         border: none;
         border-bottom: 0.5px solid #000;
@@ -46,7 +44,7 @@
     
         &::placeholder{
           color: var(--text-light);
-          font-size: 17px;
+          font-size: 12px;
         }
   
         &:last-child {
@@ -55,9 +53,9 @@
       }
       .alert {
         display: none;
-        color: red;
-        font-style: italic;
-        font-size: .85rem;
+        font-weight: bold;
+        color: rgb(250, 78, 78);
+        font-size: 12px;
         &.visible {
           display: block;
         }
@@ -73,16 +71,16 @@
   align-items: center;
   justify-content: center;
 
-  margin-top: 150px;
+  margin-top: 50px;
   margin-bottom: 40px;
 
   span{
     color: var(--text-light);
-    font-size:17px;
+    font-size:12px;
   }
   a {
     color: var(--text);
-    font-size:17px;
+    font-size:12px;
     margin-left: 4px;
   }
 }

@@ -41,8 +41,12 @@ export default function signUpTelefone() {
           <div className={styles.inputs}>
             <div>
               <h4>BR +55</h4>
-              <hr />
-              <input type="tel" placeholder="Número do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
+              <hr /> 
+              <input 
+                type="tel" 
+                placeholder="Número do telefone" 
+                value={userPhone} 
+                onChange={(e) => setUserPhone(e.target.value)} />
             </div>
           </div>
 
