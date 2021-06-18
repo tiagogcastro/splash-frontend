@@ -1,20 +1,60 @@
 import Button from '@components/Button';
-
+import Input from '@components/Input';
 import styles from '@styles/pages/signup.module.scss';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { withSSRGuest } from 'src/utils/withSSRGuest';
+import * as yup from 'yup';
+import getValidationErrors from '../utils/getValidationErrors';
 
 export default function LoginNumber() {
   const [accepted, setAccepted] = useState(false)
-  const [sponsorshipCode, setSponsorshipCode] = useState<string>('')
+  const [sponsorshipCode, setSponsorshipCode] = useState<string>(null)
 
+  const formRef = useRef<FormHandles>(null)
   const router = useRouter();
   const paramsSponsorshipCode = router.query.sponsorship_code;
+
+  interface ISignUpFormData {
+    sponsorship_code: string
+  }
+  const handleSubmit = useCallback(
+    async ({
+      sponsorship_code
+    }: ISignUpFormData) => {
+      try {
+        formRef.current.setErrors({})
+
+        const schema = yup.object().shape({
+          sponsorship_code: yup.string().trim()
+          .matches(/^[A-Z0-9]+$/, 'Este código de patrocínio é inválido').min(6, 'O mínimo é de 6 caracteres').max(6, 'O máximo é de 6 caracteres'),
+        });
   
+        await schema.validate({
+          sponsorship_code
+        }, {
+          abortEarly: false,
+        });
+
+        if(accepted)
+          router.push(`/signup/phone?sponsorship_code=${sponsorshipCode || sponsorship_code}`)
+        
+      } catch (error) {
+        if (error instanceof yup.ValidationError) {
+          const errors = getValidationErrors(error)
+
+          formRef.current.setErrors(errors)
+
+          return;
+        }
+      }
+    },
+    [accepted],
+  )
   useEffect(() => {
     if(typeof paramsSponsorshipCode === 'string') {
       setSponsorshipCode(paramsSponsorshipCode);
@@ -34,26 +74,28 @@ export default function LoginNumber() {
             Faça login ou crie uma conta para iniciar 
           </span>
 
-          <input 
-            defaultValue={paramsSponsorshipCode} 
-            onChange={(e) => setSponsorshipCode(e.target.value)} 
-            type="text" 
-            placeholder="Digite seu codigo de patrocinio"
-          />
+          <Form ref={formRef} onSubmit={handleSubmit}>
+            <Input
+              name="sponsorship_code"
+              defaultValue={paramsSponsorshipCode} 
+              placeholder="Digite seu codigo de patrocinio"
+            />
 
-          {sponsorshipCode.length < 6 || sponsorshipCode?.length > 6 ? <Button style={{fontSize: 13}}>Você precisa informar um código de patrocínio válido</Button>: (
-            accepted ? (
-              <Button url={`/signup/phone?sponsorship_code=${sponsorshipCode}`}>Continue com WhatsApp</Button>
-            ) : (
-              <Button>Aceite os termos para continuar</Button>
-            ) 
-          )}
+            <div className={styles.wrapper}>
+              <Button>{accepted ? 'Continue com WhatsApp': 'Aceite os termos para continuar'}</Button>
+            </div>
+
+            <div className={styles.terms}>
+              <input checked={accepted} type="checkbox" onChange={(e) => setAccepted(!accepted)} />
+              <span>Eu concordo com os <Link href="/termos">Termos e condições</Link></span>
+            </div>
+
+          </Form>
+       
+
       </div>
 
-      <div className={styles.terms}>
-        <input checked={accepted} type="checkbox" onChange={(e) => setAccepted(!accepted)} />
-        <span>Eu concordo com os <Link href="/termos"><a><strong>Termos e condições</strong></a></Link></span>
-      </div>
+ 
 
       <div className={styles.links}>
         <span>Já tem uma conta?</span>
@@ -64,7 +106,7 @@ export default function LoginNumber() {
       <footer className={styles.footer}>
         <strong>Lavimco Tecnologia Ltda</strong> 
         <p>
-        Rua Sader Macul, nº 96, <strong>São Paulo/SP</strong> - CEP: 04543-907 | CNPJ: 35.576.012/0001-43
+          Rua Sader Macul, nº 96, <strong>São Paulo/SP</strong> - CEP: 04543-907 | CNPJ: 35.576.012/0001-43
         </p>
       
 

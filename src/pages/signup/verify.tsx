@@ -1,6 +1,5 @@
 import Button from '@components/Button';
 import Header from '@components/Header';
-
 import styles from '@styles/pages/signUpVerification.module.scss';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -14,7 +13,7 @@ export default function signUpVerification() {
   const {sponsorship_code, phoneNumber} = router.query
   const {saveOnCookies} = useAuth()
   
-  const [code, setCode] = useState('')
+  const [verificationCode, setVerificationCode] = useState('')
   const [password, setPassword] = useState('')
 
   async function handleSendVerificationCode(e: FormEvent<HTMLFormElement>) {
@@ -24,7 +23,7 @@ export default function signUpVerification() {
         terms: true,
         sponsorship_code,
         phone_number: phoneNumber,
-        verification_code: code,
+        verification_code: verificationCode,
         password,
       })
 
@@ -39,9 +38,9 @@ export default function signUpVerification() {
       <form onSubmit={(e) => handleSendVerificationCode(e)} className={styles.container}>
         <Header text="Verificação"></Header>
 
-          <span>Para finalizar, insira o código de verificação</span>
+          <span>Para finalizar, insira o código de verificação e sua senha</span>
 
-          <input type="text" placeholder="Código" value={code} onChange={(e) => setCode(e.target.value)}/>
+          <input type="text" placeholder="Código" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)}/>
 
           <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
 

@@ -1,0 +1,12 @@
+.container{
+    position: relative;
+    .container__errors {
+        white-space: nowrap;
+        position: absolute;
+        bottom: -17px;
+        left: 0;
+        font-size: 12px;
+        font-weight: bold;
+        color: rgb(248, 118, 129);
+    }
+}

@@ -3,6 +3,7 @@ import Menu from '@components/Menu'
 import { useEffect, useState } from 'react'
 import api from 'src/services/api'
 import { FiChevronRight, FiPower  } from 'react-icons/fi'
+import { ImExit  } from 'react-icons/im'
 import { format, formatDistance } from 'date-fns'
 import ptBR from 'date-fns/locale/pt-BR'
 import { useAuth } from 'src/hooks/useAuth'
@@ -44,7 +45,7 @@ export default function Home() {
             signOut()
             router.push('/')
         }}>
-            <FiPower size={20} color="#4b4b5c"/>
+            <ImExit size={20} color="#4b4b5c"/>
         </button>
         <div className={styles.head} onClick={() => router.push('/saldo')} >
             <h1>{totalBalance}</h1>

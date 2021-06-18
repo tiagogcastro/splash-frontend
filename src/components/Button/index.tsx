@@ -5,9 +5,11 @@ import styles from './styles.module.scss';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   url?: string;
+  isDisabled?: boolean
+  isLoading?: boolean
 }
 
-const Button: React.FC<ButtonProps> = ({ children, url = '', ...rest }) => {
+const Button: React.FC<ButtonProps> = ({ children, isDisabled, isLoading, url = '', ...rest }) => {
   if (url) {
     return (
       <Link href={url}>
@@ -22,7 +24,7 @@ const Button: React.FC<ButtonProps> = ({ children, url = '', ...rest }) => {
     return (
       <div className={styles.container}>
         <button {...rest} className={styles.button}>
-          {children}
+          {isLoading ? 'carregando...' : children}
         </button>
       </div>
     );
