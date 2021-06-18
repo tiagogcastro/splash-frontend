@@ -1,0 +1,14 @@
+.container{
+    position: relative;
+    .container__child {
+        width: 100% !important;
+    }
+    .container__errors {
+        position: absolute;
+        bottom: -17px;
+        left: 0;
+        font-size: 12px;
+        font-weight: bold;
+        color: rgb(248, 118, 129);
+    }
+}

@@ -1,67 +1,69 @@
 import Button from '@components/Button';
-
+import Input from '@components/Input';
 import styles from '@styles/pages/loginEmail.module.scss';
-import { useRouter } from 'next/router';
-import { FormEvent, useContext, useState } from 'react';
-import { useAuth } from '../../hooks/useAuth'
-
-import * as yup from 'yup';
-import getValidationErrors from 'src/utils/getValidationErrors';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
 import { GetServerSideProps } from 'next';
-import { withSSRGuest } from 'src/utils/withSSRGuest';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useRef } from 'react';
+import getValidationErrors from 'src/utils/getValidationErrors';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
+import * as yup from 'yup';
+import { useAuth } from '../../hooks/useAuth';
 
-type FormErrors = {
-  email?: string
-  password?: string 
-  invalid?: string
+
+
+
+interface ISignInFormData {
+  email: string
+  password: string
 }
-
 export default function LoginEmail() {
   const router = useRouter()
   const {signIn, user} = useAuth()
 
-  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
+  const formRef = useRef<FormHandles>(null)
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-
+  async function handleSubmit({
+    email,
+    password
+  }: ISignInFormData) {
       try {
         const schema = yup.object().shape({
-          email: yup.string().email("Digite um email válido").required("Email Obrigatório"),
+          email: yup.string().email("Digite um email válido").required("Email obrigatório"),
           password: yup.string().min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres").required("Senha obrigatória")
         });
       
-        const data = {
+
+        await schema.validate({
           email,
           password
-        }
-
-        await schema.validate(data, {
+        }, {
           abortEarly: false,
         });
 
-        await signIn({email, password})
+        await signIn({
+          email,
+          password
+        })
     
         router.push('/dashboard')
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errs = getValidationErrors(err)
 
-          setErrors(errs)
+          formRef.current.setErrors(errs)
 
           return;
         }
-        setErrors({invalid: 'E-mail ou senha não estão corretos'})
+        formRef.current.setErrors({ password: 'E-mail ou senha não estão corretos' })
       }
   }
   
   return (
     <>
-      <form className={styles.container} onSubmit={(e) => handleSubmit(e)}>
+      <Form ref={formRef} className={styles.container} onSubmit={(e) => handleSubmit(e)}>
           <div className={styles.avatar}>
             <img src="/logo.png" alt="Logo" />
           </div>
@@ -70,17 +72,23 @@ export default function LoginEmail() {
           
           <div className={styles.inputs}>
             <div className={styles.field}>
-              <input type="email" required placeholder="Digite seu E-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+              <Input 
+                name="email"
+                type="email" 
+                placeholder="Digite seu E-mail" 
+              />
             </div>
             <div className={styles.field}>
-              <input type="password" required placeholder="Digite sua Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-              { errors.password && <div className={[styles.alert, styles.visible].join(" ")}>{errors.password}</div> }
-              { errors.invalid && <div className={[styles.alert, styles.visible].join(" ")}>{errors.invalid}</div> }
+              <Input 
+                name="password" 
+                type="password" 
+                placeholder="Digite sua Senha" 
+              />
             </div>
           </div>
           
           <Button type="submit">Entrar</Button>
-      </form>
+      </Form>
 
       <div className={styles.links}>
         <span>Ainda não tem uma conta?</span>
