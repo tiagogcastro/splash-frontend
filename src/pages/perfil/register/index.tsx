@@ -50,14 +50,11 @@ export default function EditNotRegister({ user }) {
         name
       })
   
-      console.log(response.data)
     } catch (err) {
       if (err instanceof yup.ValidationError) {
         const errs = getValidationErrors(err)
 
         setErrors(errs)
-
-        console.log(errors)
 
         return;
       }

@@ -9,24 +9,28 @@ import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import {parseCookies} from 'nookies'
 import { withSSRAuth } from 'src/utils/withSSRAuth';
-
+interface ISponsored {
+  id: string
+  sponsored: {
+    name?: string
+    username: string
+    avatar_url?: string
+  }
+}
 export default function Patrocinadores({ user }) {
 
-  const [sponsoredList, setSponsoredList] = useState([])
+  const [sponsored, setSponsored] = useState<ISponsored[]>([])
 
   useEffect(() => {
     api.get(`/sponsors/sponsored/${user.id}`).then(response => {
       let responseSponsored = response.data;
       
-      setSponsoredList(responseSponsored)
+      setSponsored(responseSponsored)
     })
   }, [])
 
-  if (!sponsoredList) {
-    return (
-      <>
-      </>
-    )
+  if (!sponsored) {
+    return null
   }
   
   return (
@@ -34,19 +38,19 @@ export default function Patrocinadores({ user }) {
       <div className={styles.container}>
         <Header text="Patrocinados" />
         <div className={styles.content}>
-          { sponsoredList.map(sponsored => (
-            <li key={sponsored.id} className={styles.user}>
+          { sponsored.map(sponsoredMapped => (
+            <li key={sponsoredMapped.id} className={styles.user}>
               <div className={styles.first}>
                   <div className={styles.img}>
-                    <img alt={user.username} className={styles.img} src={user.avatar ? user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
+                    <img alt={user.username} className={styles.img} src={sponsoredMapped.sponsored.avatar_url ? sponsoredMapped.sponsored.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
                   </div>
                   <div className={styles.text}>
-                      <h2>{sponsored.sponsored.name}</h2>
-                      <span>@{sponsored.sponsored.username}</span>
+                      <h2>{sponsoredMapped.sponsored.name}</h2>
+                      <span>@{sponsoredMapped.sponsored.username}</span>
                   </div>
               </div>
               <div className={styles.second}>
-                <Link href={`/${sponsored.sponsored.username}`}>
+                <Link href={`/${sponsoredMapped.sponsored.username}`}>
                   <a>
                     <span>Perfil</span>
                     <FiChevronRight size={15} color="#8a8a8e" />

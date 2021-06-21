@@ -60,8 +60,6 @@ export default function LoginPhone() {
 
         setErrors(errs)
 
-        console.log(errors)
-
         return;
       }
       setErrors({invalid: 'Telefone ou senha não estão corretos'})

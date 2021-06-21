@@ -77,8 +77,6 @@ export default function PatrocinarValor() {
 
         setErrors(errs)
 
-        console.log(errors)
-
         return;
       }
       setErrors({valueOutOfRange: err.message})

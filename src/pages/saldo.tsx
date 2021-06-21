@@ -26,7 +26,7 @@ export default function Saldo({ user }) {
     const filteredSponsors = filterSponsors(sponsors, searchQuery);
 
     useEffect(() => {
-        api.get(`/sponsorships/sponsored`).then(response => {
+        api.get(`/sponsorships/sponsored/me`).then(response => {
             setSponsors(response.data)
         })
     }, [])

@@ -52,8 +52,6 @@ export default function Name({ name }) {
       if (err instanceof yup.ValidationError) {
         const errs = getValidationErrors(err)
 
-        console.log(errs)
-
         setErrors(errs)
 
         return;
