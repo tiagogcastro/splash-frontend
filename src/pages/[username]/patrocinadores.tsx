@@ -9,24 +9,29 @@ import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import {parseCookies} from 'nookies'
 import { withSSRAuth } from 'src/utils/withSSRAuth';
-
+interface ISponsor {
+  id: string
+  sponsor: {
+    name?: string
+    username: string
+    avatar_url?: string
+  }
+}
 export default function Patrocinadores({ user }) {
 
-  const [sponsorings, setSponsorings] = useState([])
+  const [sponsors, setSponsors] = useState<ISponsor[]>([])
 
   useEffect(() => {
-    api.get(`/sponsors/sponsoring/${user.id}`).then(response => {
+    api.get(`/sponsors/${user.id}`).then(response => {
       let responseSponsorings = response.data;
 
-      setSponsorings(responseSponsorings)
+      setSponsors(responseSponsorings)
     })
   }, [])
 
-  if (!sponsorings) {
-    return (
-      <>
-      </>
-    )
+
+  if (!sponsors) {
+    return null
   }
   
   return (
@@ -34,19 +39,19 @@ export default function Patrocinadores({ user }) {
       <div className={styles.container}>
         <Header text="Patrocinadores" />
         <div className={styles.content}>
-          { sponsorings.map(sponsoring => (
-            <li key={sponsoring.id} className={styles.user}>
+          { sponsors.map(sponsor => (
+            <li key={sponsor.id} className={styles.user}>
               <div className={styles.first}>
                   <div className={styles.img}>
-                    <img alt={user.username} className={styles.img} src={user.avatar ? user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
+                    <img alt={user.username} className={styles.img} src={sponsor.sponsor.avatar_url ? sponsor.sponsor.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
                   </div>
                   <div className={styles.text}>
-                      <h2>{sponsoring.sponsor.name}</h2>
-                      <span>@{sponsoring.sponsor.username}</span>
+                      <h2>{sponsor.sponsor.name}</h2>
+                      <span>@{sponsor.sponsor.username}</span>
                   </div>
               </div>
               <div className={styles.second}>
-                <Link href={`/${sponsoring.sponsor.username}`}>
+                <Link href={`/${sponsor.sponsor.username}`}>
                   <a>
                     <span>Perfil</span>
                     <FiChevronRight size={15} color="#8a8a8e" />
