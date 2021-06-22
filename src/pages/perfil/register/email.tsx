@@ -32,57 +32,15 @@ export default function RegisterEmail() {
 
   const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
 
-  async function handleEditProfile() {
 
-    try {
-
-      const schema = yup.object().shape({
-        name: yup.string(),
-        password: yup.string().required("Senha obrigatória").min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres"),
-        confirmPassword: yup.string().required("Confirmar senha obrigatório").min(8, "Mínimo de 5 caracteres").max(100, "Máximo de 100 caracteres")
-      });
-    
-      const data = {
-        email,
-        password,
-        confirmPassword
-      }
-
-      if (password !== confirmPassword) {
-        throw Error("Senhas não coincidem")
-      }
-
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-
-      const response = await api.put('/profile/add-email', {
-        email,
-        password,
-        confirmPassword
-      })
-  
-      saveOnCookies(response.data)
-      
-      router.push(`/${user.username}`)
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        const errs = getValidationErrors(err)
-
-        setErrors(errs)
-
-        return;
-      }
-    }
-
-    
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
   
       try {
         const schema = yup.object().shape({
           email: yup.string().email("Digite um email válido").required("Email Obrigatório"),
-          password: yup.string().min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres").required("Senha obrigatória")
+          password: yup.string().min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres").required("Senha obrigatória"),
+          
         });
 
         if (password !== confirmPassword) {
@@ -97,16 +55,15 @@ export default function RegisterEmail() {
         await schema.validate(data, {
           abortEarly: false,
         });
-
-            const response = await api.put('/profile/add-email', {
-        email,
-        password,
-        password_confirmation: confirmPassword
+        
+        const response = await api.put('/profile', {
+          email,
+          password,
+          password_confirmation: confirmPassword
         })
 
         saveOnCookies(response.data)
 
-        router.push(`/${user.username}`)
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errs = getValidationErrors(err)
@@ -116,11 +73,11 @@ export default function RegisterEmail() {
           return;
         } else {
           setErrors({
-            notMatch: "As senhas não coincidem"
+            notMatch: err.message
           })
         }
       }
-  }
+  };
 
   return (
     <>
@@ -138,28 +95,7 @@ export default function RegisterEmail() {
                 { errors.email && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{ errors.email }</div> }
 
             </div>
-            <div className={utilStyles.field} >
-              <label htmlFor="password-new">Senha</label>
-              <input
-                type="password" 
-                placeholder="Senha"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)} />
-                { errors.password && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{ errors.password }</div> }
-
-            </div>
-            <div className={utilStyles.field} > 
-              <label htmlFor="password-confirmation" >Comfirmar senha</label>
-              <input
-                type="password" 
-                placeholder="Confirmar senha"
-                value={confirmPassword}
-                onChange={(e) => setConfirmPassword(e.target.value)} />
-                { errors.confirmPassword && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{ errors.confirmPassword }</div> }
-
-              <input type="email" required name="email" placeholder="Insira seu email..." value={email} onChange={(e) => setEmail(e.target.value)}/>
-              { errors.email && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.email}</div> }
-            </div>
+            
             <div className={utilStyles.field}>
               <label htmlFor="password">Senha</label>
               <input type="password" required name="password" placeholder="Insira sua senha..." value={password} onChange={(e) => setPassword(e.target.value)}/>
@@ -181,7 +117,6 @@ export default function RegisterEmail() {
       </div>
     </>
   )
-  }
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {

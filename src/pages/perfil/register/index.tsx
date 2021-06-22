@@ -86,7 +86,7 @@ export default function EditNotRegister({ user }) {
 
           <div className={styles.notRegister}>
             <p>Me parece que você não tem uma senha e e-mail registrado, deseja adicionar?</p>
-            <Button url="/perfil/registrar">Adicionar e-mail e senha</Button>
+            <Button url="/perfil/register/email">Adicionar e-mail e senha</Button>
           </div>
         </div>
       </div>
