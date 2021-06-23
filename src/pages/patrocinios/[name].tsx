@@ -9,7 +9,7 @@ import ptBR from 'date-fns/locale/pt-BR';
 import {FaArrowAltCircleDown, FaArrowAltCircleUp} from 'react-icons/fa'
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 
-export default function Patrocinios({ sender_id }) {
+export default function Patrocinios({ user_id }) {
   const router = useRouter();
   const query = router.query;
   const name = query.name as string;
@@ -17,7 +17,7 @@ export default function Patrocinios({ sender_id }) {
   const [notifications, setNotifications] = useState([])
 
   useEffect(() => {
-    api.get(`/notifications/sponsorships-history/${sender_id}`).then(response => {
+    api.get(`/notifications/sponsorships-history/${user_id}`).then(response => {
         let responseNotifications = response.data
         
         responseNotifications = responseNotifications.map(notification => {
@@ -51,11 +51,11 @@ export default function Patrocinios({ sender_id }) {
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
-    const { sender_id } = query
+    const { user_id } = query
 
     return {
         props: {
-            sender_id
+            user_id
         }
     }
 })
