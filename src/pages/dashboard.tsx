@@ -54,13 +54,13 @@ export default function Home() {
         <div className={styles.content}>
             <ul className={styles.userList}>
                 { notifications.map(notification => (
-                <a key={notification.id} href={`/patrocinios/${notification.sender.username}?sender_id=${notification.sender_id}`}>
+                <a key={notification.id} href={`/patrocinios/${notification.user.username}?user_id=${notification.user_id}`}>
                     <li className={styles.user}>
                         <div className={styles.first}>
-                            <img src={notification.sender.avatar_url ? notification.sender.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
+                            <img src={notification.user.avatar_url ? notification.user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
                                 className={styles.img}></img>
                             <div className={styles.text}>
-                                <h2>{notification.sender.username === user.username ? 'Eu' : notification.sender.username}</h2>
+                                <h2>{notification.user.username === user.username ? 'Eu' : notification.user.username}</h2>
                                 <span>{notification.content}</span>
                             </div>
                         </div>
