@@ -19,7 +19,7 @@ export default function signUpTelefone() {
   const formRef = useRef<FormHandles>(null)
   const {sponsorship_code} = router.query
 
-  const [countryCode, setCountryCode] = useState('55')
+  const [countryCode, setCountryCode] = useState('+55')
   const [isLoading, setIsLoading] = useState(false)
   
   async function handleSubmit({phone_number}: ISendCodeFormData) {
