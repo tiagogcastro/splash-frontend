@@ -17,6 +17,7 @@ a {
 }
 
 button {
+  border: 0;
   background-color: transparent;
   cursor: pointer;
 }
@@ -29,8 +30,8 @@ button {
     --secondary-dark: #1F2422;
 
     --text: #000000;
-    --text-light: #8A8A8E;
+    --text-light: #8f8fa3;
 
-    --border: #bbbbbb;
+    --border: #e2e2e2;
     --background: #00000021;
 }
