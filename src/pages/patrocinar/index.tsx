@@ -18,13 +18,16 @@ interface User {
 
 export default function Patrocinar() {
 	const [users, setUsers] = useState<User[]>();
+	const [loading, setLoading] = useState(true);
 	const { user } = useAuth();
 
 	useEffect(() => {
 		api.get(`/sponsors/sponsored/${user.id}`).then(response => {
-			setUsers(response.data);
+      setUsers(response.data)
+      setLoading(false)
 		});
 	}, [user]);
+
 
 	return (
 		<div className={styles.container}>
@@ -34,11 +37,9 @@ export default function Patrocinar() {
 					<div className={styles.searchBar}>
 						<input type="text" placeholder="Pesquisar" />
 					</div>
-					{!users ? (
-						<p>Você não patrocinou ninguém ainda.</p>
-					) :
+
 					<ul className={styles.storeList}>
-						{users.map(user => (
+						{users && users.map(user => (
 							<li className={styles.store} key={user.sponsored.id}>
 								<div className={styles.first}>
 									<img src={user.sponsored.avatar_url}></img>
@@ -52,8 +53,8 @@ export default function Patrocinar() {
 								</div>
 							</li>
 						))}
+            {loading && <p style={{textAlign:'center', marginTop: 10, fontWeight: 'bold'}}>carregando...</p>}
 					</ul>
-					}
 				</div>
 
 				<div className={styles.buttonConfirmation}>
