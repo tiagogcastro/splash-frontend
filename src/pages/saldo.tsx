@@ -36,7 +36,12 @@ export default function Saldo(): JSX.Element {
         <Header text="Saldo"/>
         <div className={styles.content}>
             <div className={styles.searchBar}>
-                <input type="text" placeholder="Pesquisar" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
+                <input
+                  type="text"
+                  placeholder="Pesquisar"
+                  value={searchQuery}
+                  onChange={e => setSearchQuery(e.target.value)}
+                />
             </div>
 
 
