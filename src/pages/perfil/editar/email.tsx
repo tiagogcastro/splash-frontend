@@ -6,85 +6,86 @@ import utilStyles from '@styles/utilStyles.module.scss';
 import { GetServerSideProps } from 'next';
 import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
+import { Form } from '@unform/web';
 import api from 'src/services/api';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
+import { useRef } from 'react';
+import { FormHandles } from '@unform/core';
+import Input from '@components/Input';
 
-type FormErrors = {
-  newEmail?: string
+interface IProfileFormData {
+  email: string
 }
 
 export default function Email({ email, token }) {
-  const {saveOnCookies} = useAuth()
+  const { saveOnCookies } = useAuth()
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
 
-  const [newEmail, setNewEmail] = useState(email)
-  const [messageVisible, setMessageVisible] = useState(false)
+  const formRef = useRef<FormHandles>(null)
 
-  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
+  const handleSubmit = useCallback(
+    async ({ email }: IProfileFormData) => {
+      setIsLoading(true)
+      try {
 
-  async function handleEditProfile() {
+        const schema = yup.object().shape({
+          email: yup.string().email("Digite um email válido").required("Email Obrigatório"),
+        });
 
-    try {
+        await schema.validate({
+          email,
+        }, {
+          abortEarly: false,
+        });
 
-      const schema = yup.object().shape({
-        newEmail: yup.string().email("Digite um email válido").required("Email Obrigatório"),
-      });
-    
-      const data = {
-        newEmail
+        const response = await api.put('/profile', {
+          email,
+          token
+        })
+
+        saveOnCookies({ user: response.data })
+
+        router.back()
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const errors = getValidationErrors(err)
+
+          formRef.current.setErrors(errors)
+
+          return;
+        }
+
+        formRef.current.setFieldError('email', 'Não foi possível atualizar seu e-mail')
+      }finally {
+        setIsLoading(false)
       }
-
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-
-      const response = await api.put('/profile', {
-        email: newEmail,
-        token
-      })
-  
-      saveOnCookies({ user: response.data })
-  
-      router.back()
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        const errs = getValidationErrors(err)
-
-        setErrors(errs)
-
-        return;
-      }
-
-      setMessageVisible(true)
-
-    }
-  }
+    },
+    [],
+  )
 
   return (
     <>
       <div className={styles.container}>
         <Header text="Editar e-mail" />
+
         <div className={styles.content}>
-          <div className={utilStyles.field}>
+          <Form onSubmit={handleSubmit} ref={formRef} className={utilStyles.field} style={{height: '100%'}}>
             <label htmlFor="email">E-mail</label>
-            <input type="email" name="email" placeholder="Insira seu e-mail..." value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
-            { errors.newEmail && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.newEmail}</div> }
-            <input
-              type="email"
+            <Input
               name="email"
               placeholder="Insira seu e-mail..."
-              value={newEmail} onChange={(e) => setNewEmail(e.target.value)} />
-            { messageVisible && <p>Um E-mail foi enviado para {newEmail}, confirme ele em até 12 horas.</p> }
-          </div>
+            />
 
+            <div className={styles.buttonConfirmation} style={{marginTop: "50vh"}}>
+              <Button isLoading={isLoading} type="submit">Confirmar</Button>
+            </div>
 
-          <div className={styles.buttonConfirmation}>
-            <Button onClick={handleEditProfile}>Confirmar</Button>
-          </div>
+          </Form>
         </div>
       </div>
     </>
