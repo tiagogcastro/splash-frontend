@@ -1,11 +1,14 @@
+import utilsStyles from '@styles/utilStyles.module.scss'
 import styles from '@styles/pages/patrocinar/index.module.scss'
 import Header from '@components/Header'
 import Button from '@components/Button'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 import { GetServerSideProps } from 'next';
+import Loading from '@components/Loading';
+import { AiOutlineFrown } from 'react-icons/ai';
 
 interface User {
 	sponsored: {
@@ -17,16 +20,24 @@ interface User {
 }
 
 export default function Patrocinar() {
-	const [users, setUsers] = useState<User[]>();
+	const [usersSponsored, setUsersSponsored] = useState<User[]>([]);
 	const [loading, setLoading] = useState(true);
 	const { user } = useAuth();
 
 	useEffect(() => {
 		api.get(`/sponsors/sponsored/${user.id}`).then(response => {
-      setUsers(response.data)
+      setUsersSponsored(response.data)
       setLoading(false)
 		});
 	}, [user]);
+
+
+  const checkedIfTheUserHasUsersSponsoredOrnot = useMemo(() => {
+    if(loading === false && usersSponsored.length === 0) {
+      return false
+    }
+    return true
+  }, [usersSponsored, loading])
 
 
 	return (
@@ -39,7 +50,7 @@ export default function Patrocinar() {
 					</div>
 
 					<ul className={styles.storeList}>
-						{users && users.map(user => (
+						{checkedIfTheUserHasUsersSponsoredOrnot ? usersSponsored.map(user => (
 							<li className={styles.store} key={user.sponsored.id}>
 								<div className={styles.first}>
 									<img src={user.sponsored.avatar_url}></img>
@@ -52,8 +63,17 @@ export default function Patrocinar() {
 									<Button url={`/patrocinar/valor?user_id=${user.sponsored.id}`}>Enviar patrocínio</Button>
 								</div>
 							</li>
-						))}
-            {loading && <p style={{textAlign:'center', marginTop: 10, fontWeight: 'bold'}}>carregando...</p>}
+						)):
+            <div className={utilsStyles.noContent}>
+              <AiOutlineFrown size={60} />
+              <span>
+                Oh! Não tem conteúdo
+              </span>
+            </div>
+            }
+            <div style={{marginTop: 180}}>
+              {loading && <Loading size={30} />}
+            </div>
 					</ul>
 				</div>
 

@@ -33,9 +33,9 @@ export default function Patrocinadores({ user }) {
   if (!sponsors) {
     return null
   }
-  
+
   return (
-    <> 
+    <>
       <div className={styles.container}>
         <Header text="Patrocinadores" />
         <div className={styles.content}>
@@ -43,7 +43,11 @@ export default function Patrocinadores({ user }) {
             <li key={sponsor.id} className={styles.user}>
               <div className={styles.first}>
                   <div className={styles.img}>
-                    <img alt={user.username} className={styles.img} src={sponsor.sponsor.avatar_url ? sponsor.sponsor.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
+                    <img alt={user.username} className={styles.img} src={
+                      sponsor.sponsor.avatar_url ?
+                      sponsor.sponsor.avatar_url :
+                      'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
+                    />
                   </div>
                   <div className={styles.text}>
                       <h2>{sponsor.sponsor.name}</h2>
@@ -64,7 +68,7 @@ export default function Patrocinadores({ user }) {
       </div>
     </>
   )
-  
+
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {

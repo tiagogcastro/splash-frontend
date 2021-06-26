@@ -23,8 +23,13 @@
                     color: var(--text-light);
                     padding: 0.5rem;
                     padding-left: 1.7rem;
-                    border-radius: 6px;
-                    font-size: 17px;
+                    border-radius: 3px;
+                    font-weight: bold;
+                    font-size: 12px;
+                    &::placeholder {
+                      font-weight: bold;
+                      color: var(--text-light);
+                    }
                 }
             }
             .storeList {
@@ -90,6 +95,6 @@
             width: 100%;
             margin-bottom: 40px;
         }
-        
+
     }
 }

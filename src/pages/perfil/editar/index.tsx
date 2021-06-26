@@ -62,7 +62,15 @@ export default function Edit({ user }) {
                   </label>
                 </>
               ) }
-              <img className={styles.img} src={newAvatar ? newAvatar : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} alt={user.username} />
+              <img
+                className={styles.img}
+                src={
+                  newAvatar ?
+                  newAvatar :
+                  'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'
+                }
+                alt={user.username}
+              />
             </div>
             <div className={styles.field}>
               <p>Nome</p>

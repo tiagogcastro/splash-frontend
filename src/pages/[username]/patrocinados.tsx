@@ -24,7 +24,7 @@ export default function Patrocinadores({ user }) {
   useEffect(() => {
     api.get(`/sponsors/sponsored/${user.id}`).then(response => {
       let responseSponsored = response.data;
-      
+
       setSponsored(responseSponsored)
     })
   }, [])
@@ -32,9 +32,9 @@ export default function Patrocinadores({ user }) {
   if (!sponsored) {
     return null
   }
-  
+
   return (
-    <> 
+    <>
       <div className={styles.container}>
         <Header text="Patrocinados" />
         <div className={styles.content}>
@@ -42,7 +42,11 @@ export default function Patrocinadores({ user }) {
             <li key={sponsoredMapped.id} className={styles.user}>
               <div className={styles.first}>
                   <div className={styles.img}>
-                    <img alt={user.username} className={styles.img} src={sponsoredMapped.sponsored.avatar_url ? sponsoredMapped.sponsored.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
+                    <img alt={user.username} className={styles.img} src={
+                      sponsoredMapped.sponsored.avatar_url ?
+                      sponsoredMapped.sponsored.avatar_url :
+                      'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
+                    />
                   </div>
                   <div className={styles.text}>
                       <h2>{sponsoredMapped.sponsored.name}</h2>
@@ -63,7 +67,7 @@ export default function Patrocinadores({ user }) {
       </div>
     </>
   )
-  
+
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {

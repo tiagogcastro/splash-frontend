@@ -6,6 +6,7 @@ import { Form } from '@unform/web';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
 import { useRef } from 'react';
 import getValidationErrors from 'src/utils/getValidationErrors';
 import { withSSRGuest } from 'src/utils/withSSRGuest';
@@ -22,6 +23,7 @@ interface ISignInFormData {
 export default function LoginEmail() {
   const router = useRouter()
   const {signIn, user} = useAuth()
+  const [loading, setLoading] = useState(false)
 
   const formRef = useRef<FormHandles>(null)
 
@@ -30,11 +32,12 @@ export default function LoginEmail() {
     password
   }: ISignInFormData) {
       try {
+        setLoading(true)
         const schema = yup.object().shape({
           email: yup.string().email("Digite um email válido").required("Email obrigatório"),
           password: yup.string().min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres").required("Senha obrigatória")
         });
-      
+
 
         await schema.validate({
           email,
@@ -47,7 +50,7 @@ export default function LoginEmail() {
           email,
           password
         })
-    
+
         router.push('/dashboard')
       } catch (err) {
         if (err instanceof yup.ValidationError) {
@@ -58,9 +61,11 @@ export default function LoginEmail() {
           return;
         }
         formRef.current.setErrors({ password: 'E-mail ou senha não estão corretos' })
+      } finally {
+        setLoading(false)
       }
   }
-  
+
   return (
     <>
       <Form ref={formRef} className={styles.container} onSubmit={(e) => handleSubmit(e)}>
@@ -69,25 +74,25 @@ export default function LoginEmail() {
           </div>
 
           <span>Informe seu email e senha</span>
-          
+
           <div className={styles.inputs}>
             <div className={styles.field}>
-              <Input 
+              <Input
                 name="email"
-                type="email" 
-                placeholder="Digite seu E-mail" 
+                type="email"
+                placeholder="Digite seu E-mail"
               />
             </div>
             <div className={styles.field}>
-              <Input 
-                name="password" 
-                type="password" 
-                placeholder="Digite sua Senha" 
+              <Input
+                name="password"
+                type="password"
+                placeholder="Digite sua Senha"
               />
             </div>
           </div>
-          
-          <Button type="submit">Entrar</Button>
+
+          <Button isLoading={loading} type="submit">Entrar</Button>
       </Form>
 
       <div className={styles.links}>

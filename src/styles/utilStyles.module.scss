@@ -35,3 +35,18 @@
     }
   }
 }
+.noContent {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  margin-top: 150px;
+
+  text-align: center;
+  font-weight: bold;
+  color: #ced2d6;
+  span {
+    margin-top: 15px;
+    font-size: 14px;
+  }
+}
