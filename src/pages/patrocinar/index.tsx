@@ -53,7 +53,11 @@ export default function Patrocinar() {
 						{checkedIfTheUserHasUsersSponsoredOrnot ? usersSponsored.map(user => (
 							<li className={styles.store} key={user.sponsored.id}>
 								<div className={styles.first}>
-									<img src={user.sponsored.avatar_url}></img>
+									<img src={
+                    user.sponsored.avatar_url ?
+                    user.sponsored.avatar_url :
+                    'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'
+                  } />
 									<div className={styles.text}>
 										<h2>{user.sponsored.name}</h2>
 										<span>{user.sponsored.username}</span>
@@ -77,9 +81,11 @@ export default function Patrocinar() {
 					</ul>
 				</div>
 
-				<div className={styles.buttonConfirmation}>
-					<Button url="/patrocinar/valor">Continuar</Button>
-				</div>
+        {user?.role === 'shop' &&
+          <div className={styles.buttonConfirmation}>
+            <Button url="/patrocinar/valor">Criar código de patrocínio</Button>
+          </div>
+        }
 			</div>
 		</div>
 	)
