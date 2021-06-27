@@ -22,15 +22,17 @@ interface IProfileFormData {
 }
 
 export default function Email({ email, token }) {
-  const { saveOnCookies } = useAuth()
+  const { user } = useAuth()
   const router = useRouter()
-  const [isLoading, setIsLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
 
   const formRef = useRef<FormHandles>(null)
 
   const handleSubmit = useCallback(
     async ({ email }: IProfileFormData) => {
-      setIsLoading(true)
+      setLoading(true)
+      setSuccess(false)
       try {
 
         const schema = yup.object().shape({
@@ -43,12 +45,15 @@ export default function Email({ email, token }) {
           abortEarly: false,
         });
 
-        const response = await api.put('/profile', {
-          email,
-          token
-        })
+        if(user?.email !== email){
+          await api.post('/profile/send-verification-token', {
+            email
+          })
 
-        saveOnCookies({ user: response.data })
+          setSuccess(true)
+
+          return
+        }
 
         router.back()
       } catch (err) {
@@ -60,9 +65,9 @@ export default function Email({ email, token }) {
           return;
         }
 
-        formRef.current.setFieldError('email', 'Não foi possível atualizar seu e-mail')
-      }finally {
-        setIsLoading(false)
+        formRef.current.setFieldError('email', 'Não foi possível enviar um e-mail de verificação')
+      } finally {
+        setLoading(false)
       }
     },
     [],
@@ -77,12 +82,13 @@ export default function Email({ email, token }) {
           <Form onSubmit={handleSubmit} ref={formRef} className={utilStyles.field} style={{height: '100%'}}>
             <label htmlFor="email">E-mail</label>
             <Input
+              defaultValue={email}
               name="email"
               placeholder="Insira seu e-mail..."
             />
-
+            {success && <p className={styles.success}>Um e-mail foi enviado para sua caixa de entrada</p>}
             <div className={styles.buttonConfirmation} style={{marginTop: "50vh"}}>
-              <Button isLoading={isLoading} type="submit">Confirmar</Button>
+              <Button isLoading={loading} type="submit">Confirmar</Button>
             </div>
 
           </Form>
