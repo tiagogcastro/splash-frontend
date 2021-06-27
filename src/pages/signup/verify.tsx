@@ -56,7 +56,7 @@ export default function signUpVerification() {
 
       saveOnCookies(response.data)
 
-      router.push('/dashboard')
+      router.push('/')
     } catch(error) {
       if(error instanceof yup.ValidationError){
         const errors = getValidationErrors(error)

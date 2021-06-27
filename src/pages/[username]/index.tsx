@@ -33,7 +33,7 @@ export default function Perfil({ user, userType, me }) {
 
   return (
     <div className={styles.container}>
-      <Header backURL={'/dashboard'} text={user.username} />
+      <Header backURL={'/'} text={user.username} />
       <div className={styles.content}>
         <img alt={user.username} className={styles.img} src={
           user.avatar_url ?

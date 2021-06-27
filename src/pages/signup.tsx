@@ -33,7 +33,7 @@ export default function LoginNumber() {
           sponsorship_code: yup.string().trim()
           .matches(/^[A-Z0-9]+$/, 'Este código de patrocínio é inválido').min(6, 'O mínimo é de 6 caracteres').max(6, 'O máximo é de 6 caracteres'),
         });
-  
+
         await schema.validate({
           sponsorship_code
         }, {
@@ -42,7 +42,7 @@ export default function LoginNumber() {
 
         if(accepted)
           router.push(`/signup/phone?sponsorship_code=${sponsorshipCode || sponsorship_code}`)
-        
+
       } catch (error) {
         if (error instanceof yup.ValidationError) {
           const errors = getValidationErrors(error)
@@ -60,7 +60,7 @@ export default function LoginNumber() {
       setSponsorshipCode(paramsSponsorshipCode);
     }
   }, [])
-  
+
   return (
     <>
       <div className={styles.container}>
@@ -71,13 +71,13 @@ export default function LoginNumber() {
           <span>
             <strong>Lavimco</strong>
             <br/>
-            Faça login ou crie uma conta para iniciar 
+            Faça login ou crie uma conta para iniciar
           </span>
 
           <Form ref={formRef} onSubmit={handleSubmit}>
             <Input
               name="sponsorship_code"
-              defaultValue={paramsSponsorshipCode} 
+              defaultValue={paramsSponsorshipCode}
               placeholder="Digite seu codigo de patrocinio"
             />
 
@@ -91,24 +91,24 @@ export default function LoginNumber() {
             </div>
 
           </Form>
-       
+
 
       </div>
 
- 
+
 
       <div className={styles.links}>
         <span>Já tem uma conta?</span>
-        <Link href="/">
+        <Link href="/login">
           <a>Login</a>
         </Link>
       </div>
       <footer className={styles.footer}>
-        <strong>Lavimco Tecnologia Ltda</strong> 
+        <strong>Lavimco Tecnologia Ltda</strong>
         <p>
           Rua Sader Macul, nº 96, <strong>São Paulo/SP</strong> - CEP: 04543-907 | CNPJ: 35.576.012/0001-43
         </p>
-      
+
 
       </footer>
     </>

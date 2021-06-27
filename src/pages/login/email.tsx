@@ -51,7 +51,7 @@ export default function LoginEmail() {
           password
         })
 
-        router.push('/dashboard')
+        router.push('/')
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errs = getValidationErrors(err)

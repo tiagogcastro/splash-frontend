@@ -1,7 +1,6 @@
 import Button from '@components/Button';
 import Header from '@components/Header';
 import Input from '@components/Input';
-import InputMask from '@components/InputMask';
 import styles from '@styles/pages/signUpTelefone.module.scss';
 import utilStyles from '@styles/utilStyles.module.scss';
 import { FormHandles } from '@unform/core';
@@ -61,7 +60,7 @@ export default function LoginPhone() {
           password
         })
 
-        router.push('/dashboard')
+        router.push('/')
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errs = getValidationErrors(err)
@@ -90,7 +89,7 @@ export default function LoginPhone() {
             <div>
               <h4>BR +55</h4>
               <hr />
-              <InputMask
+              <Input
                 mask="(99) 99999-9999"
                 name="phone_number"
                 type="text"
