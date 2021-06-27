@@ -23,7 +23,7 @@ const Menu: React.FC<MenuProps> = ({ page }) => {
   return (
     me ? (
       <div className={styles.menu}>
-        <Link href="/dashboard">
+        <Link href="/">
           <a>
             <button>
               <img src={page === 'sponsor' ? "/icons/sponsorship_black.png" : "/icons/sponsorship_gray.png"} alt="Patrocínio" />
