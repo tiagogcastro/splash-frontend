@@ -1,3 +1,4 @@
+import * as yup from 'yup'
 import { useState, useEffect } from 'react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
@@ -9,36 +10,44 @@ import Loading from '@components/Loading';
 
 export default function VerifycationTokenEmail() {
   const router = useRouter()
-  const {user, signOut} = useAuth()
+  const { signOut } = useAuth()
 
   const [ isLoading, setIsLoading ] = useState(false);
-  
+
   async function verifycationToken() {
     try {
       setIsLoading(true);
       const { token } = router.query;
 
-      console.log(token)
+      const schema = yup.object().shape({
+        token: yup.string().uuid()
+      })
+
+      await schema.validate({
+        token
+      }, {
+        abortEarly: false
+      })
 
       await api.put('/profile', {
         token
       })
 
-      setIsLoading(false)
-      signOut()      
+      signOut()
       router.push('/login/email')
-      
+
     } catch(err) {
-      setIsLoading(false)
       throw new Error('Failed to verify your email token')
+    } finally {
+      setIsLoading(false)
     }
-  } 
+  }
 
   useEffect(() => {
     verifycationToken()
   }, [])
- 
- 
+
+
   return (
     <div className={styles.container}>
       <div className={styles.avatar}>
