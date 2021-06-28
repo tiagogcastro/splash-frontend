@@ -10,19 +10,9 @@ import { useSponsorship } from 'src/hooks/useSponsorship';
 import { formatPrice } from 'src/utils/formatPrice';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 
-interface ISponsorship {
-  amount: number;
-  allow_withdrawal: boolean;
-  sponsorship_code: string;
-}
+
 export default function Share({ user }) {
-  const { sponsorship: sponsorshipWithoutSSR } = useSponsorship();
-  const [sponsorship, setSponsorship] = useState<ISponsorship>({} as ISponsorship);
-
-  useEffect(() => {
-    setSponsorship(sponsorshipWithoutSSR)
-  }, [sponsorshipWithoutSSR])
-
+  const { sponsorship } = useSponsorship();
 
   const checkedIfTheSponsorshipObjectIsEmpty = useMemo(() => {
     if(Object.keys(sponsorship).length === 0)
@@ -41,13 +31,11 @@ export default function Share({ user }) {
           {
             checkedIfTheSponsorshipObjectIsEmpty
             ?
-            <div style={{overflow: 'hidden', marginTop: '30vh'}}>
               <Loading size={30} />
-            </div>
             :
             <>
               <div className={styles.img}>
-                <img src={`https://api.lavimco.com/users/qrcode?sponsorship_code=${sponsorship.sponsorship_code}`} alt="Imagem do QrCode" />
+                <img src={`https://api.lavimco.com/users/qrcode?sponsorship_code=${sponsorship.sponsorship_code}`} alt="QRCode" />
               </div>
 
               <div className={styles.text}>
