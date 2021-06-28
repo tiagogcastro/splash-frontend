@@ -1,74 +1,86 @@
 import Button from '@components/Button';
 import Header from '@components/Header';
-
+import Input from '@components/Input';
 import styles from '@styles/pages/signUpTelefone.module.scss';
-import utilStyles from '@styles/utilStyles.module.scss'
+import utilStyles from '@styles/utilStyles.module.scss';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
-import { FormEvent, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useAuth } from 'src/hooks/useAuth';
-import { withSSRGuest } from 'src/utils/withSSRGuest';
-
-import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
+import { withSSRGuest } from 'src/utils/withSSRGuest';
+import * as yup from 'yup';
 
-type FormErrors = {
-  phone_number?: string
-  password?: string 
-  invalid?: string
+interface ILogInFormData {
+  phone_number: string
+  password: string
 }
 
 export default function LoginPhone() {
   const router = useRouter()
-  const {signIn} = useAuth()
+  const { signIn } = useAuth()
+  const formRef = useRef<FormHandles>(null)
+  const [loading, setLoading] = useState(false)
 
-  const [userPhone, setUserPhone] = useState('')
-  const [password, setPassword] = useState('')
+  const handleSubmit = useCallback(
+    async ({
+      password,
+      phone_number,
+    }: ILogInFormData) => {
+      try {
+        setLoading(true)
+        const phoneNumberFormated = phone_number.replaceAll(/[^\w\s]/gi, '').replace(' ', '')
 
-  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
+        const schema = yup.object().shape({
 
-  
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
+          phone_number: yup
+            .string()
+            .matches(/\(\d{2}\)\s\d{4,5}\-\d{4}/g, 'Este telefone é inválido')
+            .required("Por favor, preencha o campo acima"),
 
-    try {
-      var phoneRegEx = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
+          password: yup
+            .string()
+            .required("Senha obrigatória")
+            .min(8, "Mínimo de 8 caracteres")
+            .max(100, "Máximo de 100 caracteres")
 
-      const schema = yup.object().shape({
-        userPhone: yup.string().matches(phoneRegEx, 'Formato inválido').required("Telefone obrigatório"),
-        password: yup.string().required("Senha obrigatória").min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres")
-      });
-    
-      const data = {
-        userPhone,
-        password
+        });
+
+        await schema.validate({
+          password,
+          phone_number
+        }, {
+          abortEarly: false,
+        });
+
+        await signIn({
+          phone_number: `+55${phoneNumberFormated}`,
+          password
+        })
+
+        router.push('/')
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const errs = getValidationErrors(err)
+
+          formRef.current.setErrors(errs)
+
+          return;
+        }
+        formRef.current.setFieldError('password', 'Não foi possível realizar login')
+      } finally {
+        setLoading(false)
       }
+    },
+    [],
+  )
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
 
-      await signIn({
-        phone_number: `+55${userPhone}`,
-        password
-      })
-  
-      router.push('/dashboard')
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        const errs = getValidationErrors(err)
-
-        setErrors(errs)
-
-        return;
-      }
-      setErrors({invalid: 'Telefone ou senha não estão corretos'})
-    }
-  }
-  
   return (
     <>
-      <form onSubmit={(e) => handleSubmit(e)} className={styles.container}>
+      <Form ref={formRef} onSubmit={handleSubmit} className={styles.container}>
         <Header text="Login" />
 
         <span>Informe seu número de telefone</span>
@@ -77,17 +89,24 @@ export default function LoginPhone() {
             <div>
               <h4>BR +55</h4>
               <hr />
-              <input type="tel" placeholder="Numero do telefone" value={userPhone} onChange={(e) => setUserPhone(e.target.value)} />
-              { errors.phone_number && <div className={[styles.alert, styles.visible].join(" ")}>{ errors.phone_number }</div> }
+              <Input
+                mask="(99) 99999-9999"
+                name="phone_number"
+                type="text"
+                placeholder="Numero do telefone"
+              />
             </div>
           </div>
           <div className={utilStyles.field}>
-            <input type="password" placeholder="Senha" value={password} onChange={(e) => setPassword(e.target.value)} />
-            { errors.password && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{ errors.password }</div> }
+            <Input
+              type="password"
+              name="password"
+              placeholder="Senha"
+            />
           </div>
 
-          <Button type="submit">Entrar</Button>
-      </form>
+          <Button isLoading={loading} type="submit">Entrar</Button>
+      </Form>
     </>
   )
 }
