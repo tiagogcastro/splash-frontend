@@ -6,37 +6,42 @@ import { Form } from '@unform/web';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { FormEvent, useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import getValidationErrors from 'src/utils/getValidationErrors';
 import { withSSRGuest } from 'src/utils/withSSRGuest';
 import * as yup from 'yup';
 import { useAuth } from '../../hooks/useAuth';
 
-
-
-interface ISignInFormData {
+interface ILogInFormData {
   email: string
   password: string
 }
+
 export default function LoginEmail() {
   const router = useRouter()
-  const {signIn, user} = useAuth()
+  const { signIn } = useAuth()
 
-  const [ email, setEmail ] = useState('');
-  const [ password, setPassWord ] = useState('');
+  const [ loading, setLoading ] = useState<boolean>(false);
 
   const formRef = useRef<FormHandles>(null)
 
-  async function handleSubmit({
-    email,
-    password
-  }: ISignInFormData) {
+  const handleSubmit = useCallback(
+    async ({
+      email,
+      password
+    }: ILogInFormData) => {
       try {
+        setLoading(true)
         const schema = yup.object().shape({
-          email: yup.string().email("Digite um email válido").required("Email obrigatório"),
-          password: yup.string().min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres").required("Senha obrigatória")
+          email: yup
+            .string()
+            .email("Digite um email válido")
+            .required("Email obrigatório"),
+          password: yup
+            .string()
+            .min(8, "Mínimo de 8 caracteres")
+            .max(100, "Máximo de 100 caracteres").required("Senha obrigatória")
         });
-      
 
         await schema.validate({
           email,
@@ -49,8 +54,8 @@ export default function LoginEmail() {
           email,
           password
         })
-    
-        router.push('/dashboard')
+
+        router.push('/')
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errs = getValidationErrors(err)
@@ -60,40 +65,41 @@ export default function LoginEmail() {
           return;
         }
         formRef.current.setErrors({ password: 'E-mail ou senha não estão corretos' })
+
+      } finally {
+        setLoading(false)
       }
-  }
-  
+    },
+    []
+  )
+
   return (
     <>
-      <Form ref={formRef} className={styles.container} onSubmit={(e) => handleSubmit(e)}>
+      <Form ref={formRef} className={styles.container} onSubmit={handleSubmit}>
           <div className={styles.avatar}>
             <img src="/logo.png" alt="Logo" />
           </div>
 
           <span>Informe seu email e senha</span>
-          
+
           <div className={styles.inputs}>
             <div className={styles.field}>
-              <Input 
+              <Input
                 name="email"
-                type="email" 
-                placeholder="Digite seu E-mail" 
-                value={email}
-                onChange={(e) => {setEmail(e.target.value)}}
+                type="email"
+                placeholder="Digite seu E-mail"
               />
             </div>
             <div className={styles.field}>
-              <Input 
-                name="password" 
-                type="password" 
-                placeholder="Digite sua Senha" 
-                value={password}
-                onChange={(e) => {setPassWord(e.target.value)}}
+              <Input
+                name="password"
+                type="password"
+                placeholder="Digite sua Senha"
               />
             </div>
           </div>
-          
-          <Button type="submit">Entrar</Button>
+
+          <Button type="submit" isLoading={loading}>Entrar</Button>
       </Form>
 
       <div className={styles.links}>

@@ -21,7 +21,7 @@ interface IProfileFormData {
   email: string
 }
 
-export default function Email({ email, token }) {
+export default function Email({ email }) {
   const { user } = useAuth()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
@@ -100,12 +100,10 @@ export default function Email({ email, token }) {
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async ({ query }) => {
   const email = query.email
-  const token = query.token
 
   return {
     props: {
       email,
-      token
     }
   }
 })

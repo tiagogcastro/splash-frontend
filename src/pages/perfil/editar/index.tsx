@@ -13,9 +13,7 @@ import { useAuth } from 'src/hooks/useAuth';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 export default function Edit({ user }) {
-  const {query} = useRouter()
-  const {saveOnCookies} = useAuth()
-  const token = query.token
+  const { saveOnCookies } = useAuth()
   const cameraRef = useRef<any>()
   const inputFileRef = useRef<any>()
 
@@ -88,7 +86,7 @@ export default function Edit({ user }) {
             </div>
             <div className={styles.field}>
               <p>Email</p>
-              <a href={`/perfil/editar/email?email=${user.email}&token=${token}`}>
+              <a href={`/perfil/editar/email?email=${user.email}`}>
                 {user.email}
                 <FiChevronRight size={16} color="#5e646e" />
               </a>

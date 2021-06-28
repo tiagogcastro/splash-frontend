@@ -21,7 +21,7 @@ interface IProfileFormData {
 }
 
 export default function Name({ name }) {
-  const {saveOnCookies} = useAuth()
+  const { saveOnCookies } = useAuth()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const formRef = useRef<FormHandles>(null)
