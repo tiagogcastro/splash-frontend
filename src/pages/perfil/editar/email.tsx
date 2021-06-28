@@ -86,7 +86,7 @@ export default function Email({ email, token }) {
               name="email"
               placeholder="Insira seu e-mail..."
             />
-            {success && <p className={styles.success}>Um e-mail foi enviado para sua caixa de entrada</p>}
+            {success && <p className={utilStyles.success}>Um e-mail de confirmação foi enviado para sua caixa de entrada</p>}
             <div className={styles.buttonConfirmation} style={{marginTop: "50vh"}}>
               <Button isLoading={loading} type="submit">Confirmar</Button>
             </div>

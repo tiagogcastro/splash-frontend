@@ -10,7 +10,7 @@ import { formatPrice } from 'src/utils/formatPrice'
 import { withSSRAuth } from 'src/utils/withSSRAuth'
 import { AiOutlineFrown } from 'react-icons/ai'
 import Loading from '@components/Loading'
-import { useCallback } from 'react'
+import Link from 'next/link';
 
 interface ISponsor {
   id: string
@@ -78,6 +78,7 @@ export default function Saldo(): JSX.Element {
                 {checkedIfTheUserHasSponsorsOrnot ? filteredSponsors?.map(sponsor => (
                   <li className={styles.store} key={sponsor.id}>
                     <div className={styles.first}>
+                    <Link href={`/${sponsor.sponsor.username}`}>
                       <img
                         src={
                           sponsor.sponsor.avatar_url ?
@@ -87,8 +88,11 @@ export default function Saldo(): JSX.Element {
                         alt={sponsor.sponsor.username}
                         className={styles.img}
                       />
+                    </Link>
                       <div className={styles.text}>
-                        <h2>{ sponsor.sponsor.name }</h2>
+                        <Link href={`/${sponsor.sponsor.username}`}>
+                          <h2>{ sponsor.sponsor.name || sponsor.sponsor.username }</h2>
+                        </Link>
                         <span>{formatPrice(sponsor.balance_amount)} disponível</span>
                       </div>
                     </div>

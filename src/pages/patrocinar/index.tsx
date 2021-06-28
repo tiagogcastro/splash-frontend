@@ -13,9 +13,10 @@ import { AiOutlineFrown } from 'react-icons/ai';
 interface User {
 	sponsored: {
 		id: string;
-		name: string;
+    role: 'default' | 'shop';
+		name?: string;
 		username: string;
-		avatar_url: string;
+		avatar_url?: string;
 	}
 }
 
@@ -39,7 +40,10 @@ export default function Patrocinar() {
     return true
   }, [usersSponsored, loading])
 
-
+  const message = {
+    shop: 'Pagar',
+    default: 'Enviar'
+  }
 	return (
 		<div className={styles.container}>
 			<Header text="Patrocinar" />
@@ -64,7 +68,7 @@ export default function Patrocinar() {
 									</div>
 								</div>
 								<div className={styles.second}>
-									<Button url={`/patrocinar/valor?user_id=${user.sponsored.id}`}>Enviar patrocínio</Button>
+									<Button url={`/patrocinar/valor?user_id=${user.sponsored.id}`}>{message[user.sponsored.role]}</Button>
 								</div>
 							</li>
 						)):

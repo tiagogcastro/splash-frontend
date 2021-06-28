@@ -40,7 +40,8 @@ export default function Patrocinadores({ user }) {
         <Header text="Patrocinadores" />
         <div className={styles.content}>
           { sponsors.map(sponsor => (
-            <li key={sponsor.id} className={styles.user}>
+          <Link key={sponsor.id} href={`/${sponsor.sponsor.username}`}>
+            <li className={styles.user}>
               <div className={styles.first}>
                   <div className={styles.img}>
                     <img alt={user.username} className={styles.img} src={
@@ -50,19 +51,16 @@ export default function Patrocinadores({ user }) {
                     />
                   </div>
                   <div className={styles.text}>
-                      <h2>{sponsor.sponsor.name}</h2>
-                      <span>@{sponsor.sponsor.username}</span>
+                    <h2>{sponsor.sponsor.name}</h2>
+                    <span>@{sponsor.sponsor.username}</span>
                   </div>
               </div>
               <div className={styles.second}>
-                <Link href={`/${sponsor.sponsor.username}`}>
-                  <a>
-                    <span>Perfil</span>
-                    <FiChevronRight size={15} color="#8a8a8e" />
-                  </a>
-                </Link>
+                <span>Perfil</span>
+                <FiChevronRight size={15} color="#8a8a8e" />
               </div>
             </li>
+          </Link>
           )) }
         </div>
       </div>

@@ -48,7 +48,7 @@ export default function Patrocinios({ user_id }: ISponsorshipsProps): JSX.Elemen
               {notification.content.includes('pagou') ? (
                 <FaArrowAltCircleUp size={40} color="#e04545" />
               ) : (
-                <FaArrowAltCircleDown size={40} color="#a7e0a7" />
+                <FaArrowAltCircleDown size={40} color="#7ceb7c" />
               )}
               <div className={styles.text}>
                 <h2>{notification.content}</h2>

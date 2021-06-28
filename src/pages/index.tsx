@@ -10,6 +10,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AiOutlineFrown } from 'react-icons/ai';
 import { FiChevronRight } from 'react-icons/fi';
 import { ImExit } from 'react-icons/im';
+import Link from 'next/link';
 import { useAuth } from 'src/hooks/useAuth';
 import api from 'src/services/api';
 import { formatPrice } from 'src/utils/formatPrice';
@@ -26,8 +27,9 @@ interface INotification {
   user_id: string
   content: string
   user: {
-    avatar_url: string
     username: string
+    avatar_url?: string
+    name?: string
   }
   created_at: string
 }
@@ -109,18 +111,17 @@ export default function Home(): JSX.Element {
       <div className={styles.content}>
         <ul className={styles.userList}>
           {loading &&
-          <div style={{overflow: 'hidden'}}>
             <Loading size={30} />
-          </div>
           }
 
           {checkedIfTheUserHasNotificationOrnot ? notifications.map(notification => (
-            <a
+            <Link
               key={notification.id}
               href={`/patrocinios/${notification.user.username}?user_id=${notification.user_id}`}
             >
               <li className={styles.user}>
                 <div className={styles.first}>
+                <Link href={`/${notification.user.username}`}>
                   <img
                     src={
                       notification.user.avatar_url ?
@@ -130,12 +131,16 @@ export default function Home(): JSX.Element {
                     alt={notification.user.username}
                     className={styles.img}
                   />
+                </Link>
+
                   <div className={styles.text}>
+                  <Link href={`/${notification.user.username}`} >
                     <h2>
                       {notification.user.username === user.username
                         ? 'Eu'
-                        : notification.user.username}
+                        :  notification.user.name || notification.user.username }
                     </h2>
+                  </Link>
                     <span>{notification.content}</span>
                   </div>
                 </div>
@@ -144,7 +149,7 @@ export default function Home(): JSX.Element {
                   <FiChevronRight size={15} color="#6d6d7e" />
                 </div>
               </li>
-            </a>
+            </Link>
           )) :
           <div className={utilsStyles.noContent}>
             <AiOutlineFrown size={60} />
