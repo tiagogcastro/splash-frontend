@@ -8,7 +8,7 @@ export function withSSRAuth<P>(fn: GetServerSideProps<P>) {
     if (!cookies['%40Lavimco%3Auser']) {
       return {
         redirect: {
-          destination: '/',
+          destination: '/login',
           permanent: false
         }
       }

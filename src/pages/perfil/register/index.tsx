@@ -1,18 +1,16 @@
-import Header from '@components/Header';
 import Button from '@components/Button';
-
+import Header from '@components/Header';
 import styles from '@styles/pages/perfil/editar.module.scss';
 import utilStyles from '@styles/utilStyles.module.scss';
-import api from 'src/services/api';
-import { useState } from 'react';
-
-import * as yup from 'yup';
-import getValidationErrors from 'src/utils/getValidationErrors';
 import { GetServerSideProps } from 'next';
-import { withSSRAuth } from 'src/utils/withSSRAuth';
 import { parseCookies } from 'nookies';
-import { useRouter } from 'next/router';
-import { useAuth } from 'src/hooks/useAuth';
+import { useState } from 'react';
+import api from 'src/services/api';
+import getValidationErrors from 'src/utils/getValidationErrors';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import * as yup from 'yup';
+
+
 
 type FormErrors = {
   name?: string
@@ -21,7 +19,7 @@ type FormErrors = {
 
 export default function EditNotRegister({ user }) {
   const [name, setName] = useState(user.name)
-  
+
   const [username, setUsername] = useState(user.username)
 
   const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
@@ -32,9 +30,9 @@ export default function EditNotRegister({ user }) {
 
       const schema = yup.object().shape({
         name: yup.string(),
-        username: yup.string().required("Username obrigatório").min(5, "Mínimo de 5 caracteres").max(30, "Máximo de 30 caracteres")
+        username: yup.string().required("Nome de usuário obrigatório").min(5, "Mínimo de 5 caracteres").max(30, "Máximo de 30 caracteres")
       });
-    
+
       const data = {
         name,
         username
@@ -44,12 +42,11 @@ export default function EditNotRegister({ user }) {
         abortEarly: false,
       });
 
-      const response = await api.put('/profile', {
-        user_id: user.id,
+      await api.put('/profile', {
         username,
         name
       })
-  
+
     } catch (err) {
       if (err instanceof yup.ValidationError) {
         const errs = getValidationErrors(err)
@@ -60,7 +57,7 @@ export default function EditNotRegister({ user }) {
       }
     }
 
-    
+
   }
 
   return (
@@ -85,8 +82,8 @@ export default function EditNotRegister({ user }) {
           </div>
 
           <div className={styles.notRegister}>
-            <p>Me parece que você não tem uma senha e e-mail registrado, deseja adicionar?</p>
-            <Button url="/perfil/register/email">Adicionar e-mail e senha</Button>
+            <p>Você não tem um e-mail registrado, deseja adicionar?</p>
+            <Button url="/perfil/register/email">Adicionar e-mail</Button>
           </div>
         </div>
       </div>
@@ -96,7 +93,7 @@ export default function EditNotRegister({ user }) {
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (ctx) => {
   const user = JSON.parse(parseCookies(ctx)["%40Lavimco%3Auser"])
-  
+
   return {
     props: {
       user
