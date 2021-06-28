@@ -32,7 +32,6 @@ export default function RegisterEmail() {
 
   const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
 
-
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
   
@@ -56,13 +55,9 @@ export default function RegisterEmail() {
           abortEarly: false,
         });
         
-        const response = await api.put('/profile', {
-          email,
-          password,
-          password_confirmation: confirmPassword
+        await api.post('/profile/send-verification-token', {
+          email
         })
-
-        saveOnCookies(response.data)
 
       } catch (err) {
         if (err instanceof yup.ValidationError) {

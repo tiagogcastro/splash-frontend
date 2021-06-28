@@ -6,12 +6,11 @@ import { Form } from '@unform/web';
 import { GetServerSideProps } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { useRef } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import getValidationErrors from 'src/utils/getValidationErrors';
 import { withSSRGuest } from 'src/utils/withSSRGuest';
 import * as yup from 'yup';
 import { useAuth } from '../../hooks/useAuth';
-
 
 
 
@@ -22,6 +21,9 @@ interface ISignInFormData {
 export default function LoginEmail() {
   const router = useRouter()
   const {signIn, user} = useAuth()
+
+  const [ email, setEmail ] = useState('');
+  const [ password, setPassWord ] = useState('');
 
   const formRef = useRef<FormHandles>(null)
 
@@ -76,6 +78,8 @@ export default function LoginEmail() {
                 name="email"
                 type="email" 
                 placeholder="Digite seu E-mail" 
+                value={email}
+                onChange={(e) => {setEmail(e.target.value)}}
               />
             </div>
             <div className={styles.field}>
@@ -83,6 +87,8 @@ export default function LoginEmail() {
                 name="password" 
                 type="password" 
                 placeholder="Digite sua Senha" 
+                value={password}
+                onChange={(e) => {setPassWord(e.target.value)}}
               />
             </div>
           </div>

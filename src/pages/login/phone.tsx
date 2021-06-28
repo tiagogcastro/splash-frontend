@@ -49,7 +49,7 @@ export default function LoginPhone() {
       });
 
       await signIn({
-        phone_number: `55${userPhone}`,
+        phone_number: `+55${userPhone}`,
         password
       })
   
