@@ -27,17 +27,17 @@
 
                 .input {
                     display: flex;
-                    flex-direction: column;     
+                    flex-direction: column;
                     position: relative;
                     input {
                         border: none;
                         outline: none;
-                        font-size: 22px;
+                        font-size: 22px !important;
                         width: 100%;
                         font-weight: bold;
                         padding-bottom: 5px;
                         border-bottom: 1px solid var(--text);
-                        
+
                     }
                     .alert {
                       display: none;
@@ -52,13 +52,22 @@
                     }
                 }
 
-                
+
             }
         }
 
         .buttonConfirmation {
             width: 100%;
             margin-bottom: 40px;
+        }
+        .allowWithdrawalBalance {
+          display: flex;
+          align-items: center;
+          span {
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 12px;
+          }
         }
     }
 }

@@ -4,7 +4,7 @@ import Button from '@components/Button';
 import styles from '@styles/pages/perfil/each.module.scss';
 import utilStyles from '@styles/utilStyles.module.scss';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { GetServerSideProps } from 'next';
 import api from 'src/services/api';
 import { useAuth } from 'src/hooks/useAuth';
@@ -12,67 +12,75 @@ import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
+import Input from '@components/Input';
 
-type FormErrors = {
-  newName?: string
+interface IProfileFormData {
+  name: string
 }
 
 export default function Name({ name }) {
   const {saveOnCookies} = useAuth()
   const router = useRouter()
+  const [loading, setLoading] = useState(false)
+  const formRef = useRef<FormHandles>(null)
 
-  const [newName, setNewName] = useState(name)
+  const handleSubmit = useCallback(
+    async ({ name }: IProfileFormData) => {
+      try {
+        setLoading(true)
 
-  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
+        const schema = yup.object().shape({
+          name: yup.string().max(30, "Máximo de 30 caracteres").required('Nome obrigatório')
+        });
 
-  async function handleEditProfile() {
 
-    try {
+        await schema.validate({
+          name
+        }, {
+          abortEarly: false,
+        });
 
-      const schema = yup.object().shape({
-        newName: yup.string().max(30, "Máximo de 30 caracteres")
-      });
-    
-      const data = {
-        newName
+        const response = await api.put('/profile', {
+          name
+        })
+
+        saveOnCookies({ user: response.data })
+
+        router.back()
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const errs = getValidationErrors(err)
+
+          formRef.current.setErrors(errs)
+
+          return;
+        }
+        formRef.current.setFieldError('name', 'Não foi possível atualizar seu nome')
+      } finally {
+        setLoading(false)
       }
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-
-      const response = await api.put('/profile', {
-        name: newName
-      })
-  
-      saveOnCookies({ user: response.data })
-  
-      router.back()
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        const errs = getValidationErrors(err)
-
-        setErrors(errs)
-
-        return;
-      }
-    }
-    
-  }
-
+    },
+  [])
   return (
     <div className={styles.container}>
       <Header text="Editar nome" />
-      <div className={styles.content}>
+      <Form ref={formRef} onSubmit={handleSubmit} className={styles.content}>
         <div className={utilStyles.field}>
           <label htmlFor="name">Nome</label>
-          <input type="text" name="name" placeholder="Insira seu nome..." value={newName} onChange={(e) => setNewName(e.target.value)} />
-          { errors.newName && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.newName}</div> }
+          <Input
+            defaultValue={name}
+            type="text"
+            name="name"
+            placeholder="Insira seu nome..."
+          />
         </div>
         <div className={styles.buttonConfirmation}>
-          <Button onClick={handleEditProfile} >Confirmar</Button>
+          <Button type="submit" isLoading={loading}>Confirmar</Button>
         </div>
-      </div>
+      </Form>
     </div>
   )
 }

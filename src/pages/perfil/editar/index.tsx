@@ -21,11 +21,11 @@ export default function Edit({ user }) {
 
   const [camera, setCamera] = useState(false)
   const [newAvatar, setNewAvatar] = useState<string | null>(user.avatar_url)
-  
+
   const handleUpdateAvatar = async (e) => {
     const formData = new FormData()
     formData.append('avatar', e.target.files[0])
-    
+
     const response = await api.patch('/profile/avatar', formData)
 
     setNewAvatar(response.data.avatar_url)
@@ -62,41 +62,49 @@ export default function Edit({ user }) {
                   </label>
                 </>
               ) }
-              <img className={styles.img} src={newAvatar ? newAvatar : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} alt={user.username} />
+              <img
+                className={styles.img}
+                src={
+                  newAvatar ?
+                  newAvatar :
+                  'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'
+                }
+                alt={user.username}
+              />
             </div>
             <div className={styles.field}>
               <p>Nome</p>
               <a href={`/perfil/editar/nome?name=${user.name}`}>
                 {user.name}
-                <FiChevronRight size={15} color="#8a8a8e" />
+                <FiChevronRight size={16} color="#5e646e" />
               </a>
             </div>
             <div className={styles.field}>
               <p>Nome de usuário</p>
               <a href={`/perfil/editar/username?username=${user.username}`}>
                 {user.username}
-                <FiChevronRight size={15} color="#8a8a8e" />
+                <FiChevronRight size={16} color="#5e646e" />
               </a>
             </div>
             <div className={styles.field}>
               <p>Email</p>
               <a href={`/perfil/editar/email?email=${user.email}&token=${token}`}>
-                {user.email}  
-                <FiChevronRight size={15} color="#8a8a8e" />
+                {user.email}
+                <FiChevronRight size={16} color="#5e646e" />
               </a>
             </div>
             <div className={styles.field}>
               <p>Senha</p>
               <a href="/perfil/editar/senha">
                 ********
-                <FiChevronRight size={15} color="#8a8a8e" />
+                <FiChevronRight size={16} color="#5e646e" />
               </a>
             </div>
             <div className={styles.field}>
               <p>Biografia</p>
               <a href={`/perfil/editar/biografia?bio=${user.bio}`}>
                 Editar biografia
-                <FiChevronRight size={15} color="#8a8a8e" />
+                <FiChevronRight size={16} color="#5e646e" />
               </a>
             </div>
           </div>

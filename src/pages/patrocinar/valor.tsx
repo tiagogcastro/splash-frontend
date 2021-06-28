@@ -1,30 +1,37 @@
-import styles from '@styles/pages/patrocinar/valor.module.scss'
-import utilStyles from '@styles/utilStyles.module.scss'
-import Header from '@components/Header'
-import Button from '@components/Button'
-import { useState, FormEvent } from 'react';
-import { useRouter } from 'next/router';
-import api from 'src/services/api';
-import { useAuth } from 'src/hooks/useAuth';
+import Button from '@components/Button';
+import Header from '@components/Header';
+import Input from '@components/Input';
+import styles from '@styles/pages/patrocinar/valor.module.scss';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
 import { GetServerSideProps } from 'next';
-import { withSSRAuth } from 'src/utils/withSSRAuth';
-
-import * as yup from 'yup';
+import { useRouter } from 'next/router';
+import { useCallback, useMemo, useRef, useState } from 'react';
+import Switch from 'react-switch';
+import { useAuth } from 'src/hooks/useAuth';
+import { useSponsorship } from 'src/hooks/useSponsorship';
+import api from 'src/services/api';
 import getValidationErrors from 'src/utils/getValidationErrors';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import * as yup from 'yup';
 
-type FormErrors = {
-  valueOutOfRange?: string
+interface ISponsorshipFormData {
+  amount: number
 }
-
 export default function PatrocinarValor() {
-  const {user} = useAuth()
-  const route = useRouter();
-  const [value, setValue] = useState(1);
+  const { user } = useAuth()
 
-  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
+  const route = useRouter();
+
+  const [value, setValue] = useState(1);
+  const formRef = useRef<FormHandles>(null);
+  const { setSponsorship } = useSponsorship();
+
+  const [allowWithdrawalBalance, setAllowWithdrawalBalance] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   function setInputValue(e) {
-    let v = parseInt(e.target.value);
+    let v = Number(e.target.value);
     if (v > 0 || v) {
       if (v > 500) {
         setValue(value)
@@ -35,80 +42,112 @@ export default function PatrocinarValor() {
       setValue(0)
     }
   }
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-      
-    try {
-      const schema = yup.object().shape({
-        value: yup.number().required("Valor obrigatório"),
-        user_recipient_id: yup.string(),
-      });
+  const handleSubmit = useCallback(
+    async ({ amount }: ISponsorshipFormData) => {
+      try {
+        setLoading(true)
 
-      const data = {
-        value,
-        user_recipient_id: route.query.user_id
+        const schema = yup.object().shape({
+          amount: yup.number()
+          .required("Insira um valor")
+          .min(1, 'O valor mínimo é R$1,00')
+          .max(500, 'O valor máximo é R$500,00'),
+          user_recipient_id: yup.string().uuid('O destinatário é inválido'),
+        });
+
+        const data = {
+          amount: Number(amount),
+          user_recipient_id: route.query.user_id
+        }
+
+        await schema.validate(data, {
+          abortEarly: false,
+        });
+
+        if(!data.user_recipient_id) {
+          const response = await api.post('/sponsorships/sponsorship-code', {
+            allow_withdrawal_balance: allowWithdrawalBalance,
+            amount
+          });
+
+          setSponsorship(response.data)
+
+          route.push(`/share`);
+
+
+          return;
+        }
+
+        await api.post('/sponsorships', {
+          user_recipient_id: route.query.user_id,
+          amount,
+          ...(user?.role === 'shop' ?
+          {
+            allow_withdrawal_balance: allowWithdrawalBalance,
+          } : {})
+        });
+
+        route.push('/');
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const errs = getValidationErrors(err)
+
+          formRef.current.setErrors(errs)
+
+          return;
+        }
+        formRef.current.setFieldError('amount', 'Não foi possível enviar um patrocínio')
+
+      } finally {
+        setLoading(false)
       }
-        
-       if (value < 1 || value > 500) {
-        let valueOutOfRange = "O valor precisa estar entre R$ 1 e R$ 500";
-
-        throw Error(valueOutOfRange);
-       }
-
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-      
-      if(!data.user_recipient_id) {
-        route.push(`/share?value=${value}`);
-        return;
-      }
-      
-      api.post('/sponsorships', {
-        user_recipient_id: route.query.user_id,
-        allow_withdrawal_balance: user.role === 'shop',
-        amount: value
-      });
-
-      route.push('/dashboard');
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        const errs = getValidationErrors(err)
-
-        setErrors(errs)
-
-        return;
-      }
-      setErrors({valueOutOfRange: err.message})
+    },
+    [allowWithdrawalBalance, route, api],
+  )
+  const showSwitchIfTheUserIsShop = useMemo(() => {
+    if(user?.role === 'shop') {
+      return (
+        <>
+          <span>
+            Permitir saque do patrocínio
+          </span>
+          <Switch
+            onChange={() => setAllowWithdrawalBalance(!allowWithdrawalBalance)}
+            checked={allowWithdrawalBalance}
+            checkedIcon={false}
+            uncheckedIcon={false}
+            onColor={'#80da6a'}
+            offColor={'#959899'}
+          />
+        </>
+      )
     }
-  }
+    return null
+  }, [allowWithdrawalBalance])
 
   return (
     <div className={styles.container}>
       <Header text="Enviar patrocínio" />
-      <form className={styles.content} onSubmit={(event) => handleSubmit(event)}>
+      <Form ref={formRef} className={styles.content} onSubmit={handleSubmit}>
         <div className={styles.innerContent}>
           <div className={styles.value}>
             <span>R$</span>
             <div className={styles.input}>
-              <input
-                onChange={(e) => {
-                  setInputValue(e)
-                }}
-                value={value}
-                type="number"
-                pattern="[0-9]"
+              <Input
+                defaultValue={value}
+                name="amount"
+                type="text"
               />
-              { errors.valueOutOfRange && <div className={[styles.alert, styles.visible].join(" ")}>{ errors.valueOutOfRange }</div> }
             </div>
-
           </div>
         </div>
-
-        <div className={styles.buttonConfirmation}>
-          <Button type="submit">Enviar</Button>
+        <div className={styles.allowWithdrawalBalance}>
+          {showSwitchIfTheUserIsShop}
         </div>
-      </form>
+        <div className={styles.buttonConfirmation}>
+          <Button type="submit" isLoading={loading}>Enviar</Button>
+        </div>
+      </Form>
     </div>
   )
 }

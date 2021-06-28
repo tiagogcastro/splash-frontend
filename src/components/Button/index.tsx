@@ -1,3 +1,4 @@
+import Loading from '@components/Loading';
 import Link from 'next/link';
 import React, { ButtonHTMLAttributes } from 'react'
 
@@ -24,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({ children, isDisabled, isLoading, url = 
     return (
       <div className={styles.container}>
         <button {...rest} className={styles.button}>
-          {isLoading ? 'carregando...' : children}
+          {isLoading ? <Loading hasHover={true} /> : children}
         </button>
       </div>
     );

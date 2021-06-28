@@ -51,25 +51,23 @@
         }
       }
       .second {
-        a {
-          display: flex;
-          align-items: center;
-          span {
-            font-size: 12px;
-            text-align: end;
-            &:first-child {
-              color: var(--text-light);
-              margin-right: 1px;
-            }
+        display: flex;
+        align-items: center;
+        span {
+          font-size: 12px;
+          text-align: end;
+          &:first-child {
+            color: var(--text-light);
+            margin-right: 1px;
+          }
 
-            &.icon {
-              position: relative;
+          &.icon {
+            position: relative;
 
-              svg {
-                position: absolute;
-                top: 3px;
-                right: 3px;
-              }
+            svg {
+              position: absolute;
+              top: 3px;
+              right: 3px;
             }
           }
         }

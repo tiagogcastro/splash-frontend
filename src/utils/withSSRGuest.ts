@@ -8,7 +8,7 @@ export function withSSRGuest<P>(fn: GetServerSideProps<P>) {
     if (cookies['%40Lavimco%3Auser']) {
       return {
         redirect: {
-          destination: '/dashboard',
+          destination: '/',
           permanent: false
         }
       }

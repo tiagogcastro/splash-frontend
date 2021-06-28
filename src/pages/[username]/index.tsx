@@ -14,7 +14,7 @@ import Link from 'next/link';
 
 export default function Perfil({ user, userType, me }) {
   const [isSponsoring, setIsSponsoring] = useState(false)
-  
+
   useEffect(() => {
     api.get(`/sponsors/sponsored/${me.id}`).then(response => {
       response.data.forEach(sponsor => {
@@ -24,7 +24,7 @@ export default function Perfil({ user, userType, me }) {
       })
     })
   }, [])
-  
+
   if (!user) {
     return (
       <Error />
@@ -33,14 +33,21 @@ export default function Perfil({ user, userType, me }) {
 
   return (
     <div className={styles.container}>
-      <Header text={user.username} />
+      <Header backURL={'/'} text={user.username} />
       <div className={styles.content}>
-        <img alt={user.username} className={styles.img} src={user.avatar ? user.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
+        <img alt={user.username} className={styles.img} src={
+          user.avatar_url ?
+          user.avatar_url :
+          'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
+        />
 
         <div className={styles.text}>
           <h1>{user.name}</h1>
           <span>@{user.username}</span>
-          <p>{user.bio || 'Sem descrição.'}</p>
+          {
+            user.bio ? <p>{user.bio}</p> : <p style={{color: '#424750'}}>...</p>
+          }
+
         </div>
 
         <div className={styles.statistics}>
@@ -58,18 +65,18 @@ export default function Perfil({ user, userType, me }) {
           </Link>
         </div>
 
-        { userType === "shop-me" ? ( 
+        { userType === "shop-me" ? (
           <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button>
         ) : userType === "me" ? (
-          <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button> 
-        ) : userType === "shop" && isSponsoring ? ( 
+          <Button url={me.email ? "/perfil/editar" : "/perfil/register"}>Editar</Button>
+        ) : userType === "shop" && isSponsoring ? (
           <Button>Copatrocinando</Button>
         ) : userType === "shop" && !isSponsoring ? (
           <Button>Copatrocinar</Button>
         ) : userType === "user" && isSponsoring ? (
-          <Button url={`/patrocinar/valor?user_id=${user.id}`}>Patrocinando</Button> 
+          <Button url={`/patrocinar/valor?user_id=${user.id}`}>Patrocinando</Button>
         ) : userType === "user" && !isSponsoring && (
-          <Button url={`/patrocinar/valor?user_id=${user.id}`}>Patrocinar</Button> 
+          <Button url={`/patrocinar/valor?user_id=${user.id}`}>Patrocinar</Button>
         ) }
 
       </div>
