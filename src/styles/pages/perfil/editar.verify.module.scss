@@ -7,13 +7,17 @@
     flex-direction: column;
 
     .avatar{
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
       
-        img { 
-          width: 100%;
-          border-radius: 50%;
-        }
+      img { 
+        width: 100%;
+        border-radius: 50%;
       }
+    }
+    
+    .loading  {
+      margin-top: 100px;
+    }
 }

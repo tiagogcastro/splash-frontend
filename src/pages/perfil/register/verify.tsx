@@ -5,6 +5,7 @@ import { useAuth } from 'src/hooks/useAuth';
 import api from 'src/services/api';
 
 import styles from '@styles/pages/perfil/editar.verify.module.scss';
+import Loading from '@components/Loading';
 
 export default function VerifycationTokenEmail() {
   const router = useRouter()
@@ -28,8 +29,8 @@ export default function VerifycationTokenEmail() {
       router.push('/login/email')
       
     } catch(err) {
-      console.log(`Erro aqui ${err}`)
       setIsLoading(false)
+      throw new Error('Failed to verify your email token')
     }
   } 
 
@@ -46,12 +47,8 @@ export default function VerifycationTokenEmail() {
 
       <p>Estamos validando seu email...</p>
 
-      <div>
-        {isLoading ? (
-          <h1>spinner</h1>
-        ): (
-          <h1></h1>
-        )}
+      <div className={styles.loading}>
+        {isLoading && <Loading size={48} />}
       </div>
     </div>
   )

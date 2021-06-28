@@ -24,7 +24,7 @@ export default function Patrocinadores({ user }) {
   useEffect(() => {
     api.get(`/sponsors/sponsored/${user.id}`).then(response => {
       let responseSponsored = response.data;
-      
+
       setSponsored(responseSponsored)
     })
   }, [])
@@ -32,38 +32,40 @@ export default function Patrocinadores({ user }) {
   if (!sponsored) {
     return null
   }
-  
+
   return (
-    <> 
+    <>
       <div className={styles.container}>
         <Header text="Patrocinados" />
         <div className={styles.content}>
           { sponsored.map(sponsoredMapped => (
-            <li key={sponsoredMapped.id} className={styles.user}>
+          <Link key={sponsoredMapped.id} href={`/${sponsoredMapped.sponsored.username}`}>
+            <li className={styles.user}>
               <div className={styles.first}>
                   <div className={styles.img}>
-                    <img alt={user.username} className={styles.img} src={sponsoredMapped.sponsored.avatar_url ? sponsoredMapped.sponsored.avatar_url : 'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'} />
+                    <img alt={user.username} className={styles.img} src={
+                      sponsoredMapped.sponsored.avatar_url ?
+                      sponsoredMapped.sponsored.avatar_url :
+                      'https://palmbayprep.org/wp-content/uploads/2015/09/user-icon-placeholder.png'}
+                    />
                   </div>
                   <div className={styles.text}>
-                      <h2>{sponsoredMapped.sponsored.name}</h2>
-                      <span>@{sponsoredMapped.sponsored.username}</span>
+                    <h2>{sponsoredMapped.sponsored.name}</h2>
+                    <span>@{sponsoredMapped.sponsored.username}</span>
                   </div>
               </div>
               <div className={styles.second}>
-                <Link href={`/${sponsoredMapped.sponsored.username}`}>
-                  <a>
-                    <span>Perfil</span>
-                    <FiChevronRight size={15} color="#8a8a8e" />
-                  </a>
-                </Link>
+                <span>Perfil</span>
+                <FiChevronRight size={15} color="#8a8a8e" />
               </div>
             </li>
+          </Link>
           )) }
         </div>
       </div>
     </>
   )
-  
+
 }
 
 export const getServerSideProps: GetServerSideProps = withSSRAuth(async (context) => {

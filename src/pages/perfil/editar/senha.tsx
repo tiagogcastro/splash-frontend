@@ -5,13 +5,17 @@ import styles from '@styles/pages/perfil/each.module.scss';
 import utilStyles from '@styles/utilStyles.module.scss';
 import { useAuth } from 'src/hooks/useAuth';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import api from 'src/services/api';
 import { GetServerSideProps } from 'next';
 import { withSSRAuth } from 'src/utils/withSSRAuth';
 
 import * as yup from 'yup';
 import getValidationErrors from 'src/utils/getValidationErrors';
+import { Form } from '@unform/web';
+import { FormHandles } from '@unform/core';
+import Input from '@components/Input';
+import { useCallback } from 'react';
 
 type FormErrors = {
   password?: string,
@@ -19,90 +23,87 @@ type FormErrors = {
   confirmPassword?: string
 }
 
+interface IProfileFormData{
+  password: string
+  password_confirmation: string
+
+}
 export default function Password() {
   const {saveOnCookies} = useAuth()
   const router = useRouter()
+  const formRef = useRef<FormHandles>(null)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const [oldPassword, setOldPassword] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const handleSubmit = useCallback(
+    async ({ password, password_confirmation }: IProfileFormData) => {
+      try {
+        setIsLoading(true)
+        const schema = yup.object().shape({
+          password: yup.string().min(8, 'O mínimo de caracteres é 8').max(100, 'O máximo de caracteres é 100'),
+          password_confirmation: yup.string().oneOf(['password', yup.ref('password')], 'Senhas não coincidem').required('Confirmação de senha obrigatória')
+        });
 
-  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
 
-  async function handleEditProfile() {
+        await schema.validate({
+          password,
+          password_confirmation,
+        }, {
+          abortEarly: false,
+        });
 
-    try {
+        const response = await api.put('/profile', {
+          password,
+          password_confirmation,
+        })
 
-      const schema = yup.object().shape({
-        oldPassword: yup.string().min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres").required("Nova senha obrigatória"),
-        password: yup.string().required("Senha antiga obrigatória"),
-        confirmPassword: yup.string().required("Confirmação de senha obrigatória")
-      });
+        saveOnCookies({ user: response.data })
 
-      if (password !== confirmPassword) {
-        throw Error("As senhas não coincidem")
+        router.back()
+
+      } catch (err) {
+        if (err instanceof yup.ValidationError) {
+          const errs = getValidationErrors(err)
+
+          formRef.current.setErrors(errs)
+
+          return;
+        }
+        formRef.current.setFieldError("password_confirmation", "Não foi possível atualizar sua senha")
+      } finally {
+        setIsLoading(false)
       }
-    
-      const data = {
-        password,
-        oldPassword,
-        confirmPassword
-      }
 
-      await schema.validate(data, {
-        abortEarly: false,
-      });
-
-      const response = await api.put('/profile', {
-        password,
-        old_password: oldPassword,
-        password_confirmation: confirmPassword
-      })
-  
-      saveOnCookies({ user: response.data })
-  
-      router.back()
-
-    } catch (err) {
-      if (err instanceof yup.ValidationError) {
-        const errs = getValidationErrors(err)
-
-        setErrors(errs)
-
-        return;
-      } else {
-        setErrors({ confirmPassword: "Senhas não coincidem" })
-      }
-    }
-
-    
-  }
+    },
+  [])
 
   return (
     <>
       <div className={styles.container}>
         <Header text="Editar senha" />
         <div className={styles.content}>
-          <div className={styles.fields}>
+          <Form ref={formRef} onSubmit={handleSubmit} className={styles.fields}>
             <div className={utilStyles.field}>
-              <label htmlFor="password">Senha antiga</label>
-              <input type="password" name="password" placeholder="Sua antiga senha..." value={oldPassword} onChange={(e) => setOldPassword(e.target.value)} />
-                { errors.oldPassword && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.oldPassword}</div> }
+              <label htmlFor="password">Nova senha</label>
+              <Input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="Sua nova senha..."
+              />
             </div>
             <div className={utilStyles.field}>
-              <label htmlFor="password-new">Nova senha</label>
-              <input type="password" name="password-new" placeholder="Sua nova senha..." value={password} onChange={(e) => setPassword(e.target.value)} />
-              { errors.password && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.password}</div> }
+              <label htmlFor="password_confirmation">Confirmar senha</label>
+              <Input
+                id="password_confirmation"
+                type="password"
+                name="password_confirmation"
+                placeholder="Confirmação da senha..."
+              />
             </div>
-            <div className={utilStyles.field}>
-              <label htmlFor="password-confirmation">Confirmar senha</label>
-              <input type="password" name="password-confirmation" placeholder="Confirmação da senha..." value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-              { errors.confirmPassword && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.confirmPassword}</div> }
+            <div className={styles.buttonConfirmation}>
+              <Button type="submit" isLoading={isLoading}>Confirmar</Button>
             </div>
-          </div>
-          <div className={styles.buttonConfirmation}>
-            <Button onClick={handleEditProfile} >Confirmar</Button>
-          </div>
+          </Form>
         </div>
       </div>
     </>

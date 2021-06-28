@@ -1,12 +1,16 @@
 html,
 body {
+  overflow-x: hidden;
   padding: 0;
+  height: 100%;
   margin: 0;
   font-family: Inter;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
-
+input {
+  font-size: 12px !important;
+}
 a {
   color: inherit;
   text-decoration: none;
@@ -17,6 +21,7 @@ a {
 }
 
 button {
+  border: 0;
   background-color: transparent;
   cursor: pointer;
 }
@@ -29,8 +34,8 @@ button {
     --secondary-dark: #1F2422;
 
     --text: #000000;
-    --text-light: #8A8A8E;
+    --text-light: #8f8fa3;
 
-    --border: #bbbbbb;
+    --border: #e2e2e2;
     --background: #00000021;
 }

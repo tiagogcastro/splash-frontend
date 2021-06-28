@@ -1,114 +1,88 @@
-import Header from '@components/Header';
 import Button from '@components/Button';
-import utilStyles from '@styles/utilStyles.module.scss';
-
+import Header from '@components/Header';
+import Input from '@components/Input';
 import styles from '@styles/pages/perfil/editar.module.scss';
-import { FormEvent, useState } from 'react';
-import api from 'src/services/api';
-import { useAuth } from 'src/hooks/useAuth';
-import { useRouter } from 'next/router';
-import { withSSRAuth } from 'src/utils/withSSRAuth';
+import utilStyles from '@styles/utilStyles.module.scss';
+import { FormHandles } from '@unform/core';
+import { Form } from '@unform/web';
 import { GetServerSideProps } from 'next';
-
-import * as yup from 'yup';
+import { useCallback, useRef, useState } from 'react';
+import api from 'src/services/api';
 import getValidationErrors from 'src/utils/getValidationErrors';
+import { withSSRAuth } from 'src/utils/withSSRAuth';
+import * as yup from 'yup';
 
-type FormErrors = {
-  email?: string,
-  confirmPassword?: string,
-  password?: string,
-  invalid?: string,
-  notMatch?: string
+
+
+interface IProfileFormData {
+  email: string
 }
 
 export default function RegisterEmail() {
-  const {saveOnCookies} = useAuth()
-  const router = useRouter()
-  const {user} = useAuth()
+  const formRef = useRef<FormHandles>(null)
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [loading, setLoading] = useState<boolean>(false)
+  const [success, setSuccess] = useState<boolean>(false)
 
-  const [errors, setErrors] = useState<FormErrors>({} as FormErrors)
-
-  async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-    e.preventDefault()
-  
+  const handleSubmit = useCallback(
+    async ({ email }: IProfileFormData) => {
       try {
+        setLoading(true)
+        formRef.current.setErrors({})
+
         const schema = yup.object().shape({
-          email: yup.string().email("Digite um email válido").required("Email Obrigatório"),
-          password: yup.string().min(8, "Mínimo de 8 caracteres").max(100, "Máximo de 100 caracteres").required("Senha obrigatória"),
-          
+          email: yup.string().email("Digite um email válido").required("Email obrigatório"),
         });
 
-        if (password !== confirmPassword) {
-          throw Error("As senhas não coincidem")
-        }
-
-        const data = {
-          email,
-          password
-        }
-
-        await schema.validate(data, {
+        await schema.validate({
+          email
+        }, {
           abortEarly: false,
         });
-        
+
         await api.post('/profile/send-verification-token', {
-          email
+          email,
         })
 
+        setSuccess(true)
       } catch (err) {
         if (err instanceof yup.ValidationError) {
           const errs = getValidationErrors(err)
 
-          setErrors(errs)
-  
+          formRef.current.setErrors(errs)
+
           return;
-        } else {
-          setErrors({
-            notMatch: err.message
-          })
         }
+        formRef.current.setFieldError('email', 'Não foi possível atualizar seu e-mail')
+      } finally {
+        setLoading(false)
       }
-  };
+    },
+  [api])
 
   return (
     <>
       <div className={styles.container}>
-        <Header text="Registro de e-mail e senha" />
-        <form className={styles.content} onSubmit={(e) => { handleSubmit(e) }}>
+        <Header text="Registro de e-mail" />
+
+        <Form onSubmit={handleSubmit} ref={formRef} className={styles.content} >
           <div className={styles.fields}>
             <div className={utilStyles.field}>
               <label htmlFor="email">E-mail</label>
-              <input 
-                type="email" 
+              <Input
+                type="text"
                 name="email"
                 placeholder="Insira seu email..."
-                value={email} onChange={(e) => setEmail(e.target.value)} />
-                { errors.email && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{ errors.email }</div> }
+              />
+              {success && <p className={utilStyles.success}>Um e-mail de confirmação foi enviado para sua caixa de entrada</p>}
 
-            </div>
-            
-            <div className={utilStyles.field}>
-              <label htmlFor="password">Senha</label>
-              <input type="password" required name="password" placeholder="Insira sua senha..." value={password} onChange={(e) => setPassword(e.target.value)}/>
-              { errors.password && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.password}</div> }
-            </div>
-
-            <div className={utilStyles.field}>
-              <label htmlFor="passwordconfirmation">Confirmar senha</label>
-              <input type="password" required name="passwordconfirmation" placeholder="Confirme sua senha..." value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)}/>
-              { errors.invalid && <div className={[styles.alert, styles.visible].join(" ")}>{errors.invalid}</div> }
-              { errors.notMatch && <div className={[utilStyles.alert, utilStyles.visible].join(" ")}>{errors.notMatch}</div> }
             </div>
           </div>
-
           <div className={styles.buttonConfirmation}>
-            <Button type="submit">Adicionar</Button>
+            <Button type="submit" isLoading={loading}>Adicionar</Button>
           </div>
-        </form>
+        </Form>
+
       </div>
     </>
   )

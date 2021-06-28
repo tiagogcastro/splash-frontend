@@ -1,6 +1,6 @@
 import Button from '@components/Button';
 import Header from '@components/Header';
-import InputMask from '@components/InputMask';
+import Input from '@components/Input';
 import styles from '@styles/pages/signUpTelefone.module.scss';
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
@@ -19,14 +19,14 @@ export default function signUpTelefone() {
   const formRef = useRef<FormHandles>(null)
   const {sponsorship_code} = router.query
 
-  const [countryCode, setCountryCode] = useState('+55')
-  const [isLoading, setIsLoading] = useState(false)
-  
+  const [countryCode] = useState('+55')
+  const [loading, setLoading] = useState(false)
+
   async function handleSubmit({phone_number}: ISendCodeFormData) {
-    setIsLoading(true)
+    setLoading(true)
 
     const phoneNumberFormated = phone_number.replaceAll(/[^\w\s]/gi, '').replace(' ', '')
-    
+
     try {
       const schema = yup.object().shape({
         phone_number: yup.string().trim()
@@ -41,7 +41,7 @@ export default function signUpTelefone() {
       await api.post(`/users/sms/send-code`, {
         phone_number: `${countryCode}${phoneNumberFormated}`
       })
-      
+
       router.push({
         pathname: `/signup/verify`,
         query: {
@@ -49,7 +49,7 @@ export default function signUpTelefone() {
           sponsorship_code,
         }
       })
-      
+
     } catch (error) {
       if (error instanceof yup.ValidationError) {
         const errors = getValidationErrors(error)
@@ -63,11 +63,11 @@ export default function signUpTelefone() {
       })
     }
     finally {
-      setIsLoading(false)
+      setLoading(false)
     }
 
   }
-  
+
   return (
     <>
       <Form onSubmit={handleSubmit} ref={formRef} className={styles.container}>
@@ -78,16 +78,16 @@ export default function signUpTelefone() {
           <div className={styles.inputs}>
             <div>
               <h4>BR +55</h4>
-              <hr /> 
-              <InputMask
+              <hr />
+              <Input
                 mask="(99) 99999-9999"
-                name="phone_number" 
-                type="tel" 
-                placeholder="Número de telefone" 
+                name="phone_number"
+                type="tel"
+                placeholder="Número de telefone"
               />
             </div>
           </div>
-          <Button isLoading={isLoading} >Enviar código</Button>
+          <Button isLoading={loading} >Enviar código</Button>
       </Form>
     </>
   )

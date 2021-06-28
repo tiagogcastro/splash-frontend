@@ -78,10 +78,13 @@
         }
 
         p {
+          font-size: 13px;
+          color: #5e646e;
           margin-right: 10px;
         }
 
         a {
+          font-size: 13px;
           display: flex;
           align-items: center;
           justify-content: flex-end;
@@ -103,6 +106,9 @@
       margin-bottom: 40px;
 
       p {
+        font-size: 13px;
+        font-weight: bold;
+        color: rgb(207, 163, 16);
         text-align: center;
       }
     }

@@ -1,6 +1,7 @@
 .container {
   position: relative;
   margin: 0;
+
   max-width: 400px;
   margin-left: auto;
   margin-right: auto;
@@ -12,6 +13,7 @@
     border: 0;
   }
   .head {
+    width: 100%;
     padding: 0 1.5rem;
     padding-bottom: 0.8rem;
     display: flex;
@@ -31,7 +33,7 @@
     }
   }
   .content {
-    padding-top: 0.5rem;
+    padding: 0 3%;
     .userList {
       margin: 0;
       padding: 0;
@@ -43,15 +45,13 @@
       }
 
       .user {
+        width: 100%;
+        overflow: hidden;
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
         list-style: none;
-        //margin: 0 1.5rem;
-        padding: 1rem 0;
-        margin: 0 1rem;
-        border-bottom: 1px solid var(--border);
         height: 80px;
 
         .first {
@@ -75,15 +75,31 @@
               color: var(--text);
               overflow: hidden;
               text-overflow: ellipsis;
-              width: 160px;
+              width: 100%;
+              max-width: 155px;
+              @media screen and (max-width: 400px){
+                max-width: 30vw;
+              }
+              @media screen and (max-width: 350px){
+                max-width: 60px;
+              }
             }
             span {
-              font-size: 13px;
+              font-size: 12px;
               color: var(--text-light);
               white-space: nowrap;
               overflow: hidden;
               text-overflow: ellipsis;
-              width: 160px;
+              margin-right: 20px;
+              width: 100%;
+              max-width: 155px;
+              @media screen and (max-width: 400px){
+                max-width: 30vw;
+              }
+              @media screen and (max-width: 350px){
+                max-width: 60px;
+              }
+
               height: 15px;
             }
           }
@@ -92,6 +108,7 @@
           display: flex;
           align-items: center;
           span {
+            white-space: nowrap;
             font-size: 12px;
             text-align: end;
             &:first-child {
@@ -104,6 +121,9 @@
             }
           }
         }
+      }
+      > div:nth-child(1) {
+        margin-top: 180px;
       }
     }
   }
